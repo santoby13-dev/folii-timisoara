@@ -1,14 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
-
-const products = [
-  {
-    title: "Folie PVC transparentă",
-    description:
-      "Folie PVC de înaltă claritate, rezistentă la intemperii, disponibilă în grosimi de 0.5mm, 0.8mm și 1.0mm, pentru închiderea teraselor și pergolelor.",
-    href: "/produse/folie-pvc-transparenta",
-  },
-];
+import { categories } from "@/lib/products";
 
 const advantages = [
   {
@@ -50,21 +42,23 @@ export default function Home() {
       <section id="produse" className="px-6 py-20">
         <div className="mx-auto max-w-6xl">
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-            Produsele noastre
+            Categorii de produse
           </h2>
           <div className="mt-10 grid gap-6 sm:grid-cols-2">
-            {products.map((product) => (
+            {categories.map((category) => (
               <Link
-                key={product.title}
-                href={product.href}
+                key={category.slug}
+                href={`/produse/${category.slug}`}
                 className="rounded-2xl border border-black/10 p-6 transition-colors hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
               >
-                <h3 className="text-lg font-semibold">{product.title}</h3>
-                <p className="mt-2 text-zinc-600 dark:text-zinc-400">
-                  {product.description}
-                </p>
-                <span className="mt-4 inline-block text-sm font-semibold text-blue-600">
-                  Vezi grosimi și prețuri &rarr;
+                <h3 className="text-lg font-semibold">{category.name}</h3>
+                {category.status === "coming-soon" && (
+                  <span className="mt-1 inline-block text-xs text-zinc-400">
+                    în curând
+                  </span>
+                )}
+                <span className="mt-4 block text-sm font-semibold text-blue-600">
+                  Vezi produse &rarr;
                 </span>
               </Link>
             ))}
