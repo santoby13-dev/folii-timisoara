@@ -4,6 +4,7 @@ import { siteConfig } from "@/lib/site-config";
 import { getCategory, getProduct, products } from "@/lib/products";
 import { folieVariants, folieMinPrice } from "@/lib/folie-variants";
 import AddToCart from "@/components/AddToCart";
+import ProductGallery from "@/components/ProductGallery";
 
 export function generateStaticParams() {
   return products.map((product) => ({
@@ -38,6 +39,12 @@ export default async function ProductPage({
 
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
+      {product.images.length > 0 && (
+        <div className="mb-10">
+          <ProductGallery images={product.images} alt={product.name} />
+        </div>
+      )}
+
       <p className="text-sm text-zinc-500 dark:text-zinc-400">
         {category.name}
       </p>

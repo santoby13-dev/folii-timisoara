@@ -12,14 +12,72 @@ type Props = {
   variants: FolieVariant[];
 };
 
-function OptionGroup({
+function LayersIcon() {
+  return (
+    <svg
+      className="h-5 w-5 shrink-0 text-zinc-400"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12 2 2 7l10 5 10-5-10-5Z" />
+      <path d="M2 17l10 5 10-5" />
+      <path d="M2 12l10 5 10-5" />
+    </svg>
+  );
+}
+
+function WidthIcon() {
+  return (
+    <svg
+      className="h-5 w-5 shrink-0 text-zinc-400"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 12h18" />
+      <path d="m7 8-4 4 4 4" />
+      <path d="m17 8 4 4-4 4" />
+    </svg>
+  );
+}
+
+function RulerIcon() {
+  return (
+    <svg
+      className="h-5 w-5 shrink-0 text-zinc-400"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M3 17 17 3l4 4L7 21l-4-4Z" />
+      <path d="m14.5 5.5 2 2" />
+      <path d="m11.5 8.5 2 2" />
+      <path d="m8.5 11.5 2 2" />
+      <path d="m5.5 14.5 2 2" />
+    </svg>
+  );
+}
+
+function OptionSelect({
   label,
+  icon,
   options,
   selected,
   onSelect,
   disabledOptions,
 }: {
   label: string;
+  icon: React.ReactNode;
   options: string[];
   selected: string | null;
   onSelect: (value: string) => void;
@@ -28,30 +86,48 @@ function OptionGroup({
   return (
     <div>
       <p className="text-sm font-semibold">{label}</p>
-      <div className="mt-2 flex flex-wrap gap-2">
-        {options.map((option) => {
-          const disabled = disabledOptions.has(option);
-          return (
-            <button
+      <div className="mt-2 flex items-center gap-2 rounded-xl border border-black/10 px-3 dark:border-white/10">
+        {icon}
+        <select
+          value={selected ?? ""}
+          onChange={(e) => onSelect(e.target.value)}
+          className="w-full appearance-none bg-transparent py-3 pr-2 text-sm font-medium outline-none"
+        >
+          {!selected && (
+            <option value="" disabled>
+              Alege {label.toLowerCase()}
+            </option>
+          )}
+          {options.map((option) => (
+            <option
               key={option}
-              type="button"
-              disabled={disabled}
-              onClick={() => onSelect(option)}
-              className={`rounded-full border px-4 py-2 text-sm font-medium transition-colors ${
-                selected === option
-                  ? "border-blue-600 bg-blue-600 text-white"
-                  : disabled
-                    ? "cursor-not-allowed border-black/5 text-zinc-300 dark:border-white/5 dark:text-zinc-700"
-                    : "border-black/10 hover:border-blue-600 dark:border-white/10"
-              }`}
+              value={option}
+              disabled={disabledOptions.has(option)}
             >
               {option}
-            </button>
-          );
-        })}
+            </option>
+          ))}
+        </select>
+        <svg
+          className="h-4 w-4 shrink-0 text-zinc-400"
+          viewBox="0 0 12 12"
+          fill="none"
+        >
+          <path
+            d="M2 4l4 4 4-4"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
       </div>
     </div>
   );
+}
+
+function cheapestVariant(variants: FolieVariant[]) {
+  return variants.reduce((min, v) => (v.price < min.price ? v : min), variants[0]);
 }
 
 export default function AddToCart({
@@ -61,9 +137,12 @@ export default function AddToCart({
   variants,
 }: Props) {
   const { addItem } = useCart();
-  const [thickness, setThickness] = useState<string | null>(null);
-  const [width, setWidth] = useState<string | null>(null);
-  const [length, setLength] = useState<string | null>(null);
+  const defaultVariant = useMemo(() => cheapestVariant(variants), [variants]);
+  const [thickness, setThickness] = useState<string | null>(
+    defaultVariant.thickness
+  );
+  const [width, setWidth] = useState<string | null>(defaultVariant.width);
+  const [length, setLength] = useState<string | null>(defaultVariant.length);
   const [quantity, setQuantityState] = useState(1);
   const [added, setAdded] = useState(false);
 
@@ -155,16 +234,18 @@ export default function AddToCart({
     <div className="rounded-2xl border border-black/10 p-6 dark:border-white/10">
       <h2 className="text-lg font-semibold">Configurează rola</h2>
 
-      <div className="mt-5 flex flex-col gap-5">
-        <OptionGroup
+      <div className="mt-5 grid gap-5 sm:grid-cols-3">
+        <OptionSelect
           label="Grosime folie"
+          icon={<LayersIcon />}
           options={allThicknesses}
           selected={thickness}
           onSelect={selectThickness}
           disabledOptions={new Set()}
         />
-        <OptionGroup
+        <OptionSelect
           label="Lățime folie"
+          icon={<WidthIcon />}
           options={allWidths}
           selected={width}
           onSelect={selectWidth}
@@ -172,8 +253,9 @@ export default function AddToCart({
             new Set(allWidths.filter((w) => !validWidths.has(w)))
           }
         />
-        <OptionGroup
+        <OptionSelect
           label="Lungime rolă"
+          icon={<RulerIcon />}
           options={allLengths}
           selected={length}
           onSelect={selectLength}

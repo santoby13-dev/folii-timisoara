@@ -26,6 +26,7 @@ export type Product = {
   useCases: string[];
   /** Whether the product can be added to the cart (has real variant prices) */
   hasCart?: boolean;
+  images: string[];
 };
 
 export const products: Product[] = [
@@ -42,6 +43,13 @@ export const products: Product[] = [
     widths: ["1.37 m", "1.50 m", "1.80 m", "2.00 m", "2.20 m", "2.40 m", "2.60 m"],
     lengths: ["10 m", "15 m", "30 m", "50 m"],
     hasCart: true,
+    images: [
+      "/products/folie-cristal-flex/01.jpg",
+      "/products/folie-cristal-flex/02.jpg",
+      "/products/folie-cristal-flex/03.jpg",
+      "/products/folie-cristal-flex/04.jpg",
+      "/products/folie-cristal-flex/05.jpg",
+    ],
     description: [
       "Folie PVC transparentă de calitate superioară, cu claritate ridicată și aspect de sticlă, potrivită pentru închideri rulou sau panouri fixe, atât rezidențiale cât și comerciale.",
       "Lățimile mari, de până la 2.60 m, permit realizarea unor panouri ample fără îmbinări, pentru o estetică mai bună și un risc redus de deformare în timp.",
