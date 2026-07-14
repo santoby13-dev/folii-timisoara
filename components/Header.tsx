@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import { categories } from "@/lib/products";
+import CartLink from "@/components/CartLink";
 
 export default function Header() {
   return (
@@ -49,12 +50,15 @@ export default function Header() {
             Contact
           </a>
         </nav>
-        <a
-          href={siteConfig.phoneHref}
-          className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
-        >
-          {siteConfig.phone}
-        </a>
+        <div className="flex items-center gap-3">
+          <CartLink />
+          <a
+            href={siteConfig.phoneHref}
+            className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+          >
+            {siteConfig.phone}
+          </a>
+        </div>
       </div>
     </header>
   );

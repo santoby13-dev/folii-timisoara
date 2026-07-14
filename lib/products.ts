@@ -11,10 +11,6 @@ export const categories: Category[] = [
   { slug: "scule", name: "Scule", status: "coming-soon" },
 ];
 
-export type ProductVariant = {
-  thickness: string;
-};
-
 export type Product = {
   slug: string;
   categorySlug: string;
@@ -28,6 +24,8 @@ export type Product = {
   lengths: string[];
   description: string[];
   useCases: string[];
+  /** Whether the product can be added to the cart (has real variant prices) */
+  hasCart?: boolean;
 };
 
 export const products: Product[] = [
@@ -43,6 +41,7 @@ export const products: Product[] = [
     thicknesses: ["0.4 mm", "0.5 mm", "0.8 mm", "1.0 mm"],
     widths: ["1.37 m", "1.50 m", "1.80 m", "2.00 m", "2.20 m", "2.40 m", "2.60 m"],
     lengths: ["10 m", "15 m", "30 m", "50 m"],
+    hasCart: true,
     description: [
       "Folie PVC transparentă de calitate superioară, cu claritate ridicată și aspect de sticlă, potrivită pentru închideri rulou sau panouri fixe, atât rezidențiale cât și comerciale.",
       "Lățimile mari, de până la 2.60 m, permit realizarea unor panouri ample fără îmbinări, pentru o estetică mai bună și un risc redus de deformare în timp.",

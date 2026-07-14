@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { getCategory, getProduct, products } from "@/lib/products";
+import { folieVariants, folieMinPrice } from "@/lib/folie-variants";
+import AddToCart from "@/components/AddToCart";
 
 export function generateStaticParams() {
   return products.map((product) => ({
@@ -34,10 +36,6 @@ export default async function ProductPage({
   const product = getProduct(categorySlug, productSlug);
   if (!category || !product) notFound();
 
-  const discountPercent = Math.round(
-    (1 - product.price / product.priceBeforeDiscount) * 100
-  );
-
   return (
     <div className="mx-auto max-w-5xl px-6 py-16">
       <p className="text-sm text-zinc-500 dark:text-zinc-400">
@@ -46,53 +44,24 @@ export default async function ProductPage({
       <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
         {product.name}
       </h1>
-
-      <div className="mt-6 flex flex-wrap items-baseline gap-3">
-        <span className="text-2xl font-bold text-blue-600">
-          {product.price.toFixed(2).replace(".", ",")} {product.priceUnit}
-        </span>
-        {discountPercent > 0 && (
-          <>
-            <span className="text-lg text-zinc-400 line-through">
-              {product.priceBeforeDiscount.toFixed(2).replace(".", ",")} RON
-            </span>
-            <span className="rounded-full bg-red-100 px-2 py-1 text-xs font-semibold text-red-700 dark:bg-red-950 dark:text-red-300">
-              -{discountPercent}%
-            </span>
-          </>
-        )}
-      </div>
-      <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-        Prețul final variază în funcție de grosimea, lățimea și lungimea
-        alese. Se confirmă la comandă, telefonic sau prin email.
+      <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
+        de la{" "}
+        <span className="font-bold text-blue-600">
+          {folieMinPrice.toFixed(2).replace(".", ",")} RON / rolă
+        </span>{" "}
+        (TVA inclus)
       </p>
 
-      <div className="mt-8 grid gap-6 sm:grid-cols-3">
-        <div className="rounded-2xl border border-black/10 p-5 dark:border-white/10">
-          <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
-            Grosime folie
-          </h2>
-          <p className="mt-2 text-base font-medium">
-            {product.thicknesses.join(" · ")}
-          </p>
+      {product.hasCart && (
+        <div className="mt-8">
+          <AddToCart
+            productSlug={product.slug}
+            categorySlug={category.slug}
+            productName={product.name}
+            variants={folieVariants}
+          />
         </div>
-        <div className="rounded-2xl border border-black/10 p-5 dark:border-white/10">
-          <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
-            Lățime folie
-          </h2>
-          <p className="mt-2 text-base font-medium">
-            {product.widths.join(" · ")}
-          </p>
-        </div>
-        <div className="rounded-2xl border border-black/10 p-5 dark:border-white/10">
-          <h2 className="text-sm font-semibold text-zinc-500 dark:text-zinc-400">
-            Lungime rolă
-          </h2>
-          <p className="mt-2 text-base font-medium">
-            {product.lengths.join(" · ")}
-          </p>
-        </div>
-      </div>
+      )}
 
       <div className="mt-10">
         <h2 className="text-xl font-semibold">Descriere</h2>
