@@ -99,37 +99,28 @@ export default function Header() {
       {/* Mobile: secondary menu bar under the header */}
       {menuOpen && (
         <nav className="border-t border-black/10 bg-white px-4 py-3 sm:hidden dark:border-white/10 dark:bg-black">
-          <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-zinc-400">
+          <Link
+            href="/produse"
+            onClick={closeMenu}
+            className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
+          >
             Produse
-          </p>
-          {categories.map((category) => (
-            <Link
-              key={category.slug}
-              href={`/produse/${category.slug}`}
-              onClick={closeMenu}
-              className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
-            >
-              {category.name}
-              {category.status === "coming-soon" && (
-                <span className="text-xs text-zinc-400">în curând</span>
-              )}
-            </Link>
-          ))}
+          </Link>
+          <a
+            href="/#despre"
+            onClick={closeMenu}
+            className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
+          >
+            Despre noi
+          </a>
+          <a
+            href="/#contact"
+            onClick={closeMenu}
+            className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
+          >
+            Contact
+          </a>
           <div className="mt-2 border-t border-black/10 pt-2 dark:border-white/10">
-            <a
-              href="/#despre"
-              onClick={closeMenu}
-              className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
-            >
-              Despre noi
-            </a>
-            <a
-              href="/#contact"
-              onClick={closeMenu}
-              className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
-            >
-              Contact
-            </a>
             <a
               href={siteConfig.phoneHref}
               className="block rounded-lg px-3 py-2 text-sm font-semibold text-blue-600 hover:bg-zinc-100 dark:hover:bg-zinc-800"

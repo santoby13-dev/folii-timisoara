@@ -41,9 +41,17 @@ export default function Home() {
 
       <section id="produse" className="px-6 py-20">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-            Categorii de produse
-          </h2>
+          <div className="flex items-center justify-between">
+            <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+              Categorii de produse
+            </h2>
+            <Link
+              href="/produse"
+              className="text-sm font-semibold text-blue-600 hover:underline"
+            >
+              Vezi toate &rarr;
+            </Link>
+          </div>
           <div className="mt-10 grid gap-6 sm:grid-cols-2">
             {categories.map((category) => (
               <Link
