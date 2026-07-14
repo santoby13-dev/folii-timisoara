@@ -1,15 +1,56 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import { categories } from "@/lib/products";
 import CartLink from "@/components/CartLink";
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
+
   return (
     <header className="sticky top-0 z-50 border-b border-black/10 bg-white/90 backdrop-blur dark:border-white/10 dark:bg-black/90">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <Link href="/" className="text-lg font-semibold tracking-tight">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
+        {/* Mobile: menu toggle on the left */}
+        <button
+          type="button"
+          onClick={() => setMenuOpen((open) => !open)}
+          aria-label={menuOpen ? "Închide meniul" : "Deschide meniul"}
+          aria-expanded={menuOpen}
+          className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 sm:hidden dark:border-white/10"
+        >
+          <svg
+            className={`h-4 w-4 transition-transform duration-200 ${
+              menuOpen ? "rotate-180" : ""
+            }`}
+            viewBox="0 0 12 12"
+            fill="none"
+          >
+            <path
+              d="M4 2l4 4-4 4"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </button>
+
+        {/* Title: centered on mobile, left on desktop */}
+        <Link
+          href="/"
+          onClick={closeMenu}
+          className="absolute left-1/2 -translate-x-1/2 text-lg font-semibold tracking-tight sm:static sm:translate-x-0"
+        >
           {siteConfig.name}
         </Link>
+
+        {/* Desktop nav */}
         <nav className="hidden gap-8 text-sm font-medium sm:flex">
           <div className="group relative">
             <button className="flex items-center gap-1 hover:text-blue-600">
@@ -50,16 +91,54 @@ export default function Header() {
             Contact
           </a>
         </nav>
-        <div className="flex items-center gap-3">
-          <CartLink />
-          <a
-            href={siteConfig.phoneHref}
-            className="rounded-full bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
-          >
-            {siteConfig.phone}
-          </a>
-        </div>
+
+        {/* Cart on the right */}
+        <CartLink />
       </div>
+
+      {/* Mobile: secondary menu bar under the header */}
+      {menuOpen && (
+        <nav className="border-t border-black/10 bg-white px-4 py-3 sm:hidden dark:border-white/10 dark:bg-black">
+          <p className="px-3 pb-1 text-xs font-semibold uppercase tracking-wide text-zinc-400">
+            Produse
+          </p>
+          {categories.map((category) => (
+            <Link
+              key={category.slug}
+              href={`/produse/${category.slug}`}
+              onClick={closeMenu}
+              className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            >
+              {category.name}
+              {category.status === "coming-soon" && (
+                <span className="text-xs text-zinc-400">în curând</span>
+              )}
+            </Link>
+          ))}
+          <div className="mt-2 border-t border-black/10 pt-2 dark:border-white/10">
+            <a
+              href="/#despre"
+              onClick={closeMenu}
+              className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            >
+              Despre noi
+            </a>
+            <a
+              href="/#contact"
+              onClick={closeMenu}
+              className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            >
+              Contact
+            </a>
+            <a
+              href={siteConfig.phoneHref}
+              className="block rounded-lg px-3 py-2 text-sm font-semibold text-blue-600 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            >
+              Sună-ne: {siteConfig.phone}
+            </a>
+          </div>
+        </nav>
+      )}
     </header>
   );
 }
