@@ -2,7 +2,7 @@ import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 
 const navLinks = [
-  { href: "/#produse", label: "Produse" },
+  { href: "/produse/folie-pvc-transparenta", label: "Produse" },
   { href: "/#despre", label: "Despre noi" },
   { href: "/#contact", label: "Contact" },
 ];

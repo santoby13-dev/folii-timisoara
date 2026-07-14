@@ -1,25 +1,12 @@
+import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 
 const products = [
   {
     title: "Folie PVC transparentă",
     description:
-      "Folie PVC de înaltă claritate, rezistentă la intemperii, pentru închiderea teraselor și pergolelor.",
-  },
-  {
-    title: "Rulouri PVC cu ghidaje",
-    description:
-      "Sisteme de rulouri transparente pe ghidaje, ușor de manevrat, pentru protecție rapidă împotriva vântului și ploii.",
-  },
-  {
-    title: "Confecții metalice",
-    description:
-      "Structuri metalice personalizate pentru susținerea foliei, adaptate dimensiunilor terasei tale.",
-  },
-  {
-    title: "Montaj profesional",
-    description:
-      "Echipă de montaj cu experiență, măsurători la fața locului și instalare rapidă în Timișoara și împrejurimi.",
+      "Folie PVC de înaltă claritate, rezistentă la intemperii, disponibilă în grosimi de 0.5mm, 0.8mm și 1.0mm, pentru închiderea teraselor și pergolelor.",
+    href: "/produse/folie-pvc-transparenta",
   },
 ];
 
@@ -67,15 +54,19 @@ export default function Home() {
           </h2>
           <div className="mt-10 grid gap-6 sm:grid-cols-2">
             {products.map((product) => (
-              <div
+              <Link
                 key={product.title}
-                className="rounded-2xl border border-black/10 p-6 dark:border-white/10"
+                href={product.href}
+                className="rounded-2xl border border-black/10 p-6 transition-colors hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
               >
                 <h3 className="text-lg font-semibold">{product.title}</h3>
                 <p className="mt-2 text-zinc-600 dark:text-zinc-400">
                   {product.description}
                 </p>
-              </div>
+                <span className="mt-4 inline-block text-sm font-semibold text-blue-600">
+                  Vezi grosimi și prețuri &rarr;
+                </span>
+              </Link>
             ))}
           </div>
         </div>
