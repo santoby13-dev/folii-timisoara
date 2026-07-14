@@ -68,7 +68,7 @@ function RulerIcon() {
   );
 }
 
-function OptionSelect({
+function OptionChips({
   label,
   icon,
   options,
@@ -85,42 +85,32 @@ function OptionSelect({
 }) {
   return (
     <div>
-      <p className="text-sm font-semibold">{label}</p>
-      <div className="mt-2 flex items-center gap-2 rounded-xl border border-black/10 px-3 dark:border-white/10">
+      <p className="flex items-center gap-2 text-sm font-semibold">
         {icon}
-        <select
-          value={selected ?? ""}
-          onChange={(e) => onSelect(e.target.value)}
-          className="w-full appearance-none bg-transparent py-3 pr-2 text-sm font-medium outline-none"
-        >
-          {!selected && (
-            <option value="" disabled>
-              Alege {label.toLowerCase()}
-            </option>
-          )}
-          {options.map((option) => (
-            <option
+        {label}
+      </p>
+      <div className="mt-2 flex flex-wrap gap-2">
+        {options.map((option) => {
+          const isSelected = option === selected;
+          const isDisabled = disabledOptions.has(option);
+          return (
+            <button
               key={option}
-              value={option}
-              disabled={disabledOptions.has(option)}
+              type="button"
+              disabled={isDisabled}
+              onClick={() => onSelect(option)}
+              className={`rounded-lg border px-4 py-2 text-sm font-medium transition-colors ${
+                isSelected
+                  ? "border-blue-600 bg-blue-600 text-white"
+                  : isDisabled
+                    ? "cursor-not-allowed border-black/10 text-zinc-300 dark:border-white/10 dark:text-zinc-700"
+                    : "border-black/10 hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
+              }`}
             >
               {option}
-            </option>
-          ))}
-        </select>
-        <svg
-          className="h-4 w-4 shrink-0 text-zinc-400"
-          viewBox="0 0 12 12"
-          fill="none"
-        >
-          <path
-            d="M2 4l4 4 4-4"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
+            </button>
+          );
+        })}
       </div>
     </div>
   );
@@ -231,11 +221,27 @@ export default function AddToCart({
   }
 
   return (
-    <div className="rounded-2xl border border-black/10 p-6 dark:border-white/10">
-      <h2 className="text-lg font-semibold">Configurează rola</h2>
+    <div>
+      {selectedVariant ? (
+        <div className="flex flex-wrap items-baseline gap-3">
+          <span className="text-3xl font-bold text-blue-600">
+            {formatPrice(selectedVariant.price)}
+          </span>
+          {selectedVariant.oldPrice && (
+            <span className="text-zinc-400 line-through">
+              {formatPrice(selectedVariant.oldPrice)}
+            </span>
+          )}
+          <span className="text-sm text-zinc-500">/ rolă, TVA inclus</span>
+        </div>
+      ) : (
+        <p className="text-lg text-zinc-500 dark:text-zinc-400">
+          Selectează grosimea, lățimea și lungimea pentru a vedea prețul.
+        </p>
+      )}
 
-      <div className="mt-5 grid gap-5 sm:grid-cols-3">
-        <OptionSelect
+      <div className="mt-6 grid gap-5">
+        <OptionChips
           label="Grosime folie"
           icon={<LayersIcon />}
           options={allThicknesses}
@@ -243,7 +249,7 @@ export default function AddToCart({
           onSelect={selectThickness}
           disabledOptions={new Set()}
         />
-        <OptionSelect
+        <OptionChips
           label="Lățime folie"
           icon={<WidthIcon />}
           options={allWidths}
@@ -253,7 +259,7 @@ export default function AddToCart({
             new Set(allWidths.filter((w) => !validWidths.has(w)))
           }
         />
-        <OptionSelect
+        <OptionChips
           label="Lungime rolă"
           icon={<RulerIcon />}
           options={allLengths}
@@ -265,66 +271,46 @@ export default function AddToCart({
         />
       </div>
 
-      <div className="mt-6 border-t border-black/10 pt-5 dark:border-white/10">
-        {selectedVariant ? (
-          <div className="flex flex-wrap items-baseline gap-3">
-            <span className="text-2xl font-bold text-blue-600">
-              {formatPrice(selectedVariant.price)}
-            </span>
-            {selectedVariant.oldPrice && (
-              <span className="text-zinc-400 line-through">
-                {formatPrice(selectedVariant.oldPrice)}
-              </span>
-            )}
-            <span className="text-sm text-zinc-500">/ rolă, TVA inclus</span>
-          </div>
-        ) : (
-          <p className="text-sm text-zinc-500 dark:text-zinc-400">
-            Selectează grosimea, lățimea și lungimea pentru a vedea prețul.
-          </p>
-        )}
-
-        <div className="mt-4 flex flex-wrap items-center gap-4">
-          <div className="flex items-center rounded-full border border-black/10 dark:border-white/10">
-            <button
-              type="button"
-              onClick={() => setQuantityState((q) => Math.max(1, q - 1))}
-              className="flex h-11 w-11 items-center justify-center text-lg hover:text-blue-600"
-              aria-label="Scade cantitatea"
-            >
-              −
-            </button>
-            <span className="w-8 text-center font-medium">{quantity}</span>
-            <button
-              type="button"
-              onClick={() => setQuantityState((q) => Math.min(99, q + 1))}
-              className="flex h-11 w-11 items-center justify-center text-lg hover:text-blue-600"
-              aria-label="Crește cantitatea"
-            >
-              +
-            </button>
-          </div>
-
+      <div className="mt-6 flex flex-wrap items-center gap-4 border-t border-black/10 pt-6 dark:border-white/10">
+        <div className="flex items-center rounded-full border border-black/10 dark:border-white/10">
           <button
             type="button"
-            onClick={handleAdd}
-            disabled={!selectedVariant}
-            className="flex-1 rounded-full bg-blue-600 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-40"
+            onClick={() => setQuantityState((q) => Math.max(1, q - 1))}
+            className="flex h-11 w-11 items-center justify-center text-lg hover:text-blue-600"
+            aria-label="Scade cantitatea"
           >
-            Adaugă în coș
+            −
+          </button>
+          <span className="w-8 text-center font-medium">{quantity}</span>
+          <button
+            type="button"
+            onClick={() => setQuantityState((q) => Math.min(99, q + 1))}
+            className="flex h-11 w-11 items-center justify-center text-lg hover:text-blue-600"
+            aria-label="Crește cantitatea"
+          >
+            +
           </button>
         </div>
 
-        {added && (
-          <p className="mt-4 rounded-xl bg-green-50 p-3 text-sm text-green-800 dark:bg-green-950 dark:text-green-200">
-            Produs adăugat în coș.{" "}
-            <Link href="/cos" className="font-semibold underline">
-              Vezi coșul
-            </Link>{" "}
-            sau continuă cumpărăturile.
-          </p>
-        )}
+        <button
+          type="button"
+          onClick={handleAdd}
+          disabled={!selectedVariant}
+          className="flex-1 rounded-full bg-blue-600 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-40"
+        >
+          Adaugă în coș
+        </button>
       </div>
+
+      {added && (
+        <p className="mt-4 rounded-xl bg-green-50 p-3 text-sm text-green-800 dark:bg-green-950 dark:text-green-200">
+          Produs adăugat în coș.{" "}
+          <Link href="/cos" className="font-semibold underline">
+            Vezi coșul
+          </Link>{" "}
+          sau continuă cumpărăturile.
+        </p>
+      )}
     </div>
   );
 }

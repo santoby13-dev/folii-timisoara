@@ -38,39 +38,42 @@ export default async function ProductPage({
   if (!category || !product) notFound();
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-16">
-      {product.images.length > 0 && (
-        <div className="mb-10">
+    <div className="mx-auto max-w-6xl px-6 py-16">
+      <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
+        {product.images.length > 0 && (
           <ProductGallery images={product.images} alt={product.name} />
+        )}
+
+        <div>
+          <p className="text-sm text-zinc-500 dark:text-zinc-400">
+            {category.name}
+          </p>
+          <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
+            {product.name}
+          </h1>
+
+          {product.hasCart ? (
+            <div className="mt-6">
+              <AddToCart
+                productSlug={product.slug}
+                categorySlug={category.slug}
+                productName={product.name}
+                variants={folieVariants}
+              />
+            </div>
+          ) : (
+            <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
+              de la{" "}
+              <span className="font-bold text-blue-600">
+                {folieMinPrice.toFixed(2).replace(".", ",")} RON / rolă
+              </span>{" "}
+              (TVA inclus)
+            </p>
+          )}
         </div>
-      )}
+      </div>
 
-      <p className="text-sm text-zinc-500 dark:text-zinc-400">
-        {category.name}
-      </p>
-      <h1 className="mt-1 text-3xl font-bold tracking-tight sm:text-4xl">
-        {product.name}
-      </h1>
-      <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
-        de la{" "}
-        <span className="font-bold text-blue-600">
-          {folieMinPrice.toFixed(2).replace(".", ",")} RON / rolă
-        </span>{" "}
-        (TVA inclus)
-      </p>
-
-      {product.hasCart && (
-        <div className="mt-8">
-          <AddToCart
-            productSlug={product.slug}
-            categorySlug={category.slug}
-            productName={product.name}
-            variants={folieVariants}
-          />
-        </div>
-      )}
-
-      <div className="mt-10">
+      <div className="mt-16">
         <h2 className="text-xl font-semibold">Descriere</h2>
         <div className="mt-4 space-y-3 text-zinc-600 dark:text-zinc-400">
           {product.description.map((paragraph) => (
