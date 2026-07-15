@@ -54,13 +54,13 @@ async function getAccessToken(): Promise<string> {
   return data.access_token;
 }
 
-export async function appendOrderRow(values: (string | number)[]) {
+async function appendRow(sheetName: string, values: (string | number)[]) {
   const sheetId = process.env.GOOGLE_SHEET_ID;
   if (!sheetId) throw new Error("GOOGLE_SHEET_ID is not configured");
 
   const token = await getAccessToken();
   const res = await fetch(
-    `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/Comenzi!A:Z:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
+    `https://sheets.googleapis.com/v4/spreadsheets/${sheetId}/values/${sheetName}!A:Z:append?valueInputOption=USER_ENTERED&insertDataOption=INSERT_ROWS`,
     {
       method: "POST",
       headers: {
@@ -74,4 +74,15 @@ export async function appendOrderRow(values: (string | number)[]) {
     const body = await res.text();
     throw new Error(`Sheets append failed: ${res.status} ${body}`);
   }
+}
+
+export function appendOrderRow(values: (string | number)[]) {
+  return appendRow("Comenzi", values);
+}
+
+export function appendNewsletterLead(email: string) {
+  const date = new Date().toLocaleString("ro-RO", {
+    timeZone: "Europe/Bucharest",
+  });
+  return appendRow("Newsletter", [date, email]);
 }

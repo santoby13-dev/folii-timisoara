@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
 
 const legalLinks = [
@@ -50,20 +51,25 @@ export default function Footer() {
           <p className="font-semibold">Protecția consumatorului</p>
           <div className="mt-3 flex flex-col gap-3 text-zinc-600 dark:text-zinc-400">
             <a
-              href="https://anpc.ro"
+              href="https://reclamatiisal.anpc.ro/"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-black/10 px-3 py-2 hover:border-blue-600 hover:text-blue-600 dark:border-white/10"
+              className="inline-block w-fit overflow-hidden rounded-lg"
             >
-              ANPC — Autoritatea Națională pentru Protecția Consumatorilor
+              <Image
+                src="/legal/pictograma-sal.png"
+                alt="ANPC — Soluționarea Alternativă a Litigiilor (SAL)"
+                width={220}
+                height={55}
+              />
             </a>
             <a
-              href="https://ec.europa.eu/consumers/odr"
+              href="https://consumer-redress.ec.europa.eu/dispute-resolution-bodies"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-lg border border-black/10 px-3 py-2 hover:border-blue-600 hover:text-blue-600 dark:border-white/10"
             >
-              SOL — Soluționarea online a litigiilor
+              SOL — Organisme de soluționare a litigiilor (UE)
             </a>
           </div>
         </div>

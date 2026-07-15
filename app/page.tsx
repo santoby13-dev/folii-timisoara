@@ -3,6 +3,7 @@ import { siteConfig } from "@/lib/site-config";
 import { categories } from "@/lib/products";
 import HeroCarousel from "@/components/HeroCarousel";
 import CategoryCarousel from "@/components/CategoryCarousel";
+import NewsletterSignup from "@/components/NewsletterSignup";
 
 const heroImages = [
   "/products/cristal-flex-catalog/87.jpg",
@@ -185,20 +186,29 @@ export default function Home() {
           <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
             Contactează-ne
           </h2>
-          <p className="mt-4 max-w-xl text-zinc-600 dark:text-zinc-400">
-            Trimite-ne un mesaj sau sună-ne direct pentru o ofertă
-            personalizată.
-          </p>
-          <div className="mt-6 flex flex-col gap-2 text-lg">
-            <a href={siteConfig.phoneHref} className="font-semibold text-blue-600">
-              {siteConfig.phone}
-            </a>
-            <a
-              href={`mailto:${siteConfig.email}`}
-              className="font-semibold text-blue-600"
-            >
-              {siteConfig.email}
-            </a>
+          <div className="mt-10 grid gap-10 sm:grid-cols-2">
+            <div>
+              <p className="max-w-xl text-zinc-600 dark:text-zinc-400">
+                Trimite-ne un mesaj sau sună-ne direct pentru o ofertă
+                personalizată.
+              </p>
+              <div className="mt-6 flex flex-col gap-2 text-lg">
+                <a
+                  href={siteConfig.phoneHref}
+                  className="font-semibold text-blue-600"
+                >
+                  {siteConfig.phone}
+                </a>
+                <a
+                  href={`mailto:${siteConfig.email}`}
+                  className="font-semibold text-blue-600"
+                >
+                  {siteConfig.email}
+                </a>
+              </div>
+            </div>
+
+            <NewsletterSignup />
           </div>
         </div>
       </section>
