@@ -2,6 +2,7 @@ import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import { categories } from "@/lib/products";
 import HeroCarousel from "@/components/HeroCarousel";
+import CategoryCarousel from "@/components/CategoryCarousel";
 
 const heroImages = [
   "/products/cristal-flex-catalog/87.jpg",
@@ -141,7 +142,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="produse" className="px-6 py-20">
+      <section id="produse" className="bg-black px-6 py-20 text-white">
         <div className="mx-auto max-w-6xl">
           <div className="flex items-center justify-between">
             <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
@@ -149,30 +150,12 @@ export default function Home() {
             </h2>
             <Link
               href="/produse"
-              className="text-sm font-semibold text-blue-600 hover:underline"
+              className="text-sm font-semibold text-blue-400 hover:underline"
             >
               Vezi toate &rarr;
             </Link>
           </div>
-          <div className="mt-10 grid gap-6 sm:grid-cols-2">
-            {categories.map((category) => (
-              <Link
-                key={category.slug}
-                href={`/produse/${category.slug}`}
-                className="rounded-2xl border border-black/10 p-6 transition-colors hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
-              >
-                <h3 className="text-lg font-semibold">{category.name}</h3>
-                {category.status === "coming-soon" && (
-                  <span className="mt-1 inline-block text-xs text-zinc-400">
-                    în curând
-                  </span>
-                )}
-                <span className="mt-4 block text-sm font-semibold text-blue-600">
-                  Vezi produse &rarr;
-                </span>
-              </Link>
-            ))}
-          </div>
+          <CategoryCarousel categories={categories} />
         </div>
       </section>
 
