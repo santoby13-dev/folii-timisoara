@@ -10,6 +10,7 @@ type Props = {
   categorySlug: string;
   productName: string;
   variants: FolieVariant[];
+  unitLabel?: string;
 };
 
 function LayersIcon() {
@@ -125,6 +126,7 @@ export default function AddToCart({
   categorySlug,
   productName,
   variants,
+  unitLabel = "rolă",
 }: Props) {
   const { addItem } = useCart();
   const defaultVariant = useMemo(() => cheapestVariant(variants), [variants]);
@@ -216,6 +218,7 @@ export default function AddToCart({
       length: selectedVariant.length,
       unitPrice: selectedVariant.price,
       quantity,
+      unitLabel,
     });
     setAdded(true);
   }
@@ -232,7 +235,7 @@ export default function AddToCart({
               {formatPrice(selectedVariant.oldPrice)}
             </span>
           )}
-          <span className="text-sm text-zinc-500">/ rolă, TVA inclus</span>
+          <span className="text-sm text-zinc-500">/ {unitLabel}, TVA inclus</span>
         </div>
       ) : (
         <p className="text-lg text-zinc-500 dark:text-zinc-400">

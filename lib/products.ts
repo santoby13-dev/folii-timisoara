@@ -13,7 +13,12 @@ export const categories: Category[] = [
     status: "active",
     image: "/categories/foisor-terasa.jpg",
   },
-  { slug: "prelate-pvc", name: "Prelate din PVC", status: "coming-soon" },
+  {
+    slug: "prelate-pvc",
+    name: "Prelate din PVC",
+    status: "active",
+    image: "/categories/prelata-remorca.png",
+  },
   { slug: "accesorii", name: "Accesorii", status: "coming-soon" },
   { slug: "scule", name: "Scule", status: "coming-soon" },
 ];
@@ -21,6 +26,7 @@ export const categories: Category[] = [
 import type { FolieVariant } from "./folie-variants";
 import { folieVariants, cheapestFolieVariant } from "./folie-variants";
 import { cristalFlexCatalog } from "./catalog-cristal-flex";
+import { prelatePvcCatalog } from "./catalog-prelate-pvc";
 
 export type Product = {
   slug: string;
@@ -30,6 +36,8 @@ export type Product = {
   price: number;
   priceBeforeDiscount: number;
   priceUnit: string;
+  /** Unit shown next to the price in the cart selector (default "rolă"). */
+  unitLabel?: string;
   thicknesses: string[];
   widths: string[];
   lengths: string[];
@@ -82,7 +90,11 @@ const folieConfigurabila: Product = {
   ],
 };
 
-export const products: Product[] = [folieConfigurabila, ...cristalFlexCatalog];
+export const products: Product[] = [
+  folieConfigurabila,
+  ...cristalFlexCatalog,
+  ...prelatePvcCatalog,
+];
 
 export function getCategory(slug: string) {
   return categories.find((c) => c.slug === slug);

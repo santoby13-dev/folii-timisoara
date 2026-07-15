@@ -20,6 +20,8 @@ export type CartItem = {
   length: string;
   unitPrice: number;
   quantity: number;
+  /** Unit shown next to the price (e.g. "rolă", "metru liniar"). Defaults to "rolă". */
+  unitLabel?: string;
 };
 
 type CartContextValue = {

@@ -167,21 +167,21 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
         </div>
         <div className="mt-4 grid gap-5 sm:grid-cols-3">
           <FilterGroup
-            label="Grosime folie"
+            label="Grosime"
             options={allThicknesses}
             selected={thickness}
             onSelect={selectThickness}
             disabledOptions={new Set()}
           />
           <FilterGroup
-            label="Lățime folie"
+            label="Lățime"
             options={allWidths}
             selected={width}
             onSelect={selectWidth}
             disabledOptions={new Set(allWidths.filter((w) => !validWidths.has(w)))}
           />
           <FilterGroup
-            label="Lungime rolă"
+            label="Lungime"
             options={allLengths}
             selected={length}
             onSelect={setLength}

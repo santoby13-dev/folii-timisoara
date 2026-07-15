@@ -49,7 +49,7 @@ export default function CartPage() {
                 {item.length}
               </p>
               <p className="mt-1 text-sm font-semibold text-blue-600">
-                {formatPrice(item.unitPrice)} / rolă
+                {formatPrice(item.unitPrice)} / {item.unitLabel ?? "rolă"}
               </p>
             </div>
 

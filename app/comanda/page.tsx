@@ -193,7 +193,7 @@ export default function CheckoutPage() {
             {items.map((item) => (
               <li key={item.id} className="text-sm">
                 <span className="font-medium">
-                  {item.quantity} × Folie {item.thickness}
+                  {item.quantity} × {item.thickness}
                 </span>
                 <span className="block text-zinc-500 dark:text-zinc-400">
                   {item.width} × {item.length} —{" "}

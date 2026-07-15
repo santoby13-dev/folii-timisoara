@@ -58,6 +58,7 @@ export default async function ProductPage({
                 categorySlug={category.slug}
                 productName={product.name}
                 variants={product.variants}
+                unitLabel={product.unitLabel}
               />
             </div>
           ) : (
