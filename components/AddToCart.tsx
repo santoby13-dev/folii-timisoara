@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import Link from "next/link";
 import { useCart, formatPrice } from "@/lib/cart";
 import type { FolieVariant } from "@/lib/folie-variants";
 import type { ProductColor } from "@/lib/products";
@@ -150,7 +149,7 @@ export default function AddToCart({
   sku,
   colors,
 }: Props) {
-  const { addItem } = useCart();
+  const { addItem, openDrawer } = useCart();
   const defaultVariant = useMemo(() => cheapestVariant(variants), [variants]);
   const [thickness, setThickness] = useState<string | null>(
     defaultVariant.thickness
@@ -158,7 +157,6 @@ export default function AddToCart({
   const [width, setWidth] = useState<string | null>(defaultVariant.width);
   const [length, setLength] = useState<string | null>(defaultVariant.length);
   const [quantity, setQuantityState] = useState(1);
-  const [added, setAdded] = useState(false);
   const [colorName, setColorName] = useState<string | null>(
     colors && colors.length > 0 ? colors[0].name : null
   );
@@ -232,7 +230,6 @@ export default function AddToCart({
       !pool.some((v) => (!width || v.width === width) && v.length === length)
     )
       setLength(null);
-    setAdded(false);
   }
 
   function selectWidth(value: string) {
@@ -241,12 +238,10 @@ export default function AddToCart({
       (v) => (!thickness || v.thickness === thickness) && v.width === value
     );
     if (length && !pool.some((v) => v.length === length)) setLength(null);
-    setAdded(false);
   }
 
   function selectLength(value: string) {
     setLength(value);
-    setAdded(false);
   }
 
   function handleAdd() {
@@ -263,7 +258,7 @@ export default function AddToCart({
       unitLabel,
       sku: resolvedSku,
     });
-    setAdded(true);
+    openDrawer();
   }
 
   return (
@@ -379,16 +374,6 @@ export default function AddToCart({
           Adaugă în coș
         </button>
       </div>
-
-      {added && (
-        <p className="mt-4 rounded-xl bg-green-50 p-3 text-sm text-green-800 dark:bg-green-950 dark:text-green-200">
-          Produs adăugat în coș.{" "}
-          <Link href="/cos" className="font-semibold underline">
-            Vezi coșul
-          </Link>{" "}
-          sau continuă cumpărăturile.
-        </p>
-      )}
     </div>
   );
 }

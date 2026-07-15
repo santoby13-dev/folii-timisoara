@@ -3,7 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import FloatingWhatsApp from "@/components/FloatingWhatsApp";
+import CartDrawer from "@/components/CartDrawer";
 import { CartProvider } from "@/lib/cart";
+import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -17,9 +20,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
   title: "Folii Timișoara | Închidere terase cu folie PVC transparentă",
   description:
     "Folie PVC transparentă pentru închidere terase, la prețuri avantajoase. Consultanță, livrare și montaj în Timișoara și împrejurimi.",
+  openGraph: {
+    title: "Folii Timișoara",
+    description:
+      "Folie PVC transparentă pentru închidere terase, la prețuri avantajoase. Consultanță, livrare și montaj în Timișoara și împrejurimi.",
+    url: siteConfig.url,
+    siteName: "Folii Timișoara",
+    images: ["/products/folie-cristal-flex/01.jpg"],
+    locale: "ro_RO",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -37,6 +51,8 @@ export default function RootLayout({
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
+          <FloatingWhatsApp />
+          <CartDrawer />
         </CartProvider>
         <Analytics />
       </body>

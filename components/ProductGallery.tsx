@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 
 type Props = {
@@ -10,6 +10,20 @@ type Props = {
 
 export default function ProductGallery({ images, alt }: Props) {
   const [active, setActive] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    function onKeyDown(e: KeyboardEvent) {
+      if (e.key === "Escape") setLightboxOpen(false);
+      if (e.key === "ArrowRight")
+        setActive((i) => (i + 1) % images.length);
+      if (e.key === "ArrowLeft")
+        setActive((i) => (i - 1 + images.length) % images.length);
+    }
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
+  }, [lightboxOpen, images.length]);
 
   return (
     <div className="flex flex-col-reverse gap-3 sm:flex-row">
@@ -39,7 +53,12 @@ export default function ProductGallery({ images, alt }: Props) {
         </div>
       )}
 
-      <div className="flex aspect-square flex-1 items-center justify-center overflow-hidden rounded-2xl border border-black/10 bg-white dark:border-white/10">
+      <button
+        type="button"
+        onClick={() => setLightboxOpen(true)}
+        aria-label="Mărește imaginea"
+        className="flex aspect-square flex-1 cursor-zoom-in items-center justify-center overflow-hidden rounded-2xl border border-black/10 bg-white dark:border-white/10"
+      >
         <Image
           src={images[active]}
           alt={`${alt} — imagine ${active + 1}`}
@@ -48,7 +67,63 @@ export default function ProductGallery({ images, alt }: Props) {
           className="h-full w-full object-cover"
           priority
         />
-      </div>
+      </button>
+
+      {lightboxOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
+          onClick={() => setLightboxOpen(false)}
+        >
+          <button
+            type="button"
+            onClick={() => setLightboxOpen(false)}
+            aria-label="Închide"
+            className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20"
+          >
+            ✕
+          </button>
+
+          {images.length > 1 && (
+            <>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActive((i) => (i - 1 + images.length) % images.length);
+                }}
+                aria-label="Imaginea anterioară"
+                className="absolute left-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActive((i) => (i + 1) % images.length);
+                }}
+                aria-label="Imaginea următoare"
+                className="absolute right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20"
+              >
+                ›
+              </button>
+            </>
+          )}
+
+          <div
+            className="relative h-full max-h-[85vh] w-full max-w-4xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src={images[active]}
+              alt={`${alt} — imagine ${active + 1}`}
+              fill
+              className="object-contain"
+              sizes="(min-width: 1024px) 800px, 100vw"
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

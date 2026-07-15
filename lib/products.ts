@@ -19,7 +19,7 @@ export const categories: Category[] = [
     status: "active",
     image: "/categories/prelata-remorca.png",
   },
-  { slug: "accesorii", name: "Accesorii", status: "coming-soon" },
+  { slug: "accesorii", name: "Accesorii", status: "active" },
   { slug: "scule", name: "Scule", status: "coming-soon" },
 ];
 
@@ -27,6 +27,7 @@ import type { FolieVariant } from "./folie-variants";
 import { folieVariants, cheapestFolieVariant } from "./folie-variants";
 import { cristalFlexCatalog } from "./catalog-cristal-flex";
 import { prelatePvcCatalog } from "./catalog-prelate-pvc";
+import { accesoriiCatalog } from "./catalog-accesorii";
 
 export type ProductColor = {
   /** Display name shown on the color chip. */
@@ -103,6 +104,7 @@ export const products: Product[] = [
   folieConfigurabila,
   ...cristalFlexCatalog,
   ...prelatePvcCatalog,
+  ...accesoriiCatalog,
 ];
 
 export function getCategory(slug: string) {

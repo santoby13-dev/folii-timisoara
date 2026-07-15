@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
-import { getCategory, getProduct, products } from "@/lib/products";
+import { getCategory, getProduct, getProductsByCategory, products } from "@/lib/products";
 import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
 
@@ -20,9 +22,18 @@ export async function generateMetadata({
   const { category, product: productSlug } = await params;
   const product = getProduct(category, productSlug);
   if (!product) return {};
+  const url = `${siteConfig.url}/produse/${category}/${productSlug}`;
   return {
     title: `${product.name} | Folii Timișoara`,
     description: product.shortDescription,
+    alternates: { canonical: url },
+    openGraph: {
+      title: product.name,
+      description: product.shortDescription,
+      url,
+      images: product.images,
+      type: "website",
+    },
   };
 }
 
@@ -36,9 +47,47 @@ export default async function ProductPage({
   const product = getProduct(categorySlug, productSlug);
   if (!category || !product) notFound();
 
+  const similarProducts = getProductsByCategory(categorySlug)
+    .filter((p) => p.slug !== product.slug)
+    .slice(0, 4);
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: product.name,
+    description: product.shortDescription,
+    image: product.images.map((img) => `${siteConfig.url}${img}`),
+    sku: product.sku,
+    offers: {
+      "@type": "Offer",
+      priceCurrency: "RON",
+      price: product.price,
+      availability: "https://schema.org/InStock",
+      url: `${siteConfig.url}/produse/${categorySlug}/${productSlug}`,
+    },
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
-      <div className="grid gap-10 lg:grid-cols-2 lg:gap-14">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
+      <nav className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
+        <Link href="/produse" className="hover:text-blue-600">
+          Produse
+        </Link>
+        <span>/</span>
+        <Link href={`/produse/${category.slug}`} className="hover:text-blue-600">
+          {category.name}
+        </Link>
+        <span>/</span>
+        <span className="text-zinc-900 dark:text-zinc-100">{product.name}</span>
+      </nav>
+
+      <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:gap-14">
         {product.images.length > 0 && (
           <ProductGallery images={product.images} alt={product.name} />
         )}
@@ -73,6 +122,15 @@ export default async function ProductPage({
             </p>
           )}
 
+          <p className="mt-4 flex items-center gap-1.5 text-sm font-medium text-green-700 dark:text-green-400">
+            <span className="inline-block h-2 w-2 rounded-full bg-green-600 dark:bg-green-400" />
+            Disponibil în stoc
+          </p>
+          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+            Transportul se calculează după greutate și adresă, la finalizarea
+            comenzii.
+          </p>
+
           {((product.sku && !(product.colors && product.colors.length > 1)) ||
             product.weight) && (
             <dl className="mt-6 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-black/10 pt-6 text-sm dark:border-white/10">
@@ -84,7 +142,7 @@ export default async function ProductPage({
               )}
               {product.weight && (
                 <>
-                  <dt className="text-zinc-500 dark:text-zinc-400">Greutate rolă</dt>
+                  <dt className="text-zinc-500 dark:text-zinc-400">Greutate</dt>
                   <dd className="font-medium">{product.weight}</dd>
                 </>
               )}
@@ -128,6 +186,39 @@ export default async function ProductPage({
           Scrie-ne pe email
         </a>
       </div>
+
+      {similarProducts.length > 0 && (
+        <div className="mt-16 border-t border-black/10 pt-10 dark:border-white/10">
+          <h2 className="text-xl font-semibold">Produse similare</h2>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {similarProducts.map((similar) => (
+              <Link
+                key={similar.slug}
+                href={`/produse/${category.slug}/${similar.slug}`}
+                className="flex flex-col rounded-2xl border border-black/10 p-4 transition-colors hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
+              >
+                {similar.images[0] && (
+                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-white">
+                    <Image
+                      src={similar.images[0]}
+                      alt={similar.name}
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                    />
+                  </div>
+                )}
+                <h3 className="mt-3 text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                  {similar.name}
+                </h3>
+                <p className="mt-2 text-sm font-semibold text-blue-600">
+                  de la {similar.price.toFixed(2).replace(".", ",")} RON
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

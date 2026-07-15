@@ -1,20 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
-import { categories } from "@/lib/products";
+import { categories, products } from "@/lib/products";
 import CartLink from "@/components/CartLink";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [query, setQuery] = useState("");
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   function closeMenu() {
     setMenuOpen(false);
   }
 
+  function closeSearch() {
+    setSearchOpen(false);
+    setQuery("");
+  }
+
+  useEffect(() => {
+    if (searchOpen) searchInputRef.current?.focus();
+  }, [searchOpen]);
+
+  const searchResults = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    if (!q) return [];
+    return products.filter((p) => p.name.toLowerCase().includes(q)).slice(0, 8);
+  }, [query]);
+
   return (
-    <header className="sticky top-0 z-50 border-b border-black/10 bg-white/90 backdrop-blur dark:border-white/10 dark:bg-black/90">
+    <header className="sticky top-0 z-50 border-b border-black/10 bg-white/90 backdrop-blur dark:border-white/10 dark:bg-black/90 relative">
       <div className="mx-auto grid max-w-6xl grid-cols-[1fr_auto_1fr] items-center gap-4 px-4 py-4 sm:px-6">
         {/* Left column: mobile menu toggle / desktop nav */}
         <div className="flex items-center">
@@ -93,11 +112,96 @@ export default function Header() {
           {siteConfig.name}
         </Link>
 
-        {/* Right column: cart */}
-        <div className="flex justify-end">
+        {/* Right column: search + cart */}
+        <div className="flex items-center justify-end gap-1">
+          <button
+            type="button"
+            onClick={() => setSearchOpen((open) => !open)}
+            aria-label={searchOpen ? "Închide căutarea" : "Caută produse"}
+            aria-expanded={searchOpen}
+            className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
+          >
+            <svg
+              className="h-5 w-5"
+              viewBox="0 0 20 20"
+              fill="none"
+              aria-hidden="true"
+            >
+              <circle
+                cx="9"
+                cy="9"
+                r="6.5"
+                stroke="currentColor"
+                strokeWidth="1.6"
+              />
+              <path
+                d="M14 14l4.5 4.5"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+              />
+            </svg>
+          </button>
           <CartLink />
         </div>
       </div>
+
+      {searchOpen && (
+        <div className="border-t border-black/10 bg-white px-4 py-4 shadow-lg dark:border-white/10 dark:bg-black sm:px-6">
+          <div className="mx-auto flex max-w-6xl items-center gap-2">
+            <input
+              ref={searchInputRef}
+              type="search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Caută produse..."
+              className="w-full rounded-xl border border-black/10 bg-transparent px-4 py-3 outline-none focus:border-blue-600 dark:border-white/10"
+            />
+            <button
+              type="button"
+              onClick={closeSearch}
+              aria-label="Închide căutarea"
+              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            >
+              ✕
+            </button>
+          </div>
+
+          {query.trim() && (
+            <div className="mx-auto mt-3 max-w-6xl">
+              {searchResults.length === 0 ? (
+                <p className="px-1 py-2 text-sm text-zinc-500 dark:text-zinc-400">
+                  Niciun produs găsit.
+                </p>
+              ) : (
+                <ul className="flex max-h-96 flex-col gap-1 overflow-y-auto">
+                  {searchResults.map((product) => (
+                    <li key={`${product.categorySlug}-${product.slug}`}>
+                      <Link
+                        href={`/produse/${product.categorySlug}/${product.slug}`}
+                        onClick={closeSearch}
+                        className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+                      >
+                        {product.images[0] && (
+                          <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-white">
+                            <Image
+                              src={product.images[0]}
+                              alt={product.name}
+                              fill
+                              className="object-cover"
+                            />
+                          </div>
+                        )}
+                        <span className="text-sm">{product.name}</span>
+                      </Link>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
+        </div>
+      )}
 
       {/* Mobile: secondary menu bar under the header */}
       {menuOpen && (

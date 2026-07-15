@@ -34,6 +34,9 @@ type CartContextValue = {
   clearCart: () => void;
   totalItems: number;
   totalPrice: number;
+  drawerOpen: boolean;
+  openDrawer: () => void;
+  closeDrawer: () => void;
 };
 
 const CartContext = createContext<CartContextValue | null>(null);
@@ -43,6 +46,7 @@ const STORAGE_KEY = "folii-timisoara-cart";
 export function CartProvider({ children }: { children: React.ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [loaded, setLoaded] = useState(false);
+  const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
     try {
@@ -83,6 +87,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const clearCart = useCallback(() => setItems([]), []);
+  const openDrawer = useCallback(() => setDrawerOpen(true), []);
+  const closeDrawer = useCallback(() => setDrawerOpen(false), []);
 
   const value = useMemo<CartContextValue>(
     () => ({
@@ -93,8 +99,11 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
       clearCart,
       totalItems: items.reduce((sum, i) => sum + i.quantity, 0),
       totalPrice: items.reduce((sum, i) => sum + i.unitPrice * i.quantity, 0),
+      drawerOpen,
+      openDrawer,
+      closeDrawer,
     }),
-    [items, addItem, removeItem, setQuantity, clearCart]
+    [items, addItem, removeItem, setQuantity, clearCart, drawerOpen, openDrawer, closeDrawer]
   );
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>;

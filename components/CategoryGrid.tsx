@@ -14,6 +14,7 @@ export type CategoryGridProduct = {
   slug: string;
   name: string;
   price: number;
+  priceBeforeDiscount: number;
   image: string | undefined;
   variants: CategoryGridVariant[];
   hasVariants: boolean;
@@ -211,14 +212,30 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
                     className="object-cover"
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   />
+                  {product.priceBeforeDiscount > product.price && (
+                    <span className="absolute top-2 right-2 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
+                      -
+                      {Math.round(
+                        ((product.priceBeforeDiscount - product.price) /
+                          product.priceBeforeDiscount) *
+                          100
+                      )}
+                      %
+                    </span>
+                  )}
                 </div>
               )}
               <h2 className="mt-4 text-sm font-medium text-zinc-900 dark:text-zinc-100">
                 {product.name}
               </h2>
               <div className="group relative mt-2 h-7 overflow-hidden">
-                <p className="absolute inset-0 flex items-center text-lg font-semibold text-blue-600 transition-transform duration-200 group-hover:-translate-y-full">
+                <p className="absolute inset-0 flex items-center gap-2 text-lg font-semibold text-blue-600 transition-transform duration-200 group-hover:-translate-y-full">
                   de la {product.price.toFixed(2).replace(".", ",")} RON
+                  {product.priceBeforeDiscount > product.price && (
+                    <span className="text-sm font-normal text-zinc-400 line-through">
+                      {product.priceBeforeDiscount.toFixed(2).replace(".", ",")} RON
+                    </span>
+                  )}
                 </p>
                 <p className="absolute inset-0 flex translate-y-full items-center text-sm font-semibold tracking-wide text-blue-600 uppercase transition-transform duration-200 group-hover:translate-y-0">
                   {product.hasVariants ? "Selectează opțiuni" : "Adaugă în coș"}

@@ -11,6 +11,7 @@ export default function CheckoutPage() {
   const { items, totalPrice, clearCart } = useCart();
   const [status, setStatus] = useState<Status>("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [orderId, setOrderId] = useState("");
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -45,6 +46,8 @@ export default function CheckoutPage() {
         const data = await res.json().catch(() => null);
         throw new Error(data?.error || "Eroare la trimiterea comenzii.");
       }
+      const data = await res.json();
+      setOrderId(data.orderId || "");
       clearCart();
       setStatus("success");
     } catch (err) {
@@ -64,9 +67,17 @@ export default function CheckoutPage() {
         <h1 className="mt-6 text-3xl font-bold tracking-tight">
           Comanda a fost trimisă!
         </h1>
+        {orderId && (
+          <p className="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
+            Numărul comenzii tale:{" "}
+            <span className="font-mono font-semibold text-zinc-900 dark:text-zinc-100">
+              {orderId}
+            </span>
+          </p>
+        )}
         <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-          Îți mulțumim! Te vom contacta telefonic în maxim 24 de ore pentru
-          confirmarea comenzii și stabilirea detaliilor de livrare.
+          Îți mulțumim! Te sunăm în maxim 24 de ore pentru confirmarea
+          comenzii și stabilirea costului de transport.
         </p>
         <Link
           href="/"

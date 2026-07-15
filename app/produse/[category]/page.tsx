@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import Link from "next/link";
 import { categories, getCategory, getProductsByCategory } from "@/lib/products";
 import CategoryGrid from "@/components/CategoryGrid";
 
@@ -33,7 +34,15 @@ export default async function CategoryPage({
 
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
-      <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">
+      <nav className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
+        <Link href="/produse" className="hover:text-blue-600">
+          Produse
+        </Link>
+        <span>/</span>
+        <span className="text-zinc-900 dark:text-zinc-100">{category.name}</span>
+      </nav>
+
+      <h1 className="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">
         {category.name}
       </h1>
 
@@ -50,6 +59,7 @@ export default async function CategoryPage({
               slug: product.slug,
               name: product.name,
               price: product.price,
+              priceBeforeDiscount: product.priceBeforeDiscount,
               image: product.images[0],
               variants: (
                 product.variants ?? [
