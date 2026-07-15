@@ -4,14 +4,18 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
+export type CategoryGridVariant = {
+  thickness: string;
+  width: string;
+  length: string;
+};
+
 export type CategoryGridProduct = {
   slug: string;
   name: string;
   price: number;
   image: string | undefined;
-  thicknesses: string[];
-  widths: string[];
-  lengths: string[];
+  variants: CategoryGridVariant[];
   hasVariants: boolean;
 };
 
@@ -29,11 +33,13 @@ function FilterGroup({
   options,
   selected,
   onSelect,
+  disabledOptions,
 }: {
   label: string;
   options: string[];
   selected: string | null;
   onSelect: (value: string | null) => void;
+  disabledOptions: Set<string>;
 }) {
   if (options.length <= 1) return null;
   return (
@@ -42,15 +48,19 @@ function FilterGroup({
       <div className="mt-2 flex flex-wrap gap-2">
         {options.map((option) => {
           const isSelected = option === selected;
+          const isDisabled = !isSelected && disabledOptions.has(option);
           return (
             <button
               key={option}
               type="button"
+              disabled={isDisabled}
               onClick={() => onSelect(isSelected ? null : option)}
               className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors ${
                 isSelected
                   ? "border-blue-600 bg-blue-600 text-white"
-                  : "border-black/10 hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
+                  : isDisabled
+                    ? "cursor-not-allowed border-black/10 text-zinc-300 dark:border-white/10 dark:text-zinc-700"
+                    : "border-black/10 hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
               }`}
             >
               {option}
@@ -67,26 +77,71 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
   const [width, setWidth] = useState<string | null>(null);
   const [length, setLength] = useState<string | null>(null);
 
-  const allThicknesses = useMemo(
-    () => sortNumeric([...new Set(products.flatMap((p) => p.thicknesses))]),
-    [products]
-  );
-  const allWidths = useMemo(
-    () => sortNumeric([...new Set(products.flatMap((p) => p.widths))]),
-    [products]
-  );
-  const allLengths = useMemo(
-    () => sortNumeric([...new Set(products.flatMap((p) => p.lengths))]),
+  // Every real, purchasable combination across all products in the category —
+  // the same source of truth used by the product-page variant selector.
+  const allVariants = useMemo(
+    () => products.flatMap((p) => p.variants),
     [products]
   );
 
+  const allThicknesses = useMemo(
+    () => sortNumeric([...new Set(allVariants.map((v) => v.thickness))]),
+    [allVariants]
+  );
+  const allWidths = useMemo(
+    () => sortNumeric([...new Set(allVariants.map((v) => v.width))]),
+    [allVariants]
+  );
+  const allLengths = useMemo(
+    () => sortNumeric([...new Set(allVariants.map((v) => v.length))]),
+    [allVariants]
+  );
+
+  const validWidths = useMemo(() => {
+    if (!thickness) return new Set(allWidths);
+    return new Set(
+      allVariants.filter((v) => v.thickness === thickness).map((v) => v.width)
+    );
+  }, [allVariants, thickness, allWidths]);
+
+  const validLengths = useMemo(() => {
+    let pool = allVariants;
+    if (thickness) pool = pool.filter((v) => v.thickness === thickness);
+    if (width) pool = pool.filter((v) => v.width === width);
+    return new Set(pool.map((v) => v.length));
+  }, [allVariants, thickness, width]);
+
+  function selectThickness(value: string | null) {
+    setThickness(value);
+    if (!value) return;
+    // reset selections that are no longer valid for the new thickness
+    const pool = allVariants.filter((v) => v.thickness === value);
+    if (width && !pool.some((v) => v.width === width)) setWidth(null);
+    if (
+      length &&
+      !pool.some((v) => (!width || v.width === width) && v.length === length)
+    )
+      setLength(null);
+  }
+
+  function selectWidth(value: string | null) {
+    setWidth(value);
+    if (!value) return;
+    const pool = allVariants.filter(
+      (v) => (!thickness || v.thickness === thickness) && v.width === value
+    );
+    if (length && !pool.some((v) => v.length === length)) setLength(null);
+  }
+
   const filtered = useMemo(() => {
-    return products.filter((p) => {
-      if (thickness && !p.thicknesses.includes(thickness)) return false;
-      if (width && !p.widths.includes(width)) return false;
-      if (length && !p.lengths.includes(length)) return false;
-      return true;
-    });
+    return products.filter((p) =>
+      p.variants.some(
+        (v) =>
+          (!thickness || v.thickness === thickness) &&
+          (!width || v.width === width) &&
+          (!length || v.length === length)
+      )
+    );
   }, [products, thickness, width, length]);
 
   const hasActiveFilters = thickness || width || length;
@@ -115,19 +170,22 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
             label="Grosime folie"
             options={allThicknesses}
             selected={thickness}
-            onSelect={setThickness}
+            onSelect={selectThickness}
+            disabledOptions={new Set()}
           />
           <FilterGroup
             label="Lățime folie"
             options={allWidths}
             selected={width}
-            onSelect={setWidth}
+            onSelect={selectWidth}
+            disabledOptions={new Set(allWidths.filter((w) => !validWidths.has(w)))}
           />
           <FilterGroup
             label="Lungime rolă"
             options={allLengths}
             selected={length}
             onSelect={setLength}
+            disabledOptions={new Set(allLengths.filter((l) => !validLengths.has(l)))}
           />
         </div>
       </div>

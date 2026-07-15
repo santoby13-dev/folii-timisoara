@@ -51,9 +51,19 @@ export default async function CategoryPage({
               name: product.name,
               price: product.price,
               image: product.images[0],
-              thicknesses: product.thicknesses,
-              widths: product.widths,
-              lengths: product.lengths,
+              variants: (
+                product.variants ?? [
+                  {
+                    thickness: product.thicknesses[0],
+                    width: product.widths[0],
+                    length: product.lengths[0],
+                  },
+                ]
+              ).map((v) => ({
+                thickness: v.thickness,
+                width: v.width,
+                length: v.length,
+              })),
               hasVariants:
                 product.thicknesses.length > 1 ||
                 product.widths.length > 1 ||
