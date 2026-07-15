@@ -1,20 +1,78 @@
+import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
+
+const legalLinks = [
+  { href: "/termeni-si-conditii", label: "Termeni și condiții" },
+  { href: "/politica-de-retur", label: "Politica de retur" },
+  { href: "/confidentialitate", label: "Confidențialitate (GDPR)" },
+  { href: "/cookies", label: "Politica de cookies" },
+];
 
 export default function Footer() {
   return (
     <footer className="border-t border-black/10 bg-zinc-50 dark:border-white/10 dark:bg-zinc-950">
-      <div className="mx-auto flex max-w-6xl flex-col gap-4 px-6 py-10 text-sm text-zinc-600 sm:flex-row sm:items-center sm:justify-between dark:text-zinc-400">
-        <p>
-          &copy; {new Date().getFullYear()} {siteConfig.name}. Toate drepturile
-          rezervate.
-        </p>
-        <div className="flex gap-4">
-          <a href={siteConfig.phoneHref} className="hover:text-blue-600">
-            {siteConfig.phone}
-          </a>
-          <a href={`mailto:${siteConfig.email}`} className="hover:text-blue-600">
-            {siteConfig.email}
-          </a>
+      <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12 text-sm sm:grid-cols-3">
+        <div>
+          <p className="text-base font-semibold tracking-tight">
+            {siteConfig.name}
+          </p>
+          <p className="mt-2 max-w-xs text-zinc-600 dark:text-zinc-400">
+            Folii și prelate PVC pentru terase, foișoare și remorci, la
+            prețuri avantajoase în {siteConfig.city}.
+          </p>
+          <div className="mt-4 flex flex-col gap-1 text-zinc-600 dark:text-zinc-400">
+            <a href={siteConfig.phoneHref} className="hover:text-blue-600">
+              {siteConfig.phone}
+            </a>
+            <a
+              href={`mailto:${siteConfig.email}`}
+              className="hover:text-blue-600"
+            >
+              {siteConfig.email}
+            </a>
+          </div>
+        </div>
+
+        <div>
+          <p className="font-semibold">Informații legale</p>
+          <ul className="mt-3 flex flex-col gap-2 text-zinc-600 dark:text-zinc-400">
+            {legalLinks.map((link) => (
+              <li key={link.href}>
+                <Link href={link.href} className="hover:text-blue-600">
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div>
+          <p className="font-semibold">Protecția consumatorului</p>
+          <div className="mt-3 flex flex-col gap-3 text-zinc-600 dark:text-zinc-400">
+            <a
+              href="https://anpc.ro"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg border border-black/10 px-3 py-2 hover:border-blue-600 hover:text-blue-600 dark:border-white/10"
+            >
+              ANPC — Autoritatea Națională pentru Protecția Consumatorilor
+            </a>
+            <a
+              href="https://ec.europa.eu/consumers/odr"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg border border-black/10 px-3 py-2 hover:border-blue-600 hover:text-blue-600 dark:border-white/10"
+            >
+              SOL — Soluționarea online a litigiilor
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div className="border-t border-black/10 px-6 py-6 text-xs text-zinc-500 dark:border-white/10 dark:text-zinc-500">
+        <div className="mx-auto max-w-6xl">
+          &copy; {new Date().getFullYear()} {siteConfig.name}. Toate
+          drepturile rezervate.
         </div>
       </div>
     </footer>
