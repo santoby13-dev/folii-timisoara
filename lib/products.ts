@@ -2,10 +2,17 @@ export type Category = {
   slug: string;
   name: string;
   status: "active" | "coming-soon";
+  /** Background photo for the homepage category carousel, if available. */
+  image?: string;
 };
 
 export const categories: Category[] = [
-  { slug: "folii-transparente-terase", name: "Folii transparente pentru terase", status: "active" },
+  {
+    slug: "folii-transparente-terase",
+    name: "Folii transparente pentru terase",
+    status: "active",
+    image: "/categories/foisor-terasa.jpg",
+  },
   { slug: "prelate-pvc", name: "Prelate din PVC", status: "coming-soon" },
   { slug: "accesorii", name: "Accesorii", status: "coming-soon" },
   { slug: "scule", name: "Scule", status: "coming-soon" },

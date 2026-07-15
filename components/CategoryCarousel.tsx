@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import type { Category } from "@/lib/products";
 
 const slideBackgrounds = [
@@ -33,19 +34,34 @@ export default function CategoryCarousel({
             <Link
               key={category.slug}
               href={`/produse/${category.slug}`}
-              className={`relative flex h-64 w-full shrink-0 flex-col items-center justify-center gap-3 bg-gradient-to-br px-6 text-center sm:h-80 ${
-                slideBackgrounds[i % slideBackgrounds.length]
+              className={`relative flex h-64 w-full shrink-0 flex-col items-center justify-center gap-3 overflow-hidden px-6 text-center sm:h-80 ${
+                category.image
+                  ? "bg-black"
+                  : `bg-gradient-to-br ${slideBackgrounds[i % slideBackgrounds.length]}`
               }`}
             >
-              <span className="text-2xl font-bold text-white sm:text-3xl">
+              {category.image && (
+                <>
+                  <Image
+                    src={category.image}
+                    alt=""
+                    fill
+                    priority={i === 0}
+                    className="object-cover"
+                    sizes="(min-width: 1024px) 1024px, 100vw"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+                </>
+              )}
+              <span className="relative text-2xl font-bold text-white sm:text-3xl">
                 {category.name}
               </span>
               {category.status === "coming-soon" && (
-                <span className="rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white">
+                <span className="relative rounded-full bg-white/15 px-3 py-1 text-xs font-medium text-white">
                   în curând
                 </span>
               )}
-              <span className="text-sm font-semibold text-white/80">
+              <span className="relative text-sm font-semibold text-white/80">
                 Vezi produse &rarr;
               </span>
             </Link>
