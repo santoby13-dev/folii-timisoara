@@ -46,4 +46,9 @@ export const folieVariants: FolieVariant[] = [
   { thickness: "1.0 mm", width: "2.00 m", length: "10 m", price: 782.94, oldPrice: 847.0 },
 ];
 
-export const folieMinPrice = Math.min(...folieVariants.map((v) => v.price));
+export function cheapestFolieVariant() {
+  return folieVariants.reduce(
+    (min, v) => (v.price < min.price ? v : min),
+    folieVariants[0]
+  );
+}
