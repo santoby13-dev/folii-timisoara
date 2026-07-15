@@ -167,9 +167,6 @@ export default function AddToCart({
     () => colors?.find((c) => c.name === colorName) ?? null,
     [colors, colorName]
   );
-  const resolvedSku = sku
-    ? sku + (colors && colors.length > 1 ? (selectedColor?.skuSuffix ?? "") : "")
-    : undefined;
 
   const allThicknesses = useMemo(
     () => [...new Set(variants.map((v) => v.thickness))],
@@ -211,6 +208,18 @@ export default function AddToCart({
           v.thickness === thickness && v.width === width && v.length === length
       ) ?? null,
     [variants, thickness, width, length]
+  );
+
+  // Per-variant SKUs (e.g. the configurable folie product) take priority;
+  // otherwise fall back to the product's base SKU + color suffix, if any.
+  const resolvedSku =
+    selectedVariant?.sku ??
+    (sku
+      ? sku + (colors && colors.length > 1 ? (selectedColor?.skuSuffix ?? "") : "")
+      : undefined);
+  const hasPerVariantSku = useMemo(
+    () => variants.some((v) => v.sku),
+    [variants]
   );
 
   function selectThickness(value: string) {
@@ -290,7 +299,7 @@ export default function AddToCart({
         </div>
       )}
 
-      {resolvedSku && colors && colors.length > 1 && (
+      {resolvedSku && ((colors && colors.length > 1) || hasPerVariantSku) && (
         <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
           Cod produs:{" "}
           <span className="font-medium text-zinc-700 dark:text-zinc-300">

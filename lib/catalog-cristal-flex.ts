@@ -678,7 +678,7 @@ export const cristalFlexCatalog: Product[] = [
     thicknesses: ["0.5 mm"],
     widths: ["1.50 m"],
     lengths: ["30 m"],
-    sku: undefined,
+    sku: "CF50015030",
     weight: "35 kg",
     hasCart: true,
     variants: [{ thickness: "0.5 mm", width: "1.50 m", length: "30 m", price: 928.35 }],

@@ -77,11 +77,10 @@ export async function POST(request: Request) {
     timeZone: "Europe/Bucharest",
   });
 
+  // Identified by SKU + quantity alone, for quick stock picking — falls back
+  // to the product name only in the unlikely case a SKU is missing.
   const itemsSummary = order.items
-    .map(
-      (i) =>
-        `${i.quantity} x ${i.name} (${i.thickness} / ${i.width} / ${i.length})${i.sku ? ` [${i.sku}]` : ""} @ ${i.unitPrice.toFixed(2)} RON`
-    )
+    .map((i) => `${i.quantity} x ${i.sku || i.name}`)
     .join("\n");
 
   try {
