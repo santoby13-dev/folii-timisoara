@@ -22,6 +22,8 @@ export type CartItem = {
   quantity: number;
   /** Unit shown next to the price (e.g. "rolă", "metru liniar"). Defaults to "rolă". */
   unitLabel?: string;
+  /** Product SKU, with color suffix already applied if the product has colors. */
+  sku?: string;
 };
 
 type CartContextValue = {

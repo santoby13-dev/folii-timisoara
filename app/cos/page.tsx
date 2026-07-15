@@ -1,7 +1,9 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useCart, formatPrice } from "@/lib/cart";
+import { getProduct } from "@/lib/products";
 
 export default function CartPage() {
   const { items, removeItem, setQuantity, totalPrice } = useCart();
@@ -32,62 +34,80 @@ export default function CartPage() {
       </h1>
 
       <div className="mt-10 flex flex-col gap-4">
-        {items.map((item) => (
-          <div
-            key={item.id}
-            className="flex flex-col gap-4 rounded-2xl border border-black/10 p-5 sm:flex-row sm:items-center sm:justify-between dark:border-white/10"
-          >
-            <div className="flex-1">
-              <Link
-                href={`/produse/${item.categorySlug}/${item.productSlug}`}
-                className="font-semibold hover:text-blue-600"
-              >
-                {item.name}
-              </Link>
-              <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                Grosime {item.thickness} · Lățime {item.width} · Lungime{" "}
-                {item.length}
-              </p>
-              <p className="mt-1 text-sm font-semibold text-blue-600">
-                {formatPrice(item.unitPrice)} / {item.unitLabel ?? "rolă"}
-              </p>
-            </div>
-
-            <div className="flex items-center gap-4">
-              <div className="flex items-center rounded-full border border-black/10 dark:border-white/10">
-                <button
-                  onClick={() => setQuantity(item.id, item.quantity - 1)}
-                  className="flex h-9 w-9 items-center justify-center text-lg hover:text-blue-600"
-                  aria-label="Scade cantitatea"
-                >
-                  −
-                </button>
-                <span className="w-8 text-center font-medium">
-                  {item.quantity}
-                </span>
-                <button
-                  onClick={() => setQuantity(item.id, item.quantity + 1)}
-                  className="flex h-9 w-9 items-center justify-center text-lg hover:text-blue-600"
-                  aria-label="Crește cantitatea"
-                >
-                  +
-                </button>
+        {items.map((item) => {
+          const product = getProduct(item.categorySlug, item.productSlug);
+          const image = product?.images[0];
+          return (
+            <div
+              key={item.id}
+              className="flex flex-col gap-4 rounded-2xl border border-black/10 p-5 sm:flex-row sm:items-center sm:justify-between dark:border-white/10"
+            >
+              <div className="flex flex-1 items-center gap-4">
+                {image && (
+                  <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl border border-black/10 bg-white dark:border-white/10">
+                    <Image
+                      src={image}
+                      alt={item.name}
+                      fill
+                      className="object-cover"
+                      sizes="80px"
+                    />
+                  </div>
+                )}
+                <div>
+                  <Link
+                    href={`/produse/${item.categorySlug}/${item.productSlug}`}
+                    className="font-semibold hover:text-blue-600"
+                  >
+                    {item.name}
+                  </Link>
+                  <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                    Grosime {item.thickness} · Lățime {item.width} · Lungime{" "}
+                    {item.length}
+                    {item.sku && <> · Cod {item.sku}</>}
+                  </p>
+                  <p className="mt-1 text-sm font-semibold text-blue-600">
+                    {formatPrice(item.unitPrice)} / {item.unitLabel ?? "rolă"}
+                  </p>
+                </div>
               </div>
 
-              <p className="w-28 text-right font-semibold">
-                {formatPrice(item.unitPrice * item.quantity)}
-              </p>
+              <div className="flex items-center gap-4">
+                <div className="flex items-center rounded-full border border-black/10 dark:border-white/10">
+                  <button
+                    onClick={() => setQuantity(item.id, item.quantity - 1)}
+                    className="flex h-9 w-9 items-center justify-center text-lg hover:text-blue-600"
+                    aria-label="Scade cantitatea"
+                  >
+                    −
+                  </button>
+                  <span className="w-8 text-center font-medium">
+                    {item.quantity}
+                  </span>
+                  <button
+                    onClick={() => setQuantity(item.id, item.quantity + 1)}
+                    className="flex h-9 w-9 items-center justify-center text-lg hover:text-blue-600"
+                    aria-label="Crește cantitatea"
+                  >
+                    +
+                  </button>
+                </div>
 
-              <button
-                onClick={() => removeItem(item.id)}
-                className="text-sm text-zinc-400 hover:text-red-600"
-                aria-label="Șterge produsul"
-              >
-                ✕
-              </button>
+                <p className="w-28 text-right font-semibold">
+                  {formatPrice(item.unitPrice * item.quantity)}
+                </p>
+
+                <button
+                  onClick={() => removeItem(item.id)}
+                  className="text-sm text-zinc-400 hover:text-red-600"
+                  aria-label="Șterge produsul"
+                >
+                  ✕
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
       <div className="mt-8 flex flex-col items-end gap-4">

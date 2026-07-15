@@ -28,6 +28,13 @@ import { folieVariants, cheapestFolieVariant } from "./folie-variants";
 import { cristalFlexCatalog } from "./catalog-cristal-flex";
 import { prelatePvcCatalog } from "./catalog-prelate-pvc";
 
+export type ProductColor = {
+  /** Display name shown on the color chip. */
+  name: string;
+  /** Appended to `sku` to form the color-specific SKU (e.g. "GALBEN"). */
+  skuSuffix: string;
+};
+
 export type Product = {
   slug: string;
   categorySlug: string;
@@ -50,6 +57,8 @@ export type Product = {
   variants?: FolieVariant[];
   sku?: string;
   weight?: string;
+  /** Real color options, same price regardless of color. Selecting one appends `skuSuffix` to `sku`. */
+  colors?: ProductColor[];
 };
 
 // Derived from the variant with the lowest price, so the "de la ... RON"

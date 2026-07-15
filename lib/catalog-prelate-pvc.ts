@@ -9,6 +9,14 @@ import type { Product } from "./products";
  *
  * Produsele 1-3 se vând la metru liniar (cantitatea = numărul de metri),
  * produsele 4-6 se vând ca rolă completă — vezi `unitLabel` per produs.
+ *
+ * `colors` conține nuanțele reale de la furnizor (prețul e identic indiferent
+ * de culoare) — `skuSuffix` se adaugă la `sku` de bază pentru un cod unic per
+ * nuanță (ex. PVC650METRU + ALBASTRU502). Pe prelata 650 g/mp de 2.5 m,
+ * furnizorul are 3 perechi cu nume identic dar cod diferit (Albastru,
+ * Verde, Gri) — disambiguate prin codul numeric al furnizorului în nume și
+ * în skuSuffix. Prelata HDPE nu are SKU de bază la furnizor — "PVCHDPE" e
+ * inventat de noi, doar pentru uz intern.
  */
 export const prelatePvcCatalog: Product[] = [
   {
@@ -29,6 +37,26 @@ export const prelatePvcCatalog: Product[] = [
     hasCart: true,
     variants: [
       { thickness: "650 g/mp", width: "2.5 m", length: "la metru", price: 55.0 },
+    ],
+    colors: [
+      { name: "Alb", skuSuffix: "ALB" },
+      { name: "Bej", skuSuffix: "BEJ" },
+      { name: "Crem", skuSuffix: "CREM" },
+      { name: "Galben", skuSuffix: "GALBEN" },
+      { name: "Portocaliu", skuSuffix: "PORTOCALIU" },
+      { name: "Roșu", skuSuffix: "ROSU" },
+      { name: "Albastru 502", skuSuffix: "ALBASTRU502" },
+      { name: "Albastru 529", skuSuffix: "ALBASTRU529" },
+      { name: "Verde 605", skuSuffix: "VERDE605" },
+      { name: "Verde 636", skuSuffix: "VERDE636" },
+      { name: "Gri 703", skuSuffix: "GRI703" },
+      { name: "Maro", skuSuffix: "MARO" },
+      { name: "Gri 807", skuSuffix: "GRI807" },
+      { name: "Argintiu", skuSuffix: "ARGINTIU" },
+      { name: "Negru", skuSuffix: "NEGRU" },
+      { name: "Antracit", skuSuffix: "ANTRACIT" },
+      { name: "Vișiniu", skuSuffix: "VISINIU" },
+      { name: "Verde militar", skuSuffix: "VERDEMILITAR" },
     ],
     images: [
       "/products/prelate-pvc-catalog/01.jpg",
@@ -62,6 +90,15 @@ export const prelatePvcCatalog: Product[] = [
     hasCart: true,
     variants: [
       { thickness: "900 g/mp", width: "3 m", length: "la metru", price: 97.57 },
+    ],
+    colors: [
+      { name: "Alb", skuSuffix: "ALB" },
+      { name: "Galben", skuSuffix: "GALBEN" },
+      { name: "Roșu", skuSuffix: "ROSU" },
+      { name: "Albastru", skuSuffix: "ALBASTRU" },
+      { name: "Verde", skuSuffix: "VERDE" },
+      { name: "Argintiu", skuSuffix: "ARGINTIU" },
+      { name: "Negru", skuSuffix: "NEGRU" },
     ],
     images: [
       "/products/prelate-pvc-catalog/03.jpg",
@@ -156,10 +193,15 @@ export const prelatePvcCatalog: Product[] = [
     thicknesses: ["HDPE"],
     widths: ["2 m"],
     lengths: ["100 m"],
-    sku: undefined,
+    sku: "PVCHDPE",
     weight: undefined,
     hasCart: true,
     variants: [{ thickness: "HDPE", width: "2 m", length: "100 m", price: 2262.7 }],
+    colors: [
+      { name: "Alb", skuSuffix: "ALB" },
+      { name: "Albastru", skuSuffix: "ALBASTRU" },
+      { name: "Verde", skuSuffix: "VERDE" },
+    ],
     images: [
       "/products/prelate-pvc-catalog/13.jpg",
       "/products/prelate-pvc-catalog/14.jpg",
@@ -191,6 +233,12 @@ export const prelatePvcCatalog: Product[] = [
     weight: undefined,
     hasCart: true,
     variants: [{ thickness: "550 g/mp", width: "3 m", length: "50 m", price: 2296.25 }],
+    colors: [
+      { name: "Alb", skuSuffix: "ALB" },
+      { name: "Albastru", skuSuffix: "ALBASTRU" },
+      { name: "Verde", skuSuffix: "VERDE" },
+      { name: "Gri", skuSuffix: "GRI" },
+    ],
     images: [
       "/products/prelate-pvc-catalog/16.jpg",
       "/products/prelate-pvc-catalog/17.jpg",

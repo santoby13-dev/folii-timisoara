@@ -59,6 +59,8 @@ export default async function ProductPage({
                 productName={product.name}
                 variants={product.variants}
                 unitLabel={product.unitLabel}
+                sku={product.sku}
+                colors={product.colors}
               />
             </div>
           ) : (
@@ -71,9 +73,10 @@ export default async function ProductPage({
             </p>
           )}
 
-          {(product.sku || product.weight) && (
+          {((product.sku && !(product.colors && product.colors.length > 1)) ||
+            product.weight) && (
             <dl className="mt-6 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-black/10 pt-6 text-sm dark:border-white/10">
-              {product.sku && (
+              {product.sku && !(product.colors && product.colors.length > 1) && (
                 <>
                   <dt className="text-zinc-500 dark:text-zinc-400">Cod produs</dt>
                   <dd className="font-medium">{product.sku}</dd>

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import { useCart, formatPrice } from "@/lib/cart";
 import type { FolieVariant } from "@/lib/folie-variants";
+import type { ProductColor } from "@/lib/products";
 
 type Props = {
   productSlug: string;
@@ -11,6 +12,8 @@ type Props = {
   productName: string;
   variants: FolieVariant[];
   unitLabel?: string;
+  sku?: string;
+  colors?: ProductColor[];
 };
 
 function LayersIcon() {
@@ -117,6 +120,23 @@ function OptionChips({
   );
 }
 
+function ColorIcon() {
+  return (
+    <svg
+      className="h-5 w-5 shrink-0 text-zinc-400"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="12" r="9" />
+      <circle cx="12" cy="12" r="3" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
 function cheapestVariant(variants: FolieVariant[]) {
   return variants.reduce((min, v) => (v.price < min.price ? v : min), variants[0]);
 }
@@ -127,6 +147,8 @@ export default function AddToCart({
   productName,
   variants,
   unitLabel = "rolă",
+  sku,
+  colors,
 }: Props) {
   const { addItem } = useCart();
   const defaultVariant = useMemo(() => cheapestVariant(variants), [variants]);
@@ -137,6 +159,17 @@ export default function AddToCart({
   const [length, setLength] = useState<string | null>(defaultVariant.length);
   const [quantity, setQuantityState] = useState(1);
   const [added, setAdded] = useState(false);
+  const [colorName, setColorName] = useState<string | null>(
+    colors && colors.length > 0 ? colors[0].name : null
+  );
+
+  const selectedColor = useMemo(
+    () => colors?.find((c) => c.name === colorName) ?? null,
+    [colors, colorName]
+  );
+  const resolvedSku = sku
+    ? sku + (colors && colors.length > 1 ? (selectedColor?.skuSuffix ?? "") : "")
+    : undefined;
 
   const allThicknesses = useMemo(
     () => [...new Set(variants.map((v) => v.thickness))],
@@ -219,6 +252,7 @@ export default function AddToCart({
       unitPrice: selectedVariant.price,
       quantity,
       unitLabel,
+      sku: resolvedSku,
     });
     setAdded(true);
   }
@@ -240,6 +274,28 @@ export default function AddToCart({
       ) : (
         <p className="text-lg text-zinc-500 dark:text-zinc-400">
           Selectează grosimea, lățimea și lungimea pentru a vedea prețul.
+        </p>
+      )}
+
+      {colors && colors.length > 1 && (
+        <div className="mt-6">
+          <OptionChips
+            label="Culoare"
+            icon={<ColorIcon />}
+            options={colors.map((c) => c.name)}
+            selected={colorName}
+            onSelect={setColorName}
+            disabledOptions={new Set()}
+          />
+        </div>
+      )}
+
+      {resolvedSku && colors && colors.length > 1 && (
+        <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
+          Cod produs:{" "}
+          <span className="font-medium text-zinc-700 dark:text-zinc-300">
+            {resolvedSku}
+          </span>
         </p>
       )}
 

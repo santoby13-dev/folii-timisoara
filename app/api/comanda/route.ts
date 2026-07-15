@@ -8,6 +8,7 @@ type OrderItem = {
   length: string;
   unitPrice: number;
   quantity: number;
+  sku?: string;
 };
 
 type OrderPayload = {
@@ -46,7 +47,9 @@ function isValidPayload(body: unknown): body is OrderPayload {
         Number.isFinite((i as OrderItem).unitPrice) &&
         typeof (i as OrderItem).quantity === "number" &&
         (i as OrderItem).quantity >= 1 &&
-        (i as OrderItem).quantity <= 999
+        (i as OrderItem).quantity <= 999 &&
+        ((i as OrderItem).sku === undefined ||
+          typeof (i as OrderItem).sku === "string")
     ) &&
     typeof b.totalPrice === "number" &&
     Number.isFinite(b.totalPrice)
@@ -77,7 +80,7 @@ export async function POST(request: Request) {
   const itemsSummary = order.items
     .map(
       (i) =>
-        `${i.quantity} x ${i.name} (${i.thickness} / ${i.width} / ${i.length}) @ ${i.unitPrice.toFixed(2)} RON`
+        `${i.quantity} x ${i.name} (${i.thickness} / ${i.width} / ${i.length})${i.sku ? ` [${i.sku}]` : ""} @ ${i.unitPrice.toFixed(2)} RON`
     )
     .join("\n");
 

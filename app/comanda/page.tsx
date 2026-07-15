@@ -30,6 +30,7 @@ export default function CheckoutPage() {
         length: i.length,
         unitPrice: i.unitPrice,
         quantity: i.quantity,
+        sku: i.sku,
       })),
       totalPrice,
     };
@@ -196,7 +197,8 @@ export default function CheckoutPage() {
                   {item.quantity} × {item.thickness}
                 </span>
                 <span className="block text-zinc-500 dark:text-zinc-400">
-                  {item.width} × {item.length} —{" "}
+                  {item.width} × {item.length}
+                  {item.sku && <> · Cod {item.sku}</>} —{" "}
                   {formatPrice(item.unitPrice * item.quantity)}
                 </span>
               </li>
