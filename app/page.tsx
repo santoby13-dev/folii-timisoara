@@ -1,6 +1,60 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
 import { categories } from "@/lib/products";
+import HeroCarousel from "@/components/HeroCarousel";
+
+const heroImages = [
+  "/products/cristal-flex-catalog/87.jpg",
+  "/products/cristal-flex-catalog/88.jpg",
+];
+
+const trustPoints = [
+  {
+    title: "Livrare rapidă",
+    subtitle: "Livrare începând cu aceeași zi",
+    href: null,
+    icon: (
+      <>
+        <path d="M14 17V6a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v11h2" />
+        <path d="M14 17h-4" />
+        <path d="M14 8h4.3a1 1 0 0 1 .8.4l2.7 3.4a1 1 0 0 1 .2.6V17h-2" />
+        <circle cx="7.5" cy="17.5" r="1.8" />
+        <circle cx="17.5" cy="17.5" r="1.8" />
+      </>
+    ),
+  },
+  {
+    title: "Retur produse",
+    subtitle: "Drept de retur 14 zile",
+    href: null,
+    icon: (
+      <>
+        <path d="M3 12a9 9 0 1 0 2.8-6.5" />
+        <path d="M3 4v5h5" />
+      </>
+    ),
+  },
+  {
+    title: "Plată la ramburs",
+    subtitle: "Plată cash sau POS la livrare",
+    href: null,
+    icon: (
+      <>
+        <rect x="2" y="6" width="20" height="13" rx="2" />
+        <path d="M2 10h20" />
+        <path d="M6 15h4" />
+      </>
+    ),
+  },
+  {
+    title: "Suport telefonic",
+    subtitle: siteConfig.phone,
+    href: siteConfig.phoneHref,
+    icon: (
+      <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
+    ),
+  },
+];
 
 const advantages = [
   {
@@ -20,22 +74,70 @@ const advantages = [
 export default function Home() {
   return (
     <div className="flex flex-col">
-      <section className="border-b border-black/10 bg-gradient-to-b from-blue-50 to-white px-6 py-24 dark:border-white/10 dark:from-zinc-950 dark:to-black">
-        <div className="mx-auto flex max-w-6xl flex-col items-start gap-6">
-          <h1 className="max-w-2xl text-4xl font-bold tracking-tight sm:text-5xl">
-            Închidere terase cu folie PVC transparentă
+      <section className="relative overflow-hidden border-b border-black/10 px-6 py-24 sm:py-32 dark:border-white/10">
+        <HeroCarousel images={heroImages} />
+        <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-6">
+          <h1 className="max-w-2xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
+            Soluții complete în folii și prelate PVC
           </h1>
-          <p className="max-w-xl text-lg text-zinc-600 dark:text-zinc-400">
-            Bucură-te de terasă indiferent de anotimp. Oferim folie PVC de
-            calitate, confecții metalice și montaj profesional, la prețuri
-            avantajoase în {siteConfig.city}.
+          <p className="max-w-xl text-lg text-zinc-200">
+            Oferim soluții complete pentru înfolierea foișoarelor exterioare,
+            pentru acoperirea remorcilor cu prelată și multe altele — materiale
+            de calitate, la prețuri avantajoase în {siteConfig.city}.
           </p>
-          <a
-            href={siteConfig.phoneHref}
+          <Link
+            href="/produse"
             className="rounded-full bg-blue-600 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-700"
           >
-            Sună acum: {siteConfig.phone}
-          </a>
+            Explorează catalogul
+          </Link>
+        </div>
+      </section>
+
+      <section className="border-b border-black/10 px-6 py-8 dark:border-white/10">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {trustPoints.map((point) => {
+            const content = (
+              <>
+                <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-600 dark:bg-blue-950 dark:text-blue-400">
+                  <svg
+                    className="h-6 w-6"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
+                    {point.icon}
+                  </svg>
+                </span>
+                <span>
+                  <span className="block text-sm font-semibold">
+                    {point.title}
+                  </span>
+                  <span className="block text-xs text-zinc-500 dark:text-zinc-400">
+                    {point.subtitle}
+                  </span>
+                </span>
+              </>
+            );
+            const boxClasses =
+              "flex items-center gap-3 rounded-2xl border border-black/10 p-4 dark:border-white/10";
+            return point.href ? (
+              <a
+                key={point.title}
+                href={point.href}
+                className={`${boxClasses} transition-colors hover:border-blue-600 dark:hover:border-blue-500`}
+              >
+                {content}
+              </a>
+            ) : (
+              <div key={point.title} className={boxClasses}>
+                {content}
+              </div>
+            );
+          })}
         </div>
       </section>
 
