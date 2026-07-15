@@ -12,7 +12,7 @@ export const categories: Category[] = [
 ];
 
 import type { FolieVariant } from "./folie-variants";
-import { folieVariants } from "./folie-variants";
+import { folieVariants, cheapestFolieVariant } from "./folie-variants";
 import { cristalFlexCatalog } from "./catalog-cristal-flex";
 
 export type Product = {
@@ -37,14 +37,19 @@ export type Product = {
   weight?: string;
 };
 
+// Derived from the variant with the lowest price, so the "de la ... RON"
+// figure shown on the category grid can never drift from the real prices
+// in folieVariants when they're updated.
+const cheapestVariant = cheapestFolieVariant();
+
 const folieConfigurabila: Product = {
   slug: "folie-transparenta-cristal-flex",
   categorySlug: "folii-transparente-terase",
   name: "Folie transparentă pentru închidere terasă, foișoare Cristal Flex®",
   shortDescription:
     "Folie PVC transparentă de claritate premium, pentru închiderea teraselor, foișoarelor și pergolelor, disponibilă în mai multe grosimi și lățimi până la 2.60 m.",
-  price: 309.83,
-  priceBeforeDiscount: 317.63,
+  price: cheapestVariant.price,
+  priceBeforeDiscount: cheapestVariant.oldPrice ?? cheapestVariant.price,
   priceUnit: "RON / rolă (TVA inclus)",
   thicknesses: ["0.4 mm", "0.5 mm", "0.8 mm", "1.0 mm"],
   widths: ["1.37 m", "1.50 m", "1.80 m", "2.00 m", "2.20 m", "2.40 m", "2.60 m"],
