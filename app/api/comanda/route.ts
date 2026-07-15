@@ -39,11 +39,17 @@ function isValidPayload(body: unknown): body is OrderPayload {
         typeof i === "object" &&
         i !== null &&
         typeof (i as OrderItem).name === "string" &&
+        typeof (i as OrderItem).thickness === "string" &&
+        typeof (i as OrderItem).width === "string" &&
+        typeof (i as OrderItem).length === "string" &&
+        typeof (i as OrderItem).unitPrice === "number" &&
+        Number.isFinite((i as OrderItem).unitPrice) &&
         typeof (i as OrderItem).quantity === "number" &&
         (i as OrderItem).quantity >= 1 &&
         (i as OrderItem).quantity <= 999
     ) &&
-    typeof b.totalPrice === "number"
+    typeof b.totalPrice === "number" &&
+    Number.isFinite(b.totalPrice)
   );
 }
 
