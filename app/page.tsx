@@ -183,12 +183,12 @@ export default function Home() {
 
       <section id="contact" className="px-6 py-20">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-            Contactează-ne
-          </h2>
-          <div className="mt-10 grid gap-10 sm:grid-cols-2">
+          <div className="grid gap-10 sm:grid-cols-2">
             <div>
-              <p className="max-w-xl text-zinc-600 dark:text-zinc-400">
+              <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+                Contactează-ne
+              </h2>
+              <p className="mt-4 max-w-xl text-zinc-600 dark:text-zinc-400">
                 Trimite-ne un mesaj sau sună-ne direct pentru o ofertă
                 personalizată.
               </p>
