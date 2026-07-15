@@ -75,12 +75,12 @@ export default function Header() {
                 ))}
               </div>
             </div>
-            <a href="/#despre" className="hover:text-blue-600">
+            <Link href="/#despre" className="hover:text-blue-600">
               Despre noi
-            </a>
-            <a href="/#contact" className="hover:text-blue-600">
+            </Link>
+            <Link href="/#contact" className="hover:text-blue-600">
               Contact
-            </a>
+            </Link>
           </nav>
         </div>
 
@@ -109,20 +109,20 @@ export default function Header() {
           >
             Produse
           </Link>
-          <a
+          <Link
             href="/#despre"
             onClick={closeMenu}
             className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
           >
             Despre noi
-          </a>
-          <a
+          </Link>
+          <Link
             href="/#contact"
             onClick={closeMenu}
             className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
           >
             Contact
-          </a>
+          </Link>
           <div className="mt-2 border-t border-black/10 pt-2 dark:border-white/10">
             <a
               href={siteConfig.phoneHref}
