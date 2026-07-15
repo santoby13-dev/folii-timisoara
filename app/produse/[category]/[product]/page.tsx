@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { siteConfig } from "@/lib/site-config";
 import { getCategory, getProduct, products } from "@/lib/products";
-import { folieVariants, folieMinPrice } from "@/lib/folie-variants";
 import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
 
@@ -52,23 +51,40 @@ export default async function ProductPage({
             {product.name}
           </h1>
 
-          {product.hasCart ? (
+          {product.hasCart && product.variants ? (
             <div className="mt-6">
               <AddToCart
                 productSlug={product.slug}
                 categorySlug={category.slug}
                 productName={product.name}
-                variants={folieVariants}
+                variants={product.variants}
               />
             </div>
           ) : (
             <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
               de la{" "}
               <span className="font-bold text-blue-600">
-                {folieMinPrice.toFixed(2).replace(".", ",")} RON / rolă
+                {product.price.toFixed(2).replace(".", ",")} RON / rolă
               </span>{" "}
               (TVA inclus)
             </p>
+          )}
+
+          {(product.sku || product.weight) && (
+            <dl className="mt-6 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-black/10 pt-6 text-sm dark:border-white/10">
+              {product.sku && (
+                <>
+                  <dt className="text-zinc-500 dark:text-zinc-400">Cod produs</dt>
+                  <dd className="font-medium">{product.sku}</dd>
+                </>
+              )}
+              {product.weight && (
+                <>
+                  <dt className="text-zinc-500 dark:text-zinc-400">Greutate rolă</dt>
+                  <dd className="font-medium">{product.weight}</dd>
+                </>
+              )}
+            </dl>
           )}
         </div>
       </div>

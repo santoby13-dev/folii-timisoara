@@ -240,36 +240,46 @@ export default function AddToCart({
         </p>
       )}
 
-      <div className="mt-6 grid gap-5">
-        <OptionChips
-          label="Grosime folie"
-          icon={<LayersIcon />}
-          options={allThicknesses}
-          selected={thickness}
-          onSelect={selectThickness}
-          disabledOptions={new Set()}
-        />
-        <OptionChips
-          label="Lățime folie"
-          icon={<WidthIcon />}
-          options={allWidths}
-          selected={width}
-          onSelect={selectWidth}
-          disabledOptions={
-            new Set(allWidths.filter((w) => !validWidths.has(w)))
-          }
-        />
-        <OptionChips
-          label="Lungime rolă"
-          icon={<RulerIcon />}
-          options={allLengths}
-          selected={length}
-          onSelect={selectLength}
-          disabledOptions={
-            new Set(allLengths.filter((l) => !validLengths.has(l)))
-          }
-        />
-      </div>
+      {(allThicknesses.length > 1 ||
+        allWidths.length > 1 ||
+        allLengths.length > 1) && (
+        <div className="mt-6 grid gap-5">
+          {allThicknesses.length > 1 && (
+            <OptionChips
+              label="Grosime folie"
+              icon={<LayersIcon />}
+              options={allThicknesses}
+              selected={thickness}
+              onSelect={selectThickness}
+              disabledOptions={new Set()}
+            />
+          )}
+          {allWidths.length > 1 && (
+            <OptionChips
+              label="Lățime folie"
+              icon={<WidthIcon />}
+              options={allWidths}
+              selected={width}
+              onSelect={selectWidth}
+              disabledOptions={
+                new Set(allWidths.filter((w) => !validWidths.has(w)))
+              }
+            />
+          )}
+          {allLengths.length > 1 && (
+            <OptionChips
+              label="Lungime rolă"
+              icon={<RulerIcon />}
+              options={allLengths}
+              selected={length}
+              onSelect={selectLength}
+              disabledOptions={
+                new Set(allLengths.filter((l) => !validLengths.has(l)))
+              }
+            />
+          )}
+        </div>
+      )}
 
       <div className="mt-6 flex flex-wrap items-center gap-4 border-t border-black/10 pt-6 dark:border-white/10">
         <div className="flex items-center rounded-full border border-black/10 dark:border-white/10">
