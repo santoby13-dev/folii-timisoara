@@ -8,6 +8,7 @@ import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
 import ProductTrustBadges from "@/components/ProductTrustBadges";
 import ProductSpecs from "@/components/ProductSpecs";
+import SizeCalculator from "@/components/SizeCalculator";
 import TrackViewItem from "@/components/TrackViewItem";
 
 export function generateStaticParams() {
@@ -136,6 +137,18 @@ export default async function ProductPage({
           <ProductSpecs product={product} />
         </div>
       </div>
+
+      {product.hasCart &&
+        product.variants &&
+        product.variants.length > 1 && (
+          <SizeCalculator
+            productSlug={product.slug}
+            categorySlug={category.slug}
+            productName={product.name}
+            variants={product.variants}
+            unitLabel={product.unitLabel}
+          />
+        )}
 
       <div className="mt-16">
         <h2 className="text-xl font-semibold">Descriere</h2>
