@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { appendOrderRow } from "@/lib/google-sheets";
+import { paymentMethodLabel, type PaymentMethodId } from "@/lib/shipping";
 
 type OrderItem = {
   name: string;
@@ -15,23 +16,51 @@ type OrderPayload = {
   name: string;
   phone: string;
   email: string;
-  address: string;
+  street: string;
+  city: string;
+  county: string;
+  postalCode: string;
+  notes: string;
+  payment: PaymentMethodId;
+  companyName: string;
+  companyCui: string;
   items: OrderItem[];
   totalPrice: number;
 };
 
+const PAYMENT_IDS: PaymentMethodId[] = ["cash", "pos", "factura"];
+
 function isValidPayload(body: unknown): body is OrderPayload {
   if (typeof body !== "object" || body === null) return false;
   const b = body as Record<string, unknown>;
+  const paymentOk =
+    typeof b.payment === "string" &&
+    PAYMENT_IDS.includes(b.payment as PaymentMethodId);
+  const companyOk =
+    b.payment !== "factura" ||
+    (typeof b.companyName === "string" &&
+      b.companyName.trim().length >= 3 &&
+      typeof b.companyCui === "string" &&
+      /^(RO)?\d{2,10}$/i.test(b.companyCui.replace(/\s/g, "")));
   return (
     typeof b.name === "string" &&
     b.name.trim().length >= 3 &&
     typeof b.phone === "string" &&
-    /^[0-9+ ]{10,15}$/.test(b.phone.trim()) &&
+    /^(\+40|0040|0)[237]\d{8}$/.test(b.phone.replace(/[\s.-]/g, "")) &&
     typeof b.email === "string" &&
     /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(b.email.trim()) &&
-    typeof b.address === "string" &&
-    b.address.trim().length >= 10 &&
+    typeof b.street === "string" &&
+    b.street.trim().length >= 5 &&
+    typeof b.city === "string" &&
+    b.city.trim().length >= 2 &&
+    typeof b.county === "string" &&
+    b.county.trim().length >= 3 &&
+    typeof b.postalCode === "string" &&
+    /^\d{6}$/.test(b.postalCode.trim()) &&
+    (b.notes === undefined ||
+      (typeof b.notes === "string" && b.notes.length <= 500)) &&
+    paymentOk &&
+    companyOk &&
     Array.isArray(b.items) &&
     b.items.length > 0 &&
     b.items.length <= 50 &&
@@ -77,11 +106,18 @@ export async function POST(request: Request) {
     timeZone: "Europe/Bucharest",
   });
 
+  const address = `${order.street.trim()}, ${order.city.trim()}, jud. ${order.county.trim()}, ${order.postalCode.trim()}`;
+
   // Identified by SKU + quantity alone, for quick stock picking — falls back
   // to the product name only in the unlikely case a SKU is missing.
   const itemsSummary = order.items
     .map((i) => `${i.quantity} x ${i.sku || i.name}`)
     .join("\n");
+
+  const company =
+    order.payment === "factura"
+      ? `${order.companyName.trim()} (${order.companyCui.trim()})`
+      : "";
 
   try {
     await appendOrderRow([
@@ -90,10 +126,13 @@ export async function POST(request: Request) {
       order.name.trim(),
       order.phone.trim(),
       order.email.trim(),
-      order.address.trim(),
+      address,
       itemsSummary,
       order.totalPrice.toFixed(2),
       "Noua",
+      paymentMethodLabel(order.payment),
+      company,
+      (order.notes ?? "").trim(),
     ]);
   } catch (err) {
     console.error("Order submission failed:", err);

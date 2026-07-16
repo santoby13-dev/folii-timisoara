@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart, formatPrice } from "@/lib/cart";
 import { getProduct } from "@/lib/products";
+import { shippingZones } from "@/lib/shipping";
 
 export default function CartDrawer() {
   const { items, totalPrice, drawerOpen, closeDrawer } = useCart();
@@ -81,8 +82,13 @@ export default function CartDrawer() {
 
         <div className="border-t border-black/10 px-5 py-5 dark:border-white/10">
           <p className="flex justify-between text-base font-bold">
-            <span>Total</span>
+            <span>Subtotal</span>
             <span className="text-blue-600">{formatPrice(totalPrice)}</span>
+          </p>
+          <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+            + transport de la {shippingZones[0].priceFrom} RON (expres
+            Timișoara) sau de la {shippingZones[1].priceFrom} RON (restul
+            țării)
           </p>
           <div className="mt-4 flex flex-col gap-2">
             <Link
