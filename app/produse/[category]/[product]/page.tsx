@@ -6,6 +6,7 @@ import { siteConfig } from "@/lib/site-config";
 import { getCategory, getProduct, getProductsByCategory, products } from "@/lib/products";
 import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
+import ProductTrustBadges from "@/components/ProductTrustBadges";
 
 export function generateStaticParams() {
   return products.map((product) => ({
@@ -122,14 +123,7 @@ export default async function ProductPage({
             </p>
           )}
 
-          <p className="mt-4 flex items-center gap-1.5 text-sm font-medium text-green-700 dark:text-green-400">
-            <span className="inline-block h-2 w-2 rounded-full bg-green-600 dark:bg-green-400" />
-            Disponibil în stoc
-          </p>
-          <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-            Transportul se calculează după greutate și adresă, la finalizarea
-            comenzii.
-          </p>
+          <ProductTrustBadges />
 
           {((product.sku && !(product.colors && product.colors.length > 1)) ||
             product.weight) && (
