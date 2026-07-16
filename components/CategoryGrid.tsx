@@ -18,7 +18,11 @@ export type CategoryGridProduct = {
   image: string | undefined;
   variants: CategoryGridVariant[];
   hasVariants: boolean;
+  /** Preț pe m² al celei mai ieftine variante, pentru comparație rapidă. */
+  pricePerSqm?: number;
 };
+
+type SortOrder = "recommended" | "price-asc" | "price-desc";
 
 type Props = {
   categorySlug: string;
@@ -31,12 +35,14 @@ function sortNumeric(values: string[]) {
 
 function FilterGroup({
   label,
+  hint,
   options,
   selected,
   onSelect,
   disabledOptions,
 }: {
   label: string;
+  hint?: string;
   options: string[];
   selected: string | null;
   onSelect: (value: string | null) => void;
@@ -46,6 +52,11 @@ function FilterGroup({
   return (
     <div>
       <p className="text-sm font-semibold">{label}</p>
+      {hint && (
+        <p className="mt-0.5 text-xs text-zinc-500 dark:text-zinc-400">
+          {hint}
+        </p>
+      )}
       <div className="mt-2 flex flex-wrap gap-2">
         {options.map((option) => {
           const isSelected = option === selected;
@@ -77,6 +88,7 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
   const [thickness, setThickness] = useState<string | null>(null);
   const [width, setWidth] = useState<string | null>(null);
   const [length, setLength] = useState<string | null>(null);
+  const [sort, setSort] = useState<SortOrder>("recommended");
 
   // Every real, purchasable combination across all products in the category —
   // the same source of truth used by the product-page variant selector.
@@ -135,7 +147,7 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
   }
 
   const filtered = useMemo(() => {
-    return products.filter((p) =>
+    const matching = products.filter((p) =>
       p.variants.some(
         (v) =>
           (!thickness || v.thickness === thickness) &&
@@ -143,7 +155,14 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
           (!length || v.length === length)
       )
     );
-  }, [products, thickness, width, length]);
+    if (sort === "price-asc") {
+      return [...matching].sort((a, b) => a.price - b.price);
+    }
+    if (sort === "price-desc") {
+      return [...matching].sort((a, b) => b.price - a.price);
+    }
+    return matching;
+  }, [products, thickness, width, length, sort]);
 
   const hasActiveFilters = thickness || width || length;
 
@@ -169,6 +188,7 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
         <div className="mt-4 grid gap-5 sm:grid-cols-3">
           <FilterGroup
             label="Grosime"
+            hint="0.4–0.5 mm: uz sezonier, flexibilă · 0.8–1.0 mm: uz permanent, rigidă"
             options={allThicknesses}
             selected={thickness}
             onSelect={selectThickness}
@@ -176,6 +196,7 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
           />
           <FilterGroup
             label="Lățime"
+            hint="Alege o lățime cel puțin egală cu înălțimea închiderii"
             options={allWidths}
             selected={width}
             onSelect={selectWidth}
@@ -183,6 +204,7 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
           />
           <FilterGroup
             label="Lungime"
+            hint="Câți metri de material sunt pe rolă"
             options={allLengths}
             selected={length}
             onSelect={setLength}
@@ -191,12 +213,31 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
         </div>
       </div>
 
+      <div className="mt-6 flex items-center justify-between gap-4">
+        <p className="text-sm text-zinc-500 dark:text-zinc-400">
+          {filtered.length}{" "}
+          {filtered.length === 1 ? "produs" : "produse"}
+        </p>
+        <label className="flex items-center gap-2 text-sm">
+          <span className="text-zinc-500 dark:text-zinc-400">Sortează:</span>
+          <select
+            value={sort}
+            onChange={(e) => setSort(e.target.value as SortOrder)}
+            className="rounded-lg border border-black/10 bg-white px-3 py-1.5 outline-none focus:border-blue-600 dark:border-white/10 dark:bg-zinc-950"
+          >
+            <option value="recommended">Recomandate</option>
+            <option value="price-asc">Preț crescător</option>
+            <option value="price-desc">Preț descrescător</option>
+          </select>
+        </label>
+      </div>
+
       {filtered.length === 0 ? (
         <p className="mt-10 text-zinc-600 dark:text-zinc-400">
           Niciun produs nu corespunde filtrelor selectate.
         </p>
       ) : (
-        <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((product) => (
             <Link
               key={product.slug}
@@ -228,6 +269,16 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
               <h2 className="mt-4 text-sm font-medium text-zinc-900 dark:text-zinc-100">
                 {product.name}
               </h2>
+              {product.pricePerSqm !== undefined && (
+                <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
+                  ≈{" "}
+                  {product.pricePerSqm.toLocaleString("ro-RO", {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2,
+                  })}{" "}
+                  RON/m²
+                </p>
+              )}
               <div className="group relative mt-2 h-7 overflow-hidden">
                 <p className="absolute inset-0 flex items-center gap-2 text-lg font-semibold text-blue-600 transition-transform duration-200 group-hover:-translate-y-full">
                   de la {product.price.toFixed(2).replace(".", ",")} RON

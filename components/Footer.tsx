@@ -19,12 +19,21 @@ export default function Footer() {
             {siteConfig.name}
           </p>
           <p className="mt-2 max-w-xs text-zinc-600 dark:text-zinc-400">
-            Folii și prelate PVC pentru terase, foișoare și remorci, la
-            prețuri avantajoase în {siteConfig.city}.
+            Folii PVC transparente și prelate PVC pentru terase, foișoare și
+            remorci. Livrare expres în aceeași zi în {siteConfig.city} și
+            localitățile limitrofe, livrare prin curier în toată țara.
           </p>
           <div className="mt-4 flex flex-col gap-1 text-zinc-600 dark:text-zinc-400">
             <a href={siteConfig.phoneHref} className="hover:text-blue-600">
               {siteConfig.phone}
+            </a>
+            <a
+              href={siteConfig.whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-blue-600"
+            >
+              WhatsApp
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
@@ -33,6 +42,10 @@ export default function Footer() {
               {siteConfig.email}
             </a>
           </div>
+          <p className="mt-4 max-w-xs text-xs text-zinc-500 dark:text-zinc-400">
+            Plata la livrare: numerar sau card (POS) · factură pentru firme.
+            Nicio plată online pe site.
+          </p>
         </div>
 
         <div>

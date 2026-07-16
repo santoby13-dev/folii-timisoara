@@ -11,7 +11,6 @@ import {
   getShippingZone,
   shippingNote,
   paymentMethods,
-  paymentMethodLabel,
   type PaymentMethodId,
 } from "@/lib/shipping";
 import CheckoutSteps from "@/components/CheckoutSteps";

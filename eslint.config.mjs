@@ -12,6 +12,8 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Unelte locale Claude Code — nu sunt cod de site.
+    ".claude/**",
   ]),
 ]);
 

@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { categories, getCategory, getProductsByCategory } from "@/lib/products";
+import {
+  categories,
+  cheapestPricePerSqm,
+  getCategory,
+  getProductsByCategory,
+} from "@/lib/products";
 import CategoryGrid from "@/components/CategoryGrid";
+import { siteConfig } from "@/lib/site-config";
 
 export function generateStaticParams() {
   return categories.map((category) => ({ category: category.slug }));
@@ -32,8 +38,33 @@ export default async function CategoryPage({
 
   const categoryProducts = getProductsByCategory(categorySlug);
 
+  const breadcrumbJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Produse",
+        item: `${siteConfig.url}/produse`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: category.name,
+        item: `${siteConfig.url}/produse/${category.slug}`,
+      },
+    ],
+  };
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c"),
+        }}
+      />
       <nav className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
         <Link href="/produse" className="hover:text-blue-600">
           Produse
@@ -78,6 +109,7 @@ export default async function CategoryPage({
                 product.thicknesses.length > 1 ||
                 product.widths.length > 1 ||
                 product.lengths.length > 1,
+              pricePerSqm: cheapestPricePerSqm(product),
             }))}
           />
         </div>

@@ -133,3 +133,26 @@ export function getProduct(categorySlug: string, productSlug: string) {
     (p) => p.categorySlug === categorySlug && p.slug === productSlug
   );
 }
+
+/**
+ * Prețul pe m² al celei mai ieftine variante reale — clientul de folie
+ * compară pe m², nu doar pe preț total. Returnează undefined când
+ * dimensiunile nu permit un calcul corect (ex. lățimi în cm nestandard).
+ */
+export function cheapestPricePerSqm(product: Product): number | undefined {
+  const variants = product.variants;
+  if (!variants || variants.length === 0) return undefined;
+  const cheapest = variants.reduce(
+    (min, v) => (v.price < min.price ? v : min),
+    variants[0]
+  );
+  let width = parseFloat(cheapest.width.replace(",", "."));
+  if (/cm/.test(cheapest.width)) width /= 100;
+  // Produsele vândute la metru liniar au prețul deja per 1 m lungime.
+  const length = /la metru/.test(cheapest.length)
+    ? 1
+    : parseFloat(cheapest.length.replace(",", "."));
+  if (!Number.isFinite(width) || !Number.isFinite(length)) return undefined;
+  if (width <= 0 || length <= 0) return undefined;
+  return cheapest.price / (width * length);
+}
