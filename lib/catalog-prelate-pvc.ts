@@ -71,6 +71,15 @@ export const prelatePvcCatalog: Product[] = [
       "Structuri industriale, hale, corturi și copertine pentru camioane sau remorci.",
       "Acoperiri pentru silozuri, utilaje, scene sau depozite în aer liber.",
     ],
+    specs: [
+      {
+        label: "Material",
+        value: "Țesătură poliester acoperită cu PVC pe ambele fețe",
+      },
+      { label: "Temperatură de utilizare", value: "-30°C … +70°C" },
+      { label: "Impermeabilitate", value: "100%" },
+      { label: "Protecție UV", value: "Da, lac acrilic bilateral" },
+    ],
   },
   {
     slug: "prelata-pvc-900gr-3m",
@@ -119,6 +128,15 @@ export const prelatePvcCatalog: Product[] = [
       "Recomandată acolo unde greutatea mare a materialului contează pentru rezistență maximă la rupere și uzură — hale, structuri industriale, acoperiri permanente.",
       "Prelate pentru camioane, remorci sau echipamente expuse continuu la intemperii.",
     ],
+    specs: [
+      {
+        label: "Material",
+        value: "Țesătură poliester acoperită cu PVC pe ambele fețe",
+      },
+      { label: "Temperatură de utilizare", value: "-30°C … +70°C" },
+      { label: "Impermeabilitate", value: "100%" },
+      { label: "Protecție UV", value: "Da, pe ambele fețe" },
+    ],
   },
   {
     slug: "prelata-pvc-650gr-3-2m-alba",
@@ -149,6 +167,16 @@ export const prelatePvcCatalog: Product[] = [
       "Corturi, structuri temporare și copertine pe lățimi mari.",
       "Acoperiri pentru echipamente, depozite sau zone exterioare.",
     ],
+    specs: [
+      {
+        label: "Material",
+        value: "Țesătură poliester acoperită cu PVC pe ambele fețe",
+      },
+      { label: "Temperatură de utilizare", value: "-30°C … +70°C" },
+      { label: "Impermeabilitate", value: "100%" },
+      { label: "Protecție UV", value: "Da, lac acrilic bilateral" },
+      { label: "Culoare", value: "Alb (alte culori la cerere)" },
+    ],
   },
   {
     slug: "prelata-pvc-650gr-ignifugata-3x30m",
@@ -178,6 +206,20 @@ export const prelatePvcCatalog: Product[] = [
     useCases: [
       "Corturi, copertine și structuri temporare în spații unde e obligatoriu un material ignifugat.",
       "Acoperiri industriale de lungă durată, expuse la intemperii.",
+    ],
+    specs: [
+      {
+        label: "Material",
+        value: "Țesătură poliester acoperită cu PVC pe ambele fețe, ignifugată",
+      },
+      {
+        label: "Certificare ignifugă",
+        value: "B1/B2 (DIN 4102), B-s2,d0 (EN 13501-1)",
+      },
+      { label: "Temperatură de utilizare", value: "-30°C … +70°C" },
+      { label: "Impermeabilitate", value: "100%" },
+      { label: "Protecție UV", value: "Da, pe ambele fețe" },
+      { label: "Culoare", value: "Alb" },
     ],
   },
   {
@@ -215,6 +257,19 @@ export const prelatePvcCatalog: Product[] = [
     useCases: [
       "Acoperirea și protejarea materialelor, utilajelor sau recoltelor împotriva soarelui, prafului și intemperiilor.",
       "Corturi, huse pentru mobilier de grădină, pavilioane, solarii sau compartimentări temporare.",
+    ],
+    specs: [
+      {
+        label: "Material",
+        value: "Țesătură HDPE (polietilenă de înaltă densitate)",
+      },
+      { label: "Impermeabilitate", value: "100%" },
+      { label: "Protecție UV", value: "Da, pe ambele fețe" },
+      {
+        label: "Rezistență chimică",
+        value: "La ulei, pete și majoritatea substanțelor chimice",
+      },
+      { label: "Îmbinări", value: "Sudate termic, fără puncte de picurare" },
     ],
   },
   {
@@ -254,6 +309,15 @@ export const prelatePvcCatalog: Product[] = [
     useCases: [
       "Acoperiri de suprafață mare — hale, depozite, structuri temporare pe șantier.",
       "Prelate pentru camioane, remorci sau utilaje expuse continuu la intemperii.",
+    ],
+    specs: [
+      {
+        label: "Material",
+        value: "Țesătură poliester acoperită cu PVC pe ambele fețe",
+      },
+      { label: "Temperatură de utilizare", value: "-30°C … +70°C" },
+      { label: "Impermeabilitate", value: "100%" },
+      { label: "Protecție UV", value: "Da" },
     ],
   },
 ];

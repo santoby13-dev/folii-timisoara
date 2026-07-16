@@ -36,5 +36,12 @@ export const accesoriiCatalog: Product[] = [
       "Delimitare și protecție vizuală pentru garduri din plasă de sârmă, la case sau curți.",
       "Protecție împotriva vântului și reducere a zgomotului pentru spații exterioare.",
     ],
+    specs: [
+      { label: "Material", value: "PVC 550 g/m²" },
+      { label: "Temperatură de utilizare", value: "-30°C … +70°C" },
+      { label: "Impermeabilitate", value: "100%" },
+      { label: "Protecție UV", value: "Da" },
+      { label: "Culoare", value: "Gri" },
+    ],
   },
 ];

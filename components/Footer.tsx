@@ -3,6 +3,7 @@ import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
 
 const legalLinks = [
+  { href: "/intrebari-frecvente", label: "Întrebări frecvente" },
   { href: "/termeni-si-conditii", label: "Termeni și condiții" },
   { href: "/politica-de-retur", label: "Politica de retur" },
   { href: "/confidentialitate", label: "Confidențialitate (GDPR)" },

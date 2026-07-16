@@ -60,6 +60,11 @@ export type Product = {
   weight?: string;
   /** Real color options, same price regardless of color. Selecting one appends `skuSuffix` to `sku`. */
   colors?: ProductColor[];
+  /**
+   * Rânduri suplimentare pentru tabelul de specificații (material, temperatură
+   * de utilizare etc.) — doar valori susținute de descrierea produsului.
+   */
+  specs?: { label: string; value: string }[];
 };
 
 // Derived from the variant with the lowest price, so the "de la ... RON"
@@ -97,6 +102,14 @@ const folieConfigurabila: Product = {
     "0.4–0.5 mm — flexibilă și economică, ideală pentru pergole mici sau zone adăpostite, cu deschidere frecventă.",
     "0.8 mm — standardul cel mai folosit pentru terase, foișoare și restaurante; echilibru optim între flexibilitate și rigiditate.",
     "1.0 mm — rigiditate și rezistență maximă, recomandată pentru zone expuse la vânt puternic sau panouri fixe.",
+  ],
+  specs: [
+    { label: "Material", value: "PVC transparent, claritate ridicată" },
+    { label: "Protecție UV", value: "Da, tratată anti-UV" },
+    {
+      label: "Comportament la frig",
+      value: "Stabil la temperaturi scăzute",
+    },
   ],
 };
 

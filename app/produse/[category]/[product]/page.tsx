@@ -7,6 +7,7 @@ import { getCategory, getProduct, getProductsByCategory, products } from "@/lib/
 import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
 import ProductTrustBadges from "@/components/ProductTrustBadges";
+import ProductSpecs from "@/components/ProductSpecs";
 import TrackViewItem from "@/components/TrackViewItem";
 
 export function generateStaticParams() {
@@ -132,23 +133,7 @@ export default async function ProductPage({
 
           <ProductTrustBadges />
 
-          {((product.sku && !(product.colors && product.colors.length > 1)) ||
-            product.weight) && (
-            <dl className="mt-6 grid grid-cols-2 gap-x-4 gap-y-2 border-t border-black/10 pt-6 text-sm dark:border-white/10">
-              {product.sku && !(product.colors && product.colors.length > 1) && (
-                <>
-                  <dt className="text-zinc-500 dark:text-zinc-400">Cod produs</dt>
-                  <dd className="font-medium">{product.sku}</dd>
-                </>
-              )}
-              {product.weight && (
-                <>
-                  <dt className="text-zinc-500 dark:text-zinc-400">Greutate</dt>
-                  <dd className="font-medium">{product.weight}</dd>
-                </>
-              )}
-            </dl>
-          )}
+          <ProductSpecs product={product} />
         </div>
       </div>
 

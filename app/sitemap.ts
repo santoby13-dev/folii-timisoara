@@ -6,6 +6,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticRoutes = [
     "",
     "/produse",
+    "/intrebari-frecvente",
     "/termeni-si-conditii",
     "/politica-de-retur",
     "/confidentialitate",
