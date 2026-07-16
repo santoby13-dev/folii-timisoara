@@ -12,8 +12,8 @@ const heroImages = [
 
 const trustPoints = [
   {
-    title: "Livrare rapidă",
-    subtitle: "Livrare începând cu aceeași zi",
+    title: "Livrare expres",
+    subtitle: "În aceeași zi în Timișoara și limitrofe",
     href: null,
     icon: (
       <>
@@ -37,14 +37,24 @@ const trustPoints = [
     ),
   },
   {
-    title: "Plată la ramburs",
-    subtitle: "Plată cash sau POS la livrare",
+    title: "Plată la livrare",
+    subtitle: "Cash sau POS · factură pentru firme",
     href: null,
     icon: (
       <>
         <rect x="2" y="6" width="20" height="13" rx="2" />
         <path d="M2 10h20" />
         <path d="M6 15h4" />
+      </>
+    ),
+  },
+  {
+    title: "Montaj disponibil",
+    subtitle: "În Timișoara și localitățile limitrofe",
+    href: null,
+    icon: (
+      <>
+        <path d="M14.7 6.3a4.5 4.5 0 0 0-6.4 6.4l-5 5a1.5 1.5 0 0 0 2 2.2l5.2-4.8a4.5 4.5 0 0 0 6.4-6.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6z" />
       </>
     ),
   },
@@ -61,15 +71,40 @@ const trustPoints = [
 const advantages = [
   {
     title: "Prețuri avantajoase",
-    description: "Lucrăm direct cu producătorii, fără intermediari inutili.",
+    description:
+      "Lucrăm direct cu producătorii, fără intermediari — prețul afișat pe site este prețul final al produsului, cu TVA inclus.",
   },
   {
     title: "Consultanță gratuită",
-    description: "Te ajutăm să alegi soluția potrivită pentru spațiul tău.",
+    description:
+      "Ne spui dimensiunile terasei sau ale remorcii și îți recomandăm telefonic grosimea și varianta potrivită, fără niciun cost.",
   },
   {
-    title: "Montaj rapid",
-    description: "Termene scurte de execuție, respectate cu strictețe.",
+    title: "Montaj în zona Timișoara",
+    description:
+      "Pentru Timișoara și localitățile limitrofe oferim și montaj — stabilim termenul împreună, la confirmarea telefonică a comenzii.",
+  },
+];
+
+const thicknessGuide = [
+  {
+    range: "0.4 – 0.5 mm",
+    title: "Protecție de bază",
+    description:
+      "Flexibilă și economică — ideală pentru pergole mici sau zone adăpostite, cu deschidere și rulare frecventă.",
+  },
+  {
+    range: "0.8 mm",
+    title: "Standardul pentru terase",
+    description:
+      "Cea mai folosită grosime pentru terase, foișoare și restaurante — echilibru optim între flexibilitate și rigiditate.",
+    highlighted: true,
+  },
+  {
+    range: "1.0 mm",
+    title: "Rezistență maximă",
+    description:
+      "Rigidă și stabilă — recomandată pentru panouri fixe sau zone expuse la vânt puternic, utilizare permanentă.",
   },
 ];
 
@@ -80,24 +115,35 @@ export default function Home() {
         <HeroCarousel images={heroImages} />
         <div className="relative mx-auto flex max-w-6xl flex-col items-start gap-6">
           <h1 className="max-w-2xl text-4xl font-bold tracking-tight text-white sm:text-5xl">
-            Soluții complete în folii și prelate PVC
+            Terasa ta, protejată de vânt, ploaie și frig — cu folie
+            transparentă livrată în {siteConfig.city}
           </h1>
           <p className="max-w-xl text-lg text-zinc-200">
-            Oferim soluții complete pentru înfolierea foișoarelor exterioare,
-            pentru acoperirea remorcilor cu prelată și multe altele — materiale
-            de calitate, la prețuri avantajoase în {siteConfig.city}.
+            Folii PVC transparente Cristal Flex® și prelate PVC pentru terase,
+            foișoare și remorci. Livrare expres în aceeași zi în{" "}
+            {siteConfig.city} și localitățile limitrofe, montaj disponibil,
+            plată la livrare.
           </p>
-          <Link
-            href="/produse"
-            className="rounded-full bg-blue-600 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-700"
-          >
-            Explorează catalogul
-          </Link>
+          <div className="flex flex-col items-start gap-3">
+            <Link
+              href="/produse/folii-transparente-terase"
+              className="rounded-full bg-blue-600 px-6 py-3 text-base font-semibold text-white transition-colors hover:bg-blue-700"
+            >
+              Vezi foliile disponibile
+            </Link>
+            <a
+              href={siteConfig.phoneHref}
+              className="text-sm font-medium text-zinc-200 underline underline-offset-4 hover:text-white"
+            >
+              Nu știi ce dimensiune îți trebuie? Sună-ne pentru consultanță
+              gratuită
+            </a>
+          </div>
         </div>
       </section>
 
       <section className="border-b border-black/10 px-6 py-8 dark:border-white/10">
-        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-5">
           {trustPoints.map((point) => {
             const content = (
               <>
@@ -157,6 +203,58 @@ export default function Home() {
             </Link>
           </div>
           <CategoryCarousel categories={categories} />
+        </div>
+      </section>
+
+      <section className="px-6 py-20">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
+            Cum alegi grosimea potrivită
+          </h2>
+          <p className="mt-3 max-w-2xl text-zinc-600 dark:text-zinc-400">
+            Grosimea foliei determină cât de rigidă și de rezistentă este
+            închiderea. Regula simplă: cu cât zona e mai expusă la vânt și
+            folosirea mai permanentă, cu atât alegi o folie mai groasă.
+          </p>
+          <div className="mt-10 grid gap-6 sm:grid-cols-3">
+            {thicknessGuide.map((tier) => (
+              <div
+                key={tier.range}
+                className={`rounded-2xl border p-6 ${
+                  tier.highlighted
+                    ? "border-blue-600 bg-blue-50/50 dark:bg-blue-950/30"
+                    : "border-black/10 dark:border-white/10"
+                }`}
+              >
+                <p className="text-2xl font-bold text-blue-600">{tier.range}</p>
+                <h3 className="mt-2 font-semibold">
+                  {tier.title}
+                  {tier.highlighted && (
+                    <span className="ml-2 rounded-full bg-blue-600 px-2.5 py-0.5 text-xs font-semibold text-white">
+                      cea mai aleasă
+                    </span>
+                  )}
+                </h3>
+                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+                  {tier.description}
+                </p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-6">
+            <Link
+              href="/produse/folii-transparente-terase"
+              className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
+            >
+              Vezi foliile pe grosimi
+            </Link>
+            <Link
+              href="/intrebari-frecvente"
+              className="text-sm font-medium text-blue-600 hover:underline"
+            >
+              Mai multe întrebări? Vezi răspunsurile frecvente &rarr;
+            </Link>
+          </div>
         </div>
       </section>
 
