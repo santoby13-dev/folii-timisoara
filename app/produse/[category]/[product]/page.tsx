@@ -7,6 +7,7 @@ import { getCategory, getProduct, getProductsByCategory, products } from "@/lib/
 import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
 import ProductTrustBadges from "@/components/ProductTrustBadges";
+import TrackViewItem from "@/components/TrackViewItem";
 
 export function generateStaticParams() {
   return products.map((product) => ({
@@ -75,6 +76,12 @@ export default async function ProductPage({
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
         }}
+      />
+      <TrackViewItem
+        id={product.sku ?? product.slug}
+        name={product.name}
+        price={product.price}
+        category={category.name}
       />
       <nav className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
         <Link href="/produse" className="hover:text-blue-600">

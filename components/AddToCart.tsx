@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useCart, formatPrice } from "@/lib/cart";
+import { trackAddToCart } from "@/lib/analytics";
 import type { FolieVariant } from "@/lib/folie-variants";
 import type { ProductColor } from "@/lib/products";
 
@@ -246,7 +247,7 @@ export default function AddToCart({
 
   function handleAdd() {
     if (!selectedVariant) return;
-    addItem({
+    const item = {
       productSlug,
       categorySlug,
       name: productName,
@@ -257,7 +258,9 @@ export default function AddToCart({
       quantity,
       unitLabel,
       sku: resolvedSku,
-    });
+    };
+    addItem(item);
+    trackAddToCart(item);
     openDrawer();
   }
 

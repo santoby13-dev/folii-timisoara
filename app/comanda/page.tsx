@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useCart, formatPrice, type CartItem } from "@/lib/cart";
+import { trackBeginCheckout, trackPurchase } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site-config";
 import {
   judete,
@@ -72,6 +73,16 @@ export default function CheckoutPage() {
   const [payment, setPayment] = useState<PaymentMethodId>("cash");
 
   const zone = getShippingZone(county);
+
+  // begin_checkout se trimite o singură dată per vizită pe pagină, când
+  // există produse în coș.
+  const checkoutTracked = useRef(false);
+  useEffect(() => {
+    if (items.length > 0 && !checkoutTracked.current) {
+      checkoutTracked.current = true;
+      trackBeginCheckout(items, totalPrice);
+    }
+  }, [items, totalPrice]);
 
   function handleBlur(
     e: React.FocusEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -151,6 +162,7 @@ export default function CheckoutPage() {
       const data = await res.json();
       setOrderId(data.orderId || "");
       setConfirmedOrder({ items, totalPrice, county });
+      trackPurchase(data.orderId || "", items, totalPrice);
       clearCart();
       setStatus("success");
     } catch (err) {
