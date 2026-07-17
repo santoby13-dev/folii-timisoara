@@ -6,6 +6,7 @@ import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
 import { categories, products } from "@/lib/products";
 import CartLink from "@/components/CartLink";
+import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -61,6 +62,10 @@ export default function Header() {
             </svg>
           </button>
 
+          {/* Pe mobil, toggle-ul de temă stă în stânga ca header-ul să rămână
+              echilibrat (2 iconițe stânga / 2 dreapta) și titlul centrat. */}
+          <ThemeToggle className="ml-1 flex sm:hidden" />
+
           <nav className="hidden gap-8 text-sm font-medium sm:flex">
             <div className="group relative">
               <button className="flex items-center gap-1 hover:text-blue-600">
@@ -112,8 +117,9 @@ export default function Header() {
           {siteConfig.name}
         </Link>
 
-        {/* Right column: search + cart */}
+        {/* Right column: theme + search + cart */}
         <div className="flex items-center justify-end gap-1">
+          <ThemeToggle className="hidden sm:flex" />
           <button
             type="button"
             onClick={() => setSearchOpen((open) => !open)}

@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { appendOrderRow } from "@/lib/google-sheets";
 import { paymentMethodLabel, type PaymentMethodId } from "@/lib/shipping";
+import {
+  sendOrderConfirmationEmail,
+  sendOrderNotificationEmail,
+} from "@/lib/email";
 
 type OrderItem = {
   name: string;
@@ -140,6 +144,32 @@ export async function POST(request: Request) {
       { error: "Comanda nu a putut fi înregistrată. Te rugăm să ne suni." },
       { status: 500 }
     );
+  }
+
+  // Emailurile sunt un bonus pe lângă comanda deja salvată în Sheets — un
+  // eșec aici nu trebuie să întoarcă eroare către client.
+  const emailData = {
+    orderId,
+    customerName: order.name.trim(),
+    customerEmail: order.email.trim(),
+    customerPhone: order.phone.trim(),
+    address,
+    items: order.items.map((i) => ({
+      name: i.name,
+      quantity: i.quantity,
+      unitPrice: i.unitPrice,
+    })),
+    totalPrice: order.totalPrice,
+    paymentLabel: paymentMethodLabel(order.payment),
+    notes: (order.notes ?? "").trim(),
+  };
+  try {
+    await Promise.all([
+      sendOrderConfirmationEmail(emailData),
+      sendOrderNotificationEmail(emailData),
+    ]);
+  } catch (err) {
+    console.error("Order email failed:", err);
   }
 
   return NextResponse.json({ ok: true, orderId });
