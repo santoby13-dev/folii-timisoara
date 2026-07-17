@@ -88,6 +88,18 @@ export default async function ProductPage({
     ],
   };
 
+  // Brand-ul e literal parte din numele produsului la Folii/Prelate
+  // (Cristal Flex®, CoverPlan®) — nu-l afirmăm pentru Accesorii, unde nu e
+  // consecvent confirmat pe toate cele 12 produse.
+  const brandByCategory: Record<string, string> = {
+    "folii-transparente-terase": "Cristal Flex®",
+    "prelate-pvc": "CoverPlan®",
+  };
+  const brand = brandByCategory[categorySlug];
+
+  const priceValidUntil = new Date();
+  priceValidUntil.setFullYear(priceValidUntil.getFullYear() + 1);
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
@@ -95,10 +107,14 @@ export default async function ProductPage({
     description: product.shortDescription,
     image: product.images.map((img) => `${siteConfig.url}${img}`),
     sku: product.sku,
+    category: category.name,
+    ...(brand && { brand: { "@type": "Brand", name: brand } }),
     offers: {
       "@type": "Offer",
       priceCurrency: "RON",
       price: product.price,
+      priceValidUntil: priceValidUntil.toISOString().slice(0, 10),
+      itemCondition: "https://schema.org/NewCondition",
       availability: "https://schema.org/InStock",
       url: `${siteConfig.url}/produse/${categorySlug}/${productSlug}`,
     },

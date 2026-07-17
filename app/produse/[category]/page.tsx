@@ -22,8 +22,18 @@ export async function generateMetadata({
   const { category: categorySlug } = await params;
   const category = getCategory(categorySlug);
   if (!category) return {};
+  const url = `${siteConfig.url}/produse/${category.slug}`;
   return {
     title: `${category.name} | Folii Timișoara`,
+    description: category.description,
+    alternates: { canonical: url },
+    openGraph: {
+      title: `${category.name} | Folii Timișoara`,
+      description: category.description,
+      url,
+      images: category.image ? [category.image] : undefined,
+      type: "website",
+    },
   };
 }
 
@@ -57,6 +67,19 @@ export default async function CategoryPage({
     ],
   };
 
+  const itemListJsonLd =
+    categoryProducts.length > 0
+      ? {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          itemListElement: categoryProducts.map((product, i) => ({
+            "@type": "ListItem",
+            position: i + 1,
+            url: `${siteConfig.url}/produse/${category.slug}/${product.slug}`,
+          })),
+        }
+      : null;
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       <script
@@ -65,6 +88,14 @@ export default async function CategoryPage({
           __html: JSON.stringify(breadcrumbJsonLd).replace(/</g, "\\u003c"),
         }}
       />
+      {itemListJsonLd && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(itemListJsonLd).replace(/</g, "\\u003c"),
+          }}
+        />
+      )}
       <nav className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
         <Link href="/produse" className="hover:text-blue-600">
           Produse
@@ -76,6 +107,9 @@ export default async function CategoryPage({
       <h1 className="mt-6 text-3xl font-bold tracking-tight sm:text-4xl">
         {category.name}
       </h1>
+      <p className="mt-3 max-w-2xl text-zinc-600 dark:text-zinc-400">
+        {category.description}
+      </p>
 
       {categoryProducts.length === 0 ? (
         <p className="mt-6 text-zinc-600 dark:text-zinc-400">

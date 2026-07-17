@@ -4,6 +4,8 @@ export type Category = {
   status: "active" | "coming-soon";
   /** Background photo for the homepage category carousel, if available. */
   image?: string;
+  /** Descriere scurtă, unică per categorie — folosită în meta description și sub H1. */
+  description: string;
 };
 
 export const categories: Category[] = [
@@ -12,15 +14,30 @@ export const categories: Category[] = [
     name: "Folii transparente pentru terase",
     status: "active",
     image: "/categories/foisor-terasa.jpg",
+    description:
+      "Folie PVC transparentă Cristal Flex® pentru închiderea teraselor, foișoarelor și pergolelor — grosimi de la 0.4 mm la 1.0 mm, lățimi de până la 2.60 m, la rolă completă sau tăiată la dimensiunea ta.",
   },
   {
     slug: "prelate-pvc",
     name: "Prelate din PVC",
     status: "active",
     image: "/categories/prelata-remorca.png",
+    description:
+      "Prelate din PVC CoverPlan®, țesătură poliester acoperită cu PVC pe ambele fețe, impermeabile 100% — pentru copertine, camioane, remorci și acoperiri industriale, în mai multe gramaje și culori.",
   },
-  { slug: "accesorii", name: "Accesorii", status: "active" },
-  { slug: "scule", name: "Scule", status: "coming-soon" },
+  {
+    slug: "accesorii",
+    name: "Accesorii",
+    status: "active",
+    description:
+      "Accesorii pentru montajul foliei transparente și al prelatelor PVC: capse, bride, bandă de întărire, fermoare de lipit, adeziv și bandă dublu-adezivă.",
+  },
+  {
+    slug: "scule",
+    name: "Scule",
+    status: "coming-soon",
+    description: "Unelte pentru montajul foliei transparente și al prelatelor PVC.",
+  },
 ];
 
 import type { FolieVariant } from "./folie-variants";
