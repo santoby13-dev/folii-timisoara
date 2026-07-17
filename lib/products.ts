@@ -140,6 +140,35 @@ export function getProduct(categorySlug: string, productSlug: string) {
 }
 
 /**
+ * Accesorii de montaj recomandate per categorie, pentru secțiunea „Vei avea
+ * nevoie și de:” de pe pagina de produs (folie/prelată) — curatate manual,
+ * nu automat, ca să rămână relevante (nu orice accesoriu se potrivește cu
+ * orice produs). Slug-uri din `lib/catalog-accesorii.ts`.
+ */
+const crossSellByCategory: Record<string, string[]> = {
+  "folii-transparente-terase": [
+    "banda-intarire-margine-folie-tiv-30m",
+    "capse-ovale-42x22mm-set-10",
+    "bride-butoni-rotativi-set-10",
+    "adeziv-special-prelata-pvc",
+  ],
+  "prelate-pvc": [
+    "adeziv-special-prelata-pvc",
+    "capse-rotunde-d10mm-1000buc",
+    "capse-rotunde-d12mm-1000buc",
+    "bride-butoni-rotativi-set-10",
+  ],
+};
+
+export function getCrossSellProducts(categorySlug: string): Product[] {
+  const slugs = crossSellByCategory[categorySlug];
+  if (!slugs) return [];
+  return slugs
+    .map((slug) => getProduct("accesorii", slug))
+    .filter((p): p is Product => p !== undefined);
+}
+
+/**
  * Prețul pe m² al celei mai ieftine variante reale — clientul de folie
  * compară pe m², nu doar pe preț total. Returnează undefined când
  * dimensiunile nu permit un calcul corect (ex. lățimi în cm nestandard).

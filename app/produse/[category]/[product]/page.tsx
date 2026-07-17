@@ -3,7 +3,13 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
-import { getCategory, getProduct, getProductsByCategory, products } from "@/lib/products";
+import {
+  getCategory,
+  getProduct,
+  getProductsByCategory,
+  getCrossSellProducts,
+  products,
+} from "@/lib/products";
 import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
 import ProductTrustBadges from "@/components/ProductTrustBadges";
@@ -54,6 +60,8 @@ export default async function ProductPage({
   const similarProducts = getProductsByCategory(categorySlug)
     .filter((p) => p.slug !== product.slug)
     .slice(0, 4);
+
+  const crossSellProducts = getCrossSellProducts(categorySlug);
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",
@@ -205,6 +213,39 @@ export default async function ProductPage({
           ))}
         </ul>
       </div>
+
+      {crossSellProducts.length > 0 && (
+        <div className="mt-10 border-t border-black/10 pt-10 dark:border-white/10">
+          <h2 className="text-xl font-semibold">Vei avea nevoie și de:</h2>
+          <div className="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {crossSellProducts.map((accessory) => (
+              <Link
+                key={accessory.slug}
+                href={`/produse/accesorii/${accessory.slug}`}
+                className="flex flex-col rounded-2xl border border-black/10 p-4 transition-colors hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
+              >
+                {accessory.images[0] && (
+                  <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-white">
+                    <Image
+                      src={accessory.images[0]}
+                      alt={accessory.name}
+                      fill
+                      className="object-cover"
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                    />
+                  </div>
+                )}
+                <h3 className="mt-3 text-sm font-medium text-zinc-900 dark:text-zinc-100">
+                  {accessory.name}
+                </h3>
+                <p className="mt-2 text-sm font-semibold text-blue-600">
+                  de la {accessory.price.toFixed(2).replace(".", ",")} RON
+                </p>
+              </Link>
+            ))}
+          </div>
+        </div>
+      )}
 
       <div className="mt-12 flex flex-col gap-3 sm:flex-row">
         <a
