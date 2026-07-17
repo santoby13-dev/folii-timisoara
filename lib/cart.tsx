@@ -15,6 +15,7 @@ export type CartItem = {
   productSlug: string;
   categorySlug: string;
   name: string;
+  /** Empty string when the product has no such dimension (e.g. accesorii fără grosime reală). */
   thickness: string;
   width: string;
   length: string;
@@ -24,7 +25,26 @@ export type CartItem = {
   unitLabel?: string;
   /** Product SKU, with color suffix already applied if the product has colors. */
   sku?: string;
+  /** Selected color name, for produse cu selector de culoare. */
+  colorName?: string;
 };
+
+/**
+ * Rând de detalii pentru o linie din coș/comandă — sare peste dimensiunile
+ * care nu se aplică produsului (ex. accesorii fără grosime reală), în loc să
+ * afișeze mereu fix „Grosime · Lățime · Lungime”.
+ */
+export function cartItemDetailLine(
+  item: Pick<CartItem, "thickness" | "width" | "length" | "colorName" | "sku">
+): string {
+  const parts: string[] = [];
+  if (item.thickness) parts.push(`Grosime ${item.thickness}`);
+  if (item.width) parts.push(`Lățime ${item.width}`);
+  if (item.length) parts.push(`Lungime ${item.length}`);
+  if (item.colorName) parts.push(`Culoare ${item.colorName}`);
+  if (item.sku) parts.push(`Cod ${item.sku}`);
+  return parts.join(" · ");
+}
 
 type CartContextValue = {
   items: CartItem[];
@@ -63,7 +83,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   }, [items, loaded]);
 
   const addItem = useCallback((item: Omit<CartItem, "id">) => {
-    const id = `${item.productSlug}|${item.thickness}|${item.width}|${item.length}`;
+    const id = `${item.productSlug}|${item.thickness}|${item.width}|${item.length}|${item.sku ?? ""}`;
     setItems((prev) => {
       const existing = prev.find((i) => i.id === id);
       if (existing) {

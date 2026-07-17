@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { useCart, formatPrice, type CartItem } from "@/lib/cart";
+import { useCart, formatPrice, cartItemDetailLine, type CartItem } from "@/lib/cart";
 import { trackBeginCheckout, trackPurchase } from "@/lib/analytics";
 import { siteConfig } from "@/lib/site-config";
 import {
@@ -206,10 +206,11 @@ export default function CheckoutPage() {
                 <li key={item.id} className="flex justify-between text-sm">
                   <span>
                     {item.quantity} × {item.name}
-                    <span className="block text-zinc-500 dark:text-zinc-400">
-                      {item.thickness} · {item.width} × {item.length}
-                      {item.sku && <> · Cod {item.sku}</>}
-                    </span>
+                    {cartItemDetailLine(item) && (
+                      <span className="block text-zinc-500 dark:text-zinc-400">
+                        {cartItemDetailLine(item)}
+                      </span>
+                    )}
                   </span>
                   <span className="shrink-0 font-medium">
                     {formatPrice(item.unitPrice * item.quantity)}
@@ -283,8 +284,8 @@ export default function CheckoutPage() {
               {item.quantity} × {item.name}
             </span>
             <span className="block text-zinc-500 dark:text-zinc-400">
-              {item.thickness} · {item.width} × {item.length}
-              {item.sku && <> · Cod {item.sku}</>} —{" "}
+              {cartItemDetailLine(item)}
+              {cartItemDetailLine(item) && " — "}
               {formatPrice(item.unitPrice * item.quantity)}
             </span>
           </li>

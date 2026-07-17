@@ -151,6 +151,9 @@ export default async function ProductPage({
                 unitLabel={product.unitLabel}
                 sku={product.sku}
                 colors={product.colors}
+                colorsLabel={product.colorsLabel}
+                widthLabel={product.widthLabel}
+                lengthLabel={product.lengthLabel}
               />
             </div>
           ) : (
@@ -171,7 +174,8 @@ export default async function ProductPage({
 
       {product.hasCart &&
         product.variants &&
-        product.variants.length > 1 && (
+        product.variants.length > 1 &&
+        category.slug === "folii-transparente-terase" && (
           <SizeCalculator
             productSlug={product.slug}
             categorySlug={category.slug}

@@ -12,9 +12,15 @@ export default function ProductSpecs({ product }: { product: Product }) {
     : "Grosime";
 
   const rows: { label: string; value: string }[] = [
-    { label: gaugeLabel, value: product.thicknesses.join(", ") },
-    { label: "Lățime", value: product.widths.join(", ") },
-    { label: "Lungime", value: product.lengths.join(", ") },
+    ...(product.thicknesses.length > 0
+      ? [{ label: gaugeLabel, value: product.thicknesses.join(", ") }]
+      : []),
+    ...(product.widths.length > 0
+      ? [{ label: "Lățime", value: product.widths.join(", ") }]
+      : []),
+    ...(product.lengths.length > 0
+      ? [{ label: "Lungime", value: product.lengths.join(", ") }]
+      : []),
     ...(product.specs ?? []),
     ...(product.colors && product.colors.length > 1
       ? [
@@ -68,6 +74,9 @@ function packageContents(product: Product): string {
       return "Materialul tăiat la numărul de metri comandați, pe lățimea specificată. Pachetul include doar materialul — fără accesorii de montaj sau sistem de prindere.";
     case "bucată":
       return "Produsul selectat, în cantitatea comandată, așa cum este descris mai sus.";
+    case "set":
+    case "pungă":
+      return "Setul complet, în cantitatea comandată, așa cum este descris mai sus.";
     default:
       return "Rola completă, la dimensiunea selectată. Pachetul include doar materialul — fără accesorii de montaj sau sistem de prindere.";
   }

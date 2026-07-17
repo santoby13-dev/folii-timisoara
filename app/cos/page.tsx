@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useCart, formatPrice } from "@/lib/cart";
+import { useCart, formatPrice, cartItemDetailLine } from "@/lib/cart";
 import { getProduct } from "@/lib/products";
 import { shippingZones, shippingNote, paymentMethods } from "@/lib/shipping";
 import CheckoutSteps from "@/components/CheckoutSteps";
@@ -66,11 +66,11 @@ export default function CartPage() {
                   >
                     {item.name}
                   </Link>
-                  <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
-                    Grosime {item.thickness} · Lățime {item.width} · Lungime{" "}
-                    {item.length}
-                    {item.sku && <> · Cod {item.sku}</>}
-                  </p>
+                  {cartItemDetailLine(item) && (
+                    <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                      {cartItemDetailLine(item)}
+                    </p>
+                  )}
                   <p className="mt-1 text-sm font-semibold text-blue-600">
                     {formatPrice(item.unitPrice)} / {item.unitLabel ?? "rolă"}
                   </p>

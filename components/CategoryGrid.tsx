@@ -27,6 +27,8 @@ type SortOrder = "recommended" | "price-asc" | "price-desc";
 type Props = {
   categorySlug: string;
   products: CategoryGridProduct[];
+  /** Ascunde panoul de filtrare pe dimensiuni — pentru categorii eterogene (ex. Accesorii), unde grosime/lățime/lungime nu au un sens comun între produse. */
+  showDimensionFilters?: boolean;
 };
 
 function sortNumeric(values: string[]) {
@@ -84,7 +86,11 @@ function FilterGroup({
   );
 }
 
-export default function CategoryGrid({ categorySlug, products }: Props) {
+export default function CategoryGrid({
+  categorySlug,
+  products,
+  showDimensionFilters = true,
+}: Props) {
   const [thickness, setThickness] = useState<string | null>(null);
   const [width, setWidth] = useState<string | null>(null);
   const [length, setLength] = useState<string | null>(null);
@@ -168,50 +174,52 @@ export default function CategoryGrid({ categorySlug, products }: Props) {
 
   return (
     <div>
-      <div className="rounded-2xl border border-black/10 p-5 dark:border-white/10">
-        <div className="flex items-center justify-between">
-          <p className="font-semibold">Filtrează după dimensiuni</p>
-          {hasActiveFilters && (
-            <button
-              type="button"
-              onClick={() => {
-                setThickness(null);
-                setWidth(null);
-                setLength(null);
-              }}
-              className="text-sm font-medium text-blue-600 hover:underline"
-            >
-              Resetează filtrele
-            </button>
-          )}
+      {showDimensionFilters && (
+        <div className="rounded-2xl border border-black/10 p-5 dark:border-white/10">
+          <div className="flex items-center justify-between">
+            <p className="font-semibold">Filtrează după dimensiuni</p>
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={() => {
+                  setThickness(null);
+                  setWidth(null);
+                  setLength(null);
+                }}
+                className="text-sm font-medium text-blue-600 hover:underline"
+              >
+                Resetează filtrele
+              </button>
+            )}
+          </div>
+          <div className="mt-4 grid gap-5 sm:grid-cols-3">
+            <FilterGroup
+              label="Grosime"
+              hint="0.4–0.5 mm: uz sezonier, flexibilă · 0.8–1.0 mm: uz permanent, rigidă"
+              options={allThicknesses}
+              selected={thickness}
+              onSelect={selectThickness}
+              disabledOptions={new Set()}
+            />
+            <FilterGroup
+              label="Lățime"
+              hint="Alege o lățime cel puțin egală cu înălțimea închiderii"
+              options={allWidths}
+              selected={width}
+              onSelect={selectWidth}
+              disabledOptions={new Set(allWidths.filter((w) => !validWidths.has(w)))}
+            />
+            <FilterGroup
+              label="Lungime"
+              hint="Câți metri de material sunt pe rolă"
+              options={allLengths}
+              selected={length}
+              onSelect={setLength}
+              disabledOptions={new Set(allLengths.filter((l) => !validLengths.has(l)))}
+            />
+          </div>
         </div>
-        <div className="mt-4 grid gap-5 sm:grid-cols-3">
-          <FilterGroup
-            label="Grosime"
-            hint="0.4–0.5 mm: uz sezonier, flexibilă · 0.8–1.0 mm: uz permanent, rigidă"
-            options={allThicknesses}
-            selected={thickness}
-            onSelect={selectThickness}
-            disabledOptions={new Set()}
-          />
-          <FilterGroup
-            label="Lățime"
-            hint="Alege o lățime cel puțin egală cu înălțimea închiderii"
-            options={allWidths}
-            selected={width}
-            onSelect={selectWidth}
-            disabledOptions={new Set(allWidths.filter((w) => !validWidths.has(w)))}
-          />
-          <FilterGroup
-            label="Lungime"
-            hint="Câți metri de material sunt pe rolă"
-            options={allLengths}
-            selected={length}
-            onSelect={setLength}
-            disabledOptions={new Set(allLengths.filter((l) => !validLengths.has(l)))}
-          />
-        </div>
-      </div>
+      )}
 
       <div className="mt-6 flex items-center justify-between gap-4">
         <p className="text-sm text-zinc-500 dark:text-zinc-400">

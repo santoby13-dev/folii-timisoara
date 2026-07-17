@@ -14,6 +14,11 @@ type Props = {
   unitLabel?: string;
   sku?: string;
   colors?: ProductColor[];
+  colorsLabel?: string;
+  /** Etichete pentru chip-urile de grosime/lățime/lungime, când produsul nu e folie (ex. bandă, curelușă). */
+  thicknessLabel?: string;
+  widthLabel?: string;
+  lengthLabel?: string;
 };
 
 function LayersIcon() {
@@ -149,6 +154,10 @@ export default function AddToCart({
   unitLabel = "rolă",
   sku,
   colors,
+  colorsLabel = "Culoare",
+  thicknessLabel = "Grosime folie",
+  widthLabel = "Lățime folie",
+  lengthLabel = "Lungime rolă",
 }: Props) {
   const { addItem, openDrawer } = useCart();
   const defaultVariant = useMemo(() => cheapestVariant(variants), [variants]);
@@ -258,6 +267,7 @@ export default function AddToCart({
       quantity,
       unitLabel,
       sku: resolvedSku,
+      colorName: colors && colors.length > 1 ? (selectedColor?.name ?? undefined) : undefined,
     };
     addItem(item);
     trackAddToCart(item);
@@ -287,7 +297,7 @@ export default function AddToCart({
       {colors && colors.length > 1 && (
         <div className="mt-6">
           <OptionChips
-            label="Culoare"
+            label={colorsLabel}
             icon={<ColorIcon />}
             options={colors.map((c) => c.name)}
             selected={colorName}
@@ -312,7 +322,7 @@ export default function AddToCart({
         <div className="mt-6 grid gap-5">
           {allThicknesses.length > 1 && (
             <OptionChips
-              label="Grosime folie"
+              label={thicknessLabel}
               icon={<LayersIcon />}
               options={allThicknesses}
               selected={thickness}
@@ -322,7 +332,7 @@ export default function AddToCart({
           )}
           {allWidths.length > 1 && (
             <OptionChips
-              label="Lățime folie"
+              label={widthLabel}
               icon={<WidthIcon />}
               options={allWidths}
               selected={width}
@@ -334,7 +344,7 @@ export default function AddToCart({
           )}
           {allLengths.length > 1 && (
             <OptionChips
-              label="Lungime rolă"
+              label={lengthLabel}
               icon={<RulerIcon />}
               options={allLengths}
               selected={length}

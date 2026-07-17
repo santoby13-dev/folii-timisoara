@@ -60,6 +60,11 @@ export type Product = {
   weight?: string;
   /** Real color options, same price regardless of color. Selecting one appends `skuSuffix` to `sku`. */
   colors?: ProductColor[];
+  /** Etichetă afișată deasupra chip-urilor din `colors`, când opțiunea nu e o culoare reală (ex. "Material", "Tip"). Implicit "Culoare". */
+  colorsLabel?: string;
+  /** Suprascrie eticheta chip-ului de lățime/lungime pentru produse non-folie (ex. "Lățime" în loc de "Lățime folie"). */
+  widthLabel?: string;
+  lengthLabel?: string;
   /**
    * Rânduri suplimentare pentru tabelul de specificații (material, temperatură
    * de utilizare etc.) — doar valori susținute de descrierea produsului.
