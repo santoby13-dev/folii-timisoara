@@ -78,7 +78,7 @@ export default function ProductGallery({ images, alt }: Props) {
             type="button"
             onClick={() => setLightboxOpen(false)}
             aria-label="Închide"
-            className="absolute top-4 right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20"
+            className="absolute top-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20"
           >
             ✕
           </button>
@@ -92,7 +92,7 @@ export default function ProductGallery({ images, alt }: Props) {
                   setActive((i) => (i - 1 + images.length) % images.length);
                 }}
                 aria-label="Imaginea anterioară"
-                className="absolute left-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20"
+                className="absolute left-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20"
               >
                 ‹
               </button>
@@ -103,7 +103,7 @@ export default function ProductGallery({ images, alt }: Props) {
                   setActive((i) => (i + 1) % images.length);
                 }}
                 aria-label="Imaginea următoare"
-                className="absolute right-4 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20"
+                className="absolute right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-2xl text-white hover:bg-white/20"
               >
                 ›
               </button>
