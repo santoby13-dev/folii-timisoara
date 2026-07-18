@@ -59,7 +59,7 @@ export default function Header() {
               fill="none"
             >
               <path
-                d="M4 2l4 4-4 4"
+                d="M2 4l4 4 4-4"
                 stroke="currentColor"
                 strokeWidth="1.8"
                 strokeLinecap="round"
