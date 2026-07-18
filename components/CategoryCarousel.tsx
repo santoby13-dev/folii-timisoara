@@ -12,9 +12,17 @@ const slideBackgrounds = [
   "from-slate-600 to-slate-950",
 ];
 
-/** Crossfade automat între mai multe poze reale, pentru categorii fără o singură poză de fundal reprezentativă (ex. Unelte). */
+/**
+ * Crossfade automat între mai multe poze reale, pentru categorii fără o
+ * singură poză de fundal reprezentativă (ex. Unelte). Prima poză pornește
+ * invizibilă și se arată abia după ce s-a încărcat efectiv (`onLoad`) — fără
+ * asta, textul de deasupra (randat instant) apărea vizibil înaintea pozei,
+ * care „pocnea" brusc odată încărcată. Titlul/textul rămân neschimbate,
+ * randate instant, fără nicio tranziție.
+ */
 function SlideshowBackground({ images, priority }: { images: string[]; priority: boolean }) {
   const [active, setActive] = useState(0);
+  const [firstLoaded, setFirstLoaded] = useState(false);
 
   useEffect(() => {
     if (images.length <= 1) return;
@@ -30,7 +38,7 @@ function SlideshowBackground({ images, priority }: { images: string[]; priority:
         <div
           key={src}
           className={`absolute inset-0 transition-opacity duration-1000 ${
-            i === active ? "opacity-100" : "opacity-0"
+            i === active && (i !== 0 || firstLoaded) ? "opacity-100" : "opacity-0"
           }`}
         >
           <Image
@@ -40,6 +48,7 @@ function SlideshowBackground({ images, priority }: { images: string[]; priority:
             priority={priority && i === 0}
             className="object-cover"
             sizes="(min-width: 1024px) 1024px, 100vw"
+            onLoad={i === 0 ? () => setFirstLoaded(true) : undefined}
           />
         </div>
       ))}
