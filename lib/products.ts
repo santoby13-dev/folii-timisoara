@@ -1,21 +1,35 @@
+import type { FolieVariant } from "./folie-variants";
+import { folieVariants, cheapestFolieVariant } from "./folie-variants";
+import { cristalFlexCatalog } from "./catalog-cristal-flex";
+import { prelatePvcCatalog } from "./catalog-prelate-pvc";
+import { accesoriiCatalog } from "./catalog-accesorii";
+import { unelteCatalog } from "./catalog-unelte";
+
 export type Category = {
   slug: string;
   name: string;
   status: "active" | "coming-soon";
-  /** Background photo for the homepage category carousel, if available. */
-  image?: string;
-  /** Mai multe poze reale (produse) — slideshow cu crossfade în locul unei singure imagini statice, în CategoryCarousel. */
+  /** Poze reale pentru slide-ul din CategoryCarousel (homepage) — un singur element pentru fundal static, mai multe pentru crossfade automat. Prima intră și în Open Graph. */
   images?: string[];
   /** Descriere scurtă, unică per categorie — folosită în meta description și sub H1. */
   description: string;
 };
+
+// Cele mai accesibile 4 produse din Accesorii (preț crescător), pentru
+// slide-ul de pe homepage — nu are sens o singură poză reprezentativă,
+// categoria fiind eterogenă (bandă, capse, adeziv etc.).
+const cheapestAccesoriiImages = [...accesoriiCatalog]
+  .sort((a, b) => a.price - b.price)
+  .slice(0, 4)
+  .map((p) => p.images[0])
+  .filter((img): img is string => Boolean(img));
 
 export const categories: Category[] = [
   {
     slug: "folii-transparente-terase",
     name: "Folii transparente pentru terase",
     status: "active",
-    image: "/categories/foisor-terasa.jpg",
+    images: ["/categories/foisor-terasa.jpg"],
     description:
       "Folie PVC transparentă Cristal Flex® pentru închiderea teraselor, foișoarelor și pergolelor — grosimi de la 0.4 mm la 1.0 mm, lățimi de până la 2.60 m, la rolă completă sau tăiată la dimensiunea ta.",
   },
@@ -23,7 +37,7 @@ export const categories: Category[] = [
     slug: "prelate-pvc",
     name: "Prelate din PVC",
     status: "active",
-    image: "/categories/prelata-remorca.png",
+    images: ["/categories/prelata-remorca.png"],
     description:
       "Prelate din PVC CoverPlan®, țesătură poliester acoperită cu PVC pe ambele fețe, impermeabile 100% — pentru copertine, camioane, remorci și acoperiri industriale, în mai multe gramaje și culori.",
   },
@@ -31,6 +45,7 @@ export const categories: Category[] = [
     slug: "accesorii",
     name: "Accesorii",
     status: "active",
+    images: cheapestAccesoriiImages,
     description:
       "Accesorii pentru montajul foliei transparente și al prelatelor PVC: capse, bride, bandă de întărire, fermoare de lipit, adeziv și bandă dublu-adezivă.",
   },
@@ -48,13 +63,6 @@ export const categories: Category[] = [
       "Ștanțe și preducele pentru capse ovale 42×22 mm și capse D10 mm, plus placa de protecție pentru perforare — uneltele cu care montezi singur folia transparentă sau prelata PVC.",
   },
 ];
-
-import type { FolieVariant } from "./folie-variants";
-import { folieVariants, cheapestFolieVariant } from "./folie-variants";
-import { cristalFlexCatalog } from "./catalog-cristal-flex";
-import { prelatePvcCatalog } from "./catalog-prelate-pvc";
-import { accesoriiCatalog } from "./catalog-accesorii";
-import { unelteCatalog } from "./catalog-unelte";
 
 export type ProductColor = {
   /** Display name shown on the color chip. */

@@ -53,7 +53,7 @@ export async function generateMetadata({
       title: `${category.name} | Folii Timișoara`,
       description: category.description,
       url,
-      images: category.image ? [category.image] : undefined,
+      images: category.images?.[0] ? [category.images[0]] : undefined,
       type: "website",
     },
   };

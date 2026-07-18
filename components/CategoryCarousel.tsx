@@ -79,27 +79,16 @@ export default function CategoryCarousel({
               key={category.slug}
               href={`/produse/${category.slug}`}
               className={`relative flex h-64 w-full shrink-0 flex-col items-center justify-center gap-3 overflow-hidden px-6 text-center sm:h-80 ${
-                category.image || category.images
+                category.images && category.images.length > 0
                   ? "bg-black"
                   : `bg-gradient-to-br ${slideBackgrounds[i % slideBackgrounds.length]}`
               }`}
             >
-              {category.images ? (
-                <SlideshowBackground images={category.images} priority={i === 0} />
-              ) : (
-                category.image && (
-                  <Image
-                    src={category.image}
-                    alt=""
-                    fill
-                    priority={i === 0}
-                    className="object-cover"
-                    sizes="(min-width: 1024px) 1024px, 100vw"
-                  />
-                )
-              )}
-              {(category.image || category.images) && (
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+              {category.images && category.images.length > 0 && (
+                <>
+                  <SlideshowBackground images={category.images} priority={i === 0} />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
+                </>
               )}
               <span className="relative text-2xl font-bold text-white sm:text-3xl">
                 {category.name}
