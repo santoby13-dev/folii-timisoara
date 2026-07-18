@@ -227,10 +227,10 @@ export default function Home() {
                 }`}
               >
                 <p className="text-2xl font-bold text-blue-600">{tier.range}</p>
-                <h3 className="mt-2 font-semibold">
+                <h3 className="mt-2 flex flex-wrap items-center gap-2 font-semibold">
                   {tier.title}
                   {tier.highlighted && (
-                    <span className="ml-2 rounded-full bg-blue-600 px-2.5 py-0.5 text-xs font-semibold text-white">
+                    <span className="rounded-full bg-blue-600 px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap text-white">
                       cea mai aleasă
                     </span>
                   )}
