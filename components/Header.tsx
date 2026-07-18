@@ -9,8 +9,10 @@ import CartLink from "@/components/CartLink";
 import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [menuHintDismissed, setMenuHintDismissed] = useState(false);
+  // Deschis implicit — pe mobil, meniul secundar (Produse/Despre noi/Contact)
+  // era ascuns și nimeni nu-l descoperea; acum e vizibil din prima, fără să
+  // mai fie nevoie de un click sau de o animație care să-l semnaleze.
+  const [menuOpen, setMenuOpen] = useState(true);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -41,15 +43,10 @@ export default function Header() {
         <div className="flex items-center">
           <button
             type="button"
-            onClick={() => {
-              setMenuOpen((open) => !open);
-              setMenuHintDismissed(true);
-            }}
+            onClick={() => setMenuOpen((open) => !open)}
             aria-label={menuOpen ? "Închide meniul" : "Deschide meniul"}
             aria-expanded={menuOpen}
-            className={`flex h-10 w-10 items-center justify-center rounded-full border border-black/10 sm:hidden dark:border-white/10 ${
-              menuHintDismissed ? "" : "menu-hint"
-            }`}
+            className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 sm:hidden dark:border-white/10"
           >
             <svg
               className={`h-4 w-4 transition-transform duration-200 ${
@@ -215,34 +212,36 @@ export default function Header() {
         </div>
       )}
 
-      {/* Mobile: secondary menu bar under the header */}
+      {/* Mobile: secondary menu bar under the header — orizontal, ca meniul de pe desktop */}
       {menuOpen && (
         <nav className="border-t border-black/10 bg-white px-4 py-3 sm:hidden dark:border-white/10 dark:bg-black">
-          <Link
-            href="/produse"
-            onClick={closeMenu}
-            className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
-          >
-            Produse
-          </Link>
-          <Link
-            href="/#despre"
-            onClick={closeMenu}
-            className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
-          >
-            Despre noi
-          </Link>
-          <Link
-            href="/#contact"
-            onClick={closeMenu}
-            className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-zinc-100 dark:hover:bg-zinc-800"
-          >
-            Contact
-          </Link>
-          <div className="mt-2 border-t border-black/10 pt-2 dark:border-white/10">
+          <div className="flex items-center justify-center gap-6 text-sm font-medium">
+            <Link
+              href="/produse"
+              onClick={closeMenu}
+              className="rounded-lg px-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            >
+              Produse
+            </Link>
+            <Link
+              href="/#despre"
+              onClick={closeMenu}
+              className="rounded-lg px-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            >
+              Despre noi
+            </Link>
+            <Link
+              href="/#contact"
+              onClick={closeMenu}
+              className="rounded-lg px-2 py-1 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            >
+              Contact
+            </Link>
+          </div>
+          <div className="mt-2 border-t border-black/10 pt-2 text-center dark:border-white/10">
             <a
               href={siteConfig.phoneHref}
-              className="block rounded-lg px-3 py-2 text-sm font-semibold text-blue-600 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+              className="inline-block rounded-lg px-3 py-2 text-sm font-semibold text-blue-600 hover:bg-zinc-100 dark:hover:bg-zinc-800"
             >
               Sună-ne: {siteConfig.phone}
             </a>
