@@ -177,7 +177,7 @@ export default async function CategoryPage({
         <div className="mt-10">
           <CategoryGrid
             categorySlug={category.slug}
-            showDimensionFilters={category.slug !== "accesorii"}
+            showDimensionFilters={!["accesorii", "unelte"].includes(category.slug)}
             products={categoryProducts.map((product) => ({
               slug: product.slug,
               name: product.name,
@@ -204,10 +204,9 @@ export default async function CategoryPage({
               // Are prin m² are sens doar pentru materiale vândute la suprafață
               // (folie, prelată) — pentru accesorii (bandă, curelușă etc.) e
               // un preț derivat fără sens pentru cumpărător.
-              pricePerSqm:
-                category.slug === "accesorii"
-                  ? undefined
-                  : cheapestPricePerSqm(product),
+              pricePerSqm: ["accesorii", "unelte"].includes(category.slug)
+                ? undefined
+                : cheapestPricePerSqm(product),
             }))}
           />
         </div>

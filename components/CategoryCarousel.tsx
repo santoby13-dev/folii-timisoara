@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import type { Category } from "@/lib/products";
@@ -11,6 +11,41 @@ const slideBackgrounds = [
   "from-indigo-700 to-indigo-950",
   "from-slate-600 to-slate-950",
 ];
+
+/** Crossfade automat între mai multe poze reale, pentru categorii fără o singură poză de fundal reprezentativă (ex. Unelte). */
+function SlideshowBackground({ images, priority }: { images: string[]; priority: boolean }) {
+  const [active, setActive] = useState(0);
+
+  useEffect(() => {
+    if (images.length <= 1) return;
+    const id = setInterval(() => {
+      setActive((i) => (i + 1) % images.length);
+    }, 2500);
+    return () => clearInterval(id);
+  }, [images.length]);
+
+  return (
+    <>
+      {images.map((src, i) => (
+        <div
+          key={src}
+          className={`absolute inset-0 transition-opacity duration-1000 ${
+            i === active ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <Image
+            src={src}
+            alt=""
+            fill
+            priority={priority && i === 0}
+            className="object-cover"
+            sizes="(min-width: 1024px) 1024px, 100vw"
+          />
+        </div>
+      ))}
+    </>
+  );
+}
 
 export default function CategoryCarousel({
   categories,
@@ -35,13 +70,15 @@ export default function CategoryCarousel({
               key={category.slug}
               href={`/produse/${category.slug}`}
               className={`relative flex h-64 w-full shrink-0 flex-col items-center justify-center gap-3 overflow-hidden px-6 text-center sm:h-80 ${
-                category.image
+                category.image || category.images
                   ? "bg-black"
                   : `bg-gradient-to-br ${slideBackgrounds[i % slideBackgrounds.length]}`
               }`}
             >
-              {category.image && (
-                <>
+              {category.images ? (
+                <SlideshowBackground images={category.images} priority={i === 0} />
+              ) : (
+                category.image && (
                   <Image
                     src={category.image}
                     alt=""
@@ -50,8 +87,10 @@ export default function CategoryCarousel({
                     className="object-cover"
                     sizes="(min-width: 1024px) 1024px, 100vw"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
-                </>
+                )
+              )}
+              {(category.image || category.images) && (
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
               )}
               <span className="relative text-2xl font-bold text-white sm:text-3xl">
                 {category.name}

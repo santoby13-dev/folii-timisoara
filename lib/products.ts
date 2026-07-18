@@ -4,6 +4,8 @@ export type Category = {
   status: "active" | "coming-soon";
   /** Background photo for the homepage category carousel, if available. */
   image?: string;
+  /** Mai multe poze reale (produse) — slideshow cu crossfade în locul unei singure imagini statice, în CategoryCarousel. */
+  images?: string[];
   /** Descriere scurtă, unică per categorie — folosită în meta description și sub H1. */
   description: string;
 };
@@ -33,10 +35,17 @@ export const categories: Category[] = [
       "Accesorii pentru montajul foliei transparente și al prelatelor PVC: capse, bride, bandă de întărire, fermoare de lipit, adeziv și bandă dublu-adezivă.",
   },
   {
-    slug: "scule",
-    name: "Scule",
-    status: "coming-soon",
-    description: "Unelte pentru montajul foliei transparente și al prelatelor PVC.",
+    slug: "unelte",
+    name: "Unelte",
+    status: "active",
+    images: [
+      "/products/unelte-catalog/01.jpg",
+      "/products/unelte-catalog/04.jpg",
+      "/products/unelte-catalog/06.jpg",
+      "/products/unelte-catalog/09.jpg",
+    ],
+    description:
+      "Ștanțe și preducele pentru capse ovale 42×22 mm și capse D10 mm, plus placa de protecție pentru perforare — uneltele cu care montezi singur folia transparentă sau prelata PVC.",
   },
 ];
 
@@ -45,6 +54,7 @@ import { folieVariants, cheapestFolieVariant } from "./folie-variants";
 import { cristalFlexCatalog } from "./catalog-cristal-flex";
 import { prelatePvcCatalog } from "./catalog-prelate-pvc";
 import { accesoriiCatalog } from "./catalog-accesorii";
+import { unelteCatalog } from "./catalog-unelte";
 
 export type ProductColor = {
   /** Display name shown on the color chip. */
@@ -140,6 +150,7 @@ export const products: Product[] = [
   ...cristalFlexCatalog,
   ...prelatePvcCatalog,
   ...accesoriiCatalog,
+  ...unelteCatalog,
 ];
 
 export function getCategory(slug: string) {
