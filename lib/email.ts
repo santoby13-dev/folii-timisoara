@@ -122,3 +122,22 @@ export async function sendOrderNotificationEmail(data: OrderEmailData) {
     `,
   });
 }
+
+/** Emailul trimis clientului, de confirmare a abonării la newsletter. */
+export async function sendNewsletterConfirmationEmail(email: string) {
+  const transporter = getTransporter();
+  if (!transporter) return;
+
+  await transporter.sendMail({
+    from: `"${siteConfig.name}" <${process.env.EMAIL_SMTP_USER}>`,
+    to: email,
+    subject: `Te-ai abonat cu succes — ${siteConfig.name}`,
+    html: `
+      <div style="font-family:Arial,Helvetica,sans-serif;color:#171717;max-width:560px;margin:0 auto;">
+        <h2 style="margin-bottom:4px;">Mulțumim că te-ai abonat!</h2>
+        <p style="color:#525252;">Te-am adăugat pe lista noastră și te vom anunța la oferte și noutăți despre folii transparente, prelate PVC și accesorii.</p>
+        <p style="color:#525252;">Ai o întrebare? Sună-ne la <a href="${siteConfig.phoneHref}">${siteConfig.phone}</a> sau scrie-ne pe <a href="${siteConfig.whatsappHref}">WhatsApp</a>.</p>
+      </div>
+    `,
+  });
+}

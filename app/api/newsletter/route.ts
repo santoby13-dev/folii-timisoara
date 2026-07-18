@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { appendNewsletterLead } from "@/lib/google-sheets";
+import { sendNewsletterConfirmationEmail } from "@/lib/email";
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -37,6 +38,14 @@ export async function POST(request: Request) {
       { error: "Nu am putut salva adresa. Încearcă din nou." },
       { status: 500 }
     );
+  }
+
+  // Emailul e un bonus pe lângă abonarea deja salvată în Sheets — un eșec
+  // aici nu trebuie să întoarcă eroare către client.
+  try {
+    await sendNewsletterConfirmationEmail(email.trim());
+  } catch (err) {
+    console.error("Newsletter confirmation email failed:", err);
   }
 
   return NextResponse.json({ ok: true });
