@@ -86,28 +86,6 @@ const advantages = [
   },
 ];
 
-const thicknessGuide = [
-  {
-    range: "0.4 – 0.5 mm",
-    title: "Protecție de bază",
-    description:
-      "Flexibilă și economică — ideală pentru pergole mici sau zone adăpostite, cu deschidere și rulare frecventă.",
-  },
-  {
-    range: "0.8 mm",
-    title: "Standardul pentru terase",
-    description:
-      "Cea mai folosită grosime pentru terase, foișoare și restaurante — echilibru optim între flexibilitate și rigiditate.",
-    highlighted: true,
-  },
-  {
-    range: "1.0 mm",
-    title: "Rezistență maximă",
-    description:
-      "Rigidă și stabilă — recomandată pentru panouri fixe sau zone expuse la vânt puternic, utilizare permanentă.",
-  },
-];
-
 export default function Home() {
   return (
     <div className="flex flex-col">
@@ -203,58 +181,6 @@ export default function Home() {
             </Link>
           </div>
           <CategoryCarousel categories={categories} />
-        </div>
-      </section>
-
-      <section className="px-6 py-20">
-        <div className="mx-auto max-w-6xl">
-          <h2 className="text-2xl font-bold tracking-tight sm:text-3xl">
-            Cum alegi grosimea potrivită
-          </h2>
-          <p className="mt-3 max-w-2xl text-zinc-600 dark:text-zinc-400">
-            Grosimea foliei determină cât de rigidă și de rezistentă este
-            închiderea. Regula simplă: cu cât zona e mai expusă la vânt și
-            folosirea mai permanentă, cu atât alegi o folie mai groasă.
-          </p>
-          <div className="mt-10 grid gap-6 sm:grid-cols-3">
-            {thicknessGuide.map((tier) => (
-              <div
-                key={tier.range}
-                className={`rounded-2xl border p-6 ${
-                  tier.highlighted
-                    ? "border-blue-600 bg-blue-50/50 dark:bg-blue-950/30"
-                    : "border-black/10 dark:border-white/10"
-                }`}
-              >
-                <p className="text-2xl font-bold text-blue-600">{tier.range}</p>
-                <h3 className="mt-2 flex flex-wrap items-center gap-2 font-semibold">
-                  {tier.title}
-                  {tier.highlighted && (
-                    <span className="rounded-full bg-blue-600 px-2.5 py-0.5 text-xs font-semibold whitespace-nowrap text-white">
-                      cea mai aleasă
-                    </span>
-                  )}
-                </h3>
-                <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-                  {tier.description}
-                </p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 flex flex-col items-start gap-2 sm:flex-row sm:items-center sm:gap-6">
-            <Link
-              href="/produse/folii-transparente-terase"
-              className="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-blue-700"
-            >
-              Vezi foliile pe grosimi
-            </Link>
-            <Link
-              href="/intrebari-frecvente"
-              className="text-sm font-medium text-blue-600 hover:underline"
-            >
-              Mai multe întrebări? Vezi răspunsurile frecvente &rarr;
-            </Link>
-          </div>
         </div>
       </section>
 

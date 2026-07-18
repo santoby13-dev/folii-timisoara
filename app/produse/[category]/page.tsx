@@ -10,6 +10,28 @@ import {
 import CategoryGrid from "@/components/CategoryGrid";
 import { siteConfig } from "@/lib/site-config";
 
+const thicknessGuide = [
+  {
+    range: "0.4 – 0.5 mm",
+    title: "Protecție de bază",
+    description:
+      "Flexibilă și economică — ideală pentru pergole mici sau zone adăpostite, cu deschidere și rulare frecventă.",
+  },
+  {
+    range: "0.8 mm",
+    title: "Standardul pentru terase",
+    description:
+      "Cea mai folosită grosime pentru terase, foișoare și restaurante — echilibru optim între flexibilitate și rigiditate.",
+    highlighted: true,
+  },
+  {
+    range: "1.0 mm",
+    title: "Rezistență maximă",
+    description:
+      "Rigidă și stabilă — recomandată pentru panouri fixe sau zone expuse la vânt puternic, utilizare permanentă.",
+  },
+];
+
 export function generateStaticParams() {
   return categories.map((category) => ({ category: category.slug }));
 }
@@ -110,6 +132,41 @@ export default async function CategoryPage({
       <p className="mt-3 max-w-2xl text-zinc-600 dark:text-zinc-400">
         {category.description}
       </p>
+
+      {category.slug === "folii-transparente-terase" && (
+        <div className="mt-10 rounded-2xl border border-black/10 p-6 dark:border-white/10">
+          <h2 className="text-lg font-semibold">Cum alegi grosimea potrivită</h2>
+          <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+            Regula simplă: cu cât zona e mai expusă la vânt și folosirea mai
+            permanentă, cu atât alegi o folie mai groasă.
+          </p>
+          <div className="mt-6 grid gap-4 sm:grid-cols-3">
+            {thicknessGuide.map((tier) => (
+              <div
+                key={tier.range}
+                className={`rounded-xl border p-4 ${
+                  tier.highlighted
+                    ? "border-blue-600 bg-blue-50/50 dark:bg-blue-950/30"
+                    : "border-black/10 dark:border-white/10"
+                }`}
+              >
+                <p className="text-xl font-bold text-blue-600">{tier.range}</p>
+                <h3 className="mt-1 flex flex-wrap items-center gap-2 text-sm font-semibold">
+                  {tier.title}
+                  {tier.highlighted && (
+                    <span className="rounded-full bg-blue-600 px-2 py-0.5 text-xs font-semibold whitespace-nowrap text-white">
+                      cea mai aleasă
+                    </span>
+                  )}
+                </h3>
+                <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
+                  {tier.description}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
 
       {categoryProducts.length === 0 ? (
         <p className="mt-6 text-zinc-600 dark:text-zinc-400">

@@ -10,6 +10,7 @@ import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [menuHintDismissed, setMenuHintDismissed] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [query, setQuery] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -40,10 +41,15 @@ export default function Header() {
         <div className="flex items-center">
           <button
             type="button"
-            onClick={() => setMenuOpen((open) => !open)}
+            onClick={() => {
+              setMenuOpen((open) => !open);
+              setMenuHintDismissed(true);
+            }}
             aria-label={menuOpen ? "Închide meniul" : "Deschide meniul"}
             aria-expanded={menuOpen}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 sm:hidden dark:border-white/10"
+            className={`flex h-10 w-10 items-center justify-center rounded-full border border-black/10 sm:hidden dark:border-white/10 ${
+              menuHintDismissed ? "" : "menu-hint"
+            }`}
           >
             <svg
               className={`h-4 w-4 transition-transform duration-200 ${
