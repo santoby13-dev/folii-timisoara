@@ -2,10 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import FloatingWhatsApp from "@/components/FloatingWhatsApp";
-import CartDrawer from "@/components/CartDrawer";
+import SiteChrome from "@/components/SiteChrome";
 import { CartProvider } from "@/lib/cart";
 import { siteConfig } from "@/lib/site-config";
 import "./globals.css";
@@ -102,11 +99,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <CartProvider>
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <FloatingWhatsApp />
-          <CartDrawer />
+          <SiteChrome>{children}</SiteChrome>
         </CartProvider>
         <Analytics />
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
