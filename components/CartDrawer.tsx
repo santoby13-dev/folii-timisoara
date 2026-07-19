@@ -5,10 +5,12 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart, formatPrice } from "@/lib/cart";
 import { getProduct } from "@/lib/products";
+import { useCatalog } from "@/components/CatalogProvider";
 import { shippingZones } from "@/lib/shipping";
 
 export default function CartDrawer() {
   const { items, totalPrice, drawerOpen, closeDrawer } = useCart();
+  const { products } = useCatalog();
 
   useEffect(() => {
     if (!drawerOpen) return;
@@ -49,7 +51,7 @@ export default function CartDrawer() {
           ) : (
             <ul className="flex flex-col gap-4">
               {items.map((item) => {
-                const product = getProduct(item.categorySlug, item.productSlug);
+                const product = getProduct(products, item.categorySlug, item.productSlug);
                 const image = product?.images[0];
                 return (
                   <li key={item.id} className="flex items-center gap-3">

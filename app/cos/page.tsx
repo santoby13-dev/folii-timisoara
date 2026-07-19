@@ -4,11 +4,13 @@ import Link from "next/link";
 import Image from "next/image";
 import { useCart, formatPrice, cartItemDetailLine } from "@/lib/cart";
 import { getProduct } from "@/lib/products";
+import { useCatalog } from "@/components/CatalogProvider";
 import { shippingZones, shippingNote, paymentMethods } from "@/lib/shipping";
 import CheckoutSteps from "@/components/CheckoutSteps";
 
 export default function CartPage() {
   const { items, removeItem, setQuantity, totalPrice } = useCart();
+  const { products } = useCatalog();
 
   if (items.length === 0) {
     return (
@@ -40,7 +42,7 @@ export default function CartPage() {
 
       <div className="mt-10 flex flex-col gap-4">
         {items.map((item) => {
-          const product = getProduct(item.categorySlug, item.productSlug);
+          const product = getProduct(products, item.categorySlug, item.productSlug);
           const image = product?.images[0];
           return (
             <div

@@ -8,8 +8,8 @@ import {
   getProduct,
   getProductsByCategory,
   getCrossSellProducts,
-  products,
 } from "@/lib/products";
+import { getCatalog } from "@/lib/catalog";
 import AddToCart from "@/components/AddToCart";
 import ProductGallery from "@/components/ProductGallery";
 import ProductTrustBadges from "@/components/ProductTrustBadges";
@@ -17,7 +17,8 @@ import ProductSpecs from "@/components/ProductSpecs";
 import SizeCalculator from "@/components/SizeCalculator";
 import TrackViewItem from "@/components/TrackViewItem";
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const { products } = await getCatalog();
   return products.map((product) => ({
     category: product.categorySlug,
     product: product.slug,
@@ -30,7 +31,8 @@ export async function generateMetadata({
   params: Promise<{ category: string; product: string }>;
 }): Promise<Metadata> {
   const { category, product: productSlug } = await params;
-  const product = getProduct(category, productSlug);
+  const { products } = await getCatalog();
+  const product = getProduct(products, category, productSlug);
   if (!product) return {};
   const url = `${siteConfig.url}/produse/${category}/${productSlug}`;
   return {
@@ -53,15 +55,16 @@ export default async function ProductPage({
   params: Promise<{ category: string; product: string }>;
 }) {
   const { category: categorySlug, product: productSlug } = await params;
-  const category = getCategory(categorySlug);
-  const product = getProduct(categorySlug, productSlug);
+  const { categories, products } = await getCatalog();
+  const category = getCategory(categories, categorySlug);
+  const product = getProduct(products, categorySlug, productSlug);
   if (!category || !product) notFound();
 
-  const similarProducts = getProductsByCategory(categorySlug)
+  const similarProducts = getProductsByCategory(products, categorySlug)
     .filter((p) => p.slug !== product.slug)
     .slice(0, 4);
 
-  const crossSellProducts = getCrossSellProducts(categorySlug);
+  const crossSellProducts = getCrossSellProducts(products, categorySlug);
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",

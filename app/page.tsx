@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { siteConfig } from "@/lib/site-config";
-import { categories } from "@/lib/products";
+import { getCatalog } from "@/lib/catalog";
 import HeroCarousel from "@/components/HeroCarousel";
 import CategoryCarousel from "@/components/CategoryCarousel";
 import NewsletterSignup from "@/components/NewsletterSignup";
@@ -86,7 +86,9 @@ const advantages = [
   },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const { categories } = await getCatalog();
+
   return (
     <div className="flex flex-col">
       <section className="relative overflow-hidden border-b border-black/10 px-6 py-24 sm:py-32 dark:border-white/10">

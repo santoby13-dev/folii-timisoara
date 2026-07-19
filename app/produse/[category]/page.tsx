@@ -1,12 +1,8 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import {
-  categories,
-  cheapestPricePerSqm,
-  getCategory,
-  getProductsByCategory,
-} from "@/lib/products";
+import { cheapestPricePerSqm, getCategory, getProductsByCategory } from "@/lib/products";
+import { getCatalog } from "@/lib/catalog";
 import CategoryGrid from "@/components/CategoryGrid";
 import { siteConfig } from "@/lib/site-config";
 
@@ -32,7 +28,8 @@ const thicknessGuide = [
   },
 ];
 
-export function generateStaticParams() {
+export async function generateStaticParams() {
+  const { categories } = await getCatalog();
   return categories.map((category) => ({ category: category.slug }));
 }
 
@@ -42,7 +39,8 @@ export async function generateMetadata({
   params: Promise<{ category: string }>;
 }): Promise<Metadata> {
   const { category: categorySlug } = await params;
-  const category = getCategory(categorySlug);
+  const { categories } = await getCatalog();
+  const category = getCategory(categories, categorySlug);
   if (!category) return {};
   const url = `${siteConfig.url}/produse/${category.slug}`;
   return {
@@ -65,10 +63,11 @@ export default async function CategoryPage({
   params: Promise<{ category: string }>;
 }) {
   const { category: categorySlug } = await params;
-  const category = getCategory(categorySlug);
+  const { categories, products } = await getCatalog();
+  const category = getCategory(categories, categorySlug);
   if (!category) notFound();
 
-  const categoryProducts = getProductsByCategory(categorySlug);
+  const categoryProducts = getProductsByCategory(products, categorySlug);
 
   const breadcrumbJsonLd = {
     "@context": "https://schema.org",

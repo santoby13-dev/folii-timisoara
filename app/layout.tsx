@@ -3,8 +3,10 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { GoogleAnalytics } from "@next/third-parties/google";
 import SiteChrome from "@/components/SiteChrome";
+import CatalogProvider from "@/components/CatalogProvider";
 import { CartProvider } from "@/lib/cart";
 import { siteConfig } from "@/lib/site-config";
+import { getCatalog } from "@/lib/catalog";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -66,11 +68,13 @@ const websiteJsonLd = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const { categories, products } = await getCatalog();
+
   return (
     <html
       lang="ro"
@@ -98,9 +102,11 @@ export default function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
-        <CartProvider>
-          <SiteChrome>{children}</SiteChrome>
-        </CartProvider>
+        <CatalogProvider categories={categories} products={products}>
+          <CartProvider>
+            <SiteChrome>{children}</SiteChrome>
+          </CartProvider>
+        </CatalogProvider>
         <Analytics />
         {process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID && (
           <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID} />

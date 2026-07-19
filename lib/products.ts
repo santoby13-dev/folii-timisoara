@@ -161,15 +161,19 @@ export const products: Product[] = [
   ...unelteCatalog,
 ];
 
-export function getCategory(slug: string) {
+export function getCategory(categories: Category[], slug: string) {
   return categories.find((c) => c.slug === slug);
 }
 
-export function getProductsByCategory(slug: string) {
+export function getProductsByCategory(products: Product[], slug: string) {
   return products.filter((p) => p.categorySlug === slug);
 }
 
-export function getProduct(categorySlug: string, productSlug: string) {
+export function getProduct(
+  products: Product[],
+  categorySlug: string,
+  productSlug: string
+) {
   return products.find(
     (p) => p.categorySlug === categorySlug && p.slug === productSlug
   );
@@ -196,11 +200,14 @@ const crossSellByCategory: Record<string, string[]> = {
   ],
 };
 
-export function getCrossSellProducts(categorySlug: string): Product[] {
+export function getCrossSellProducts(
+  products: Product[],
+  categorySlug: string
+): Product[] {
   const slugs = crossSellByCategory[categorySlug];
   if (!slugs) return [];
   return slugs
-    .map((slug) => getProduct("accesorii", slug))
+    .map((slug) => getProduct(products, "accesorii", slug))
     .filter((p): p is Product => p !== undefined);
 }
 

@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { categories } from "@/lib/products";
+import { getCatalog } from "@/lib/catalog";
 
 export const metadata: Metadata = {
   title: "Produse | Folii Timișoara",
   description: "Categoriile de produse Folii Timișoara.",
 };
 
-export default function ProduseIndexPage() {
+export default async function ProduseIndexPage() {
+  const { categories } = await getCatalog();
+
   return (
     <div className="mx-auto max-w-6xl px-6 py-16">
       <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">

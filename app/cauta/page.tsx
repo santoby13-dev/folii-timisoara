@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Image from "next/image";
-import { products } from "@/lib/products";
+import { getCatalog } from "@/lib/catalog";
 import { siteConfig } from "@/lib/site-config";
 
 export const metadata: Metadata = {
@@ -15,6 +15,7 @@ export default async function SearchPage({
   searchParams: Promise<{ q?: string }>;
 }) {
   const { q } = await searchParams;
+  const { products } = await getCatalog();
   const query = (q ?? "").trim().toLowerCase();
   const results = query
     ? products.filter((p) => p.name.toLowerCase().includes(query))

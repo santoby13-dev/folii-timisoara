@@ -4,11 +4,12 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { siteConfig } from "@/lib/site-config";
-import { categories, products } from "@/lib/products";
+import { useCatalog } from "@/components/CatalogProvider";
 import CartLink from "@/components/CartLink";
 import ThemeToggle from "@/components/ThemeToggle";
 
 export default function Header() {
+  const { categories, products } = useCatalog();
   // Deschis implicit — pe mobil, meniul secundar (Produse/Despre noi/Contact)
   // era ascuns și nimeni nu-l descoperea; acum e vizibil din prima, fără să
   // mai fie nevoie de un click sau de o animație care să-l semnaleze.
@@ -34,7 +35,7 @@ export default function Header() {
     const q = query.trim().toLowerCase();
     if (!q) return [];
     return products.filter((p) => p.name.toLowerCase().includes(q)).slice(0, 8);
-  }, [query]);
+  }, [query, products]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-black/10 bg-white/90 backdrop-blur dark:border-white/10 dark:bg-black/90 relative">
