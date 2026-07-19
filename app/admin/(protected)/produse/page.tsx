@@ -1,12 +1,26 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import ProductFilterTable from "@/components/admin/ProductFilterTable";
 
 export default async function AdminProductsPage() {
   const supabase = await createClient();
-  const { data: products, error } = await supabase
-    .from("products")
-    .select("id, name, slug, price, has_cart, categories(name)")
-    .order("name");
+  const [{ data: products, error }, { data: categories }] = await Promise.all([
+    supabase
+      .from("products")
+      .select("id, name, sku, price, category_id, categories(name)")
+      .order("name"),
+    supabase.from("categories").select("id, name").order("sort_order"),
+  ]);
+
+  const rows = (products ?? []).map((p) => ({
+    id: p.id,
+    name: p.name,
+    sku: p.sku,
+    price: Number(p.price),
+    categoryId: p.category_id,
+    categoryName:
+      (p.categories as unknown as { name: string } | null)?.name ?? "—",
+  }));
 
   return (
     <div>
@@ -22,47 +36,7 @@ export default async function AdminProductsPage() {
 
       {error && <p className="text-sm text-red-600 mb-4">{error.message}</p>}
 
-      <div className="border border-neutral-200 dark:border-neutral-800 rounded-lg overflow-hidden">
-        <table className="w-full text-sm">
-          <thead className="bg-neutral-100 dark:bg-neutral-900 text-left">
-            <tr>
-              <th className="px-4 py-2">Nume</th>
-              <th className="px-4 py-2">Categorie</th>
-              <th className="px-4 py-2">Preț</th>
-              <th className="px-4 py-2" />
-            </tr>
-          </thead>
-          <tbody>
-            {products?.map((p) => (
-              <tr
-                key={p.id}
-                className="border-t border-neutral-200 dark:border-neutral-800"
-              >
-                <td className="px-4 py-2">{p.name}</td>
-                <td className="px-4 py-2 text-neutral-500">
-                  {(p.categories as unknown as { name: string } | null)?.name ?? "—"}
-                </td>
-                <td className="px-4 py-2">{Number(p.price).toFixed(2)} RON</td>
-                <td className="px-4 py-2 text-right">
-                  <Link
-                    href={`/admin/produse/${p.id}`}
-                    className="text-neutral-600 dark:text-neutral-300 underline"
-                  >
-                    Editează
-                  </Link>
-                </td>
-              </tr>
-            ))}
-            {products?.length === 0 && (
-              <tr>
-                <td colSpan={4} className="px-4 py-6 text-center text-neutral-500">
-                  Niciun produs încă.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+      <ProductFilterTable products={rows} categories={categories ?? []} />
     </div>
   );
 }

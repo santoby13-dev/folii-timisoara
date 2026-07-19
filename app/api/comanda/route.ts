@@ -5,6 +5,7 @@ import {
   sendOrderConfirmationEmail,
   sendOrderNotificationEmail,
 } from "@/lib/email";
+import { createAdminClient } from "@/lib/supabase/admin";
 
 type OrderItem = {
   name: string;
@@ -144,6 +145,27 @@ export async function POST(request: Request) {
       { error: "Comanda nu a putut fi înregistrată. Te rugăm să ne suni." },
       { status: 500 }
     );
+  }
+
+  // Statisticile din /admin citesc din Supabase — bonus pe lângă comanda
+  // deja salvată în Sheets, un eșec aici nu blochează răspunsul către client.
+  try {
+    const supabase = createAdminClient();
+    if (supabase) {
+      await supabase.from("orders").insert({
+        order_number: orderId,
+        customer_name: order.name.trim(),
+        customer_email: order.email.trim(),
+        customer_phone: order.phone.trim(),
+        address,
+        items: order.items,
+        total_price: order.totalPrice,
+        payment_method: paymentMethodLabel(order.payment),
+        notes: (order.notes ?? "").trim(),
+      });
+    }
+  } catch (err) {
+    console.error("Order Supabase insert failed:", err);
   }
 
   // Emailurile sunt un bonus pe lângă comanda deja salvată în Sheets — un

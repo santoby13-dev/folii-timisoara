@@ -80,6 +80,12 @@ export default function CheckoutPage() {
     if (items.length > 0 && !checkoutTracked.current) {
       checkoutTracked.current = true;
       trackBeginCheckout(items, totalPrice);
+      fetch("/api/checkout-start", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ totalPrice, itemCount: items.length }),
+        keepalive: true,
+      }).catch(() => {});
     }
   }, [items, totalPrice]);
 

@@ -182,6 +182,47 @@ export type Database = {
         Update: Partial<Database["public"]["Tables"]["admin_users"]["Row"]>;
         Relationships: [];
       };
+      orders: {
+        Row: {
+          id: string;
+          order_number: string;
+          customer_name: string;
+          customer_email: string;
+          customer_phone: string;
+          address: string;
+          items: Json;
+          total_price: number;
+          payment_method: string;
+          status: string;
+          notes: string;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["orders"]["Row"]> & {
+          order_number: string;
+          customer_name: string;
+          customer_email: string;
+          customer_phone: string;
+          address: string;
+          total_price: number;
+          payment_method: string;
+        };
+        Update: Partial<Database["public"]["Tables"]["orders"]["Row"]>;
+        Relationships: [];
+      };
+      checkout_starts: {
+        Row: {
+          id: string;
+          total_price: number;
+          item_count: number;
+          created_at: string;
+        };
+        Insert: Partial<Database["public"]["Tables"]["checkout_starts"]["Row"]> & {
+          total_price: number;
+          item_count: number;
+        };
+        Update: Partial<Database["public"]["Tables"]["checkout_starts"]["Row"]>;
+        Relationships: [];
+      };
     };
     Views: Record<string, never>;
     Functions: Record<string, never>;
