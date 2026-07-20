@@ -54,6 +54,17 @@ async function getAccessToken(): Promise<string> {
   return data.access_token;
 }
 
+/**
+ * valueInputOption=USER_ENTERED face ca Sheets să interpreteze celulele ca
+ * și cum ar fi tastate manual — un rând de comandă cu numele „=CMD(...)” ar
+ * porni ca formulă la deschiderea sheet-ului. Prefixăm cu apostrof orice
+ * text care începe cu un caracter declanșator de formulă, ca să rămână text.
+ */
+function sanitizeCell(value: string | number): string | number {
+  if (typeof value !== "string") return value;
+  return /^[=+\-@\t\r]/.test(value) ? `'${value}` : value;
+}
+
 async function appendRow(sheetName: string, values: (string | number)[]) {
   const sheetId = process.env.GOOGLE_SHEET_ID;
   if (!sheetId) throw new Error("GOOGLE_SHEET_ID is not configured");
@@ -67,7 +78,7 @@ async function appendRow(sheetName: string, values: (string | number)[]) {
         Authorization: `Bearer ${token}`,
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ values: [values] }),
+      body: JSON.stringify({ values: [values.map(sanitizeCell)] }),
     }
   );
   if (!res.ok) {

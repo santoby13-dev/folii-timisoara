@@ -10,6 +10,21 @@ import { siteConfig } from "@/lib/site-config";
 let cachedTransporter: ReturnType<typeof nodemailer.createTransport> | null =
   null;
 
+/**
+ * Datele din formularul de comandă/newsletter (nume, adresă, notițe, numele
+ * produselor din payload-ul clientului) ajung direct în HTML-ul emailurilor
+ * de mai jos — fără escapare, cineva ar putea injecta markup/JS în emailul
+ * primit de Toby sau de client.
+ */
+function escapeHtml(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
 function getTransporter() {
   const user = process.env.EMAIL_SMTP_USER;
   const password = process.env.EMAIL_SMTP_PASSWORD;
@@ -47,7 +62,7 @@ function formatItemsHtml(items: ConfirmationEmailItem[]) {
     .map(
       (i) =>
         `<tr>
-          <td style="padding:6px 8px;border-bottom:1px solid #e5e5e5;">${i.name}</td>
+          <td style="padding:6px 8px;border-bottom:1px solid #e5e5e5;">${escapeHtml(i.name)}</td>
           <td style="padding:6px 8px;border-bottom:1px solid #e5e5e5;text-align:center;">${i.quantity}</td>
           <td style="padding:6px 8px;border-bottom:1px solid #e5e5e5;text-align:right;">${i.unitPrice.toFixed(2)} RON</td>
         </tr>`
@@ -68,7 +83,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
     subject: `Comanda ta ${data.orderId} a fost înregistrată — ${siteConfig.name}`,
     html: `
       <div style="font-family:Arial,Helvetica,sans-serif;color:#171717;max-width:560px;margin:0 auto;">
-        <h2 style="margin-bottom:4px;">Mulțumim, ${data.customerName}!</h2>
+        <h2 style="margin-bottom:4px;">Mulțumim, ${escapeHtml(data.customerName)}!</h2>
         <p style="color:#525252;">Comanda ta <strong>${data.orderId}</strong> a fost înregistrată. Te sunăm în scurt timp pentru confirmarea comenzii și stabilirea costului de transport.</p>
         <table style="width:100%;border-collapse:collapse;margin:16px 0;">
           <thead>
@@ -81,7 +96,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData) {
           <tbody>${itemsHtml}</tbody>
         </table>
         <p><strong>Total estimat: ${data.totalPrice.toFixed(2)} RON</strong> (transportul se adaugă separat, în funcție de volum și greutate)</p>
-        <p style="color:#525252;">Metodă de plată: ${data.paymentLabel}<br/>Adresă de livrare: ${data.address}</p>
+        <p style="color:#525252;">Metodă de plată: ${escapeHtml(data.paymentLabel)}<br/>Adresă de livrare: ${escapeHtml(data.address)}</p>
         <p style="color:#525252;">Ai o întrebare? Sună-ne la <a href="${siteConfig.phoneHref}">${siteConfig.phone}</a> sau scrie-ne pe <a href="${siteConfig.whatsappHref}">WhatsApp</a>.</p>
       </div>
     `,
@@ -102,10 +117,10 @@ export async function sendOrderNotificationEmail(data: OrderEmailData) {
     html: `
       <div style="font-family:Arial,Helvetica,sans-serif;color:#171717;max-width:560px;margin:0 auto;">
         <h2 style="margin-bottom:4px;">Comandă nouă: ${data.orderId}</h2>
-        <p><strong>Client:</strong> ${data.customerName}<br/>
-           <strong>Telefon:</strong> <a href="tel:${data.customerPhone}">${data.customerPhone}</a><br/>
-           <strong>Email:</strong> ${data.customerEmail}<br/>
-           <strong>Adresă:</strong> ${data.address}</p>
+        <p><strong>Client:</strong> ${escapeHtml(data.customerName)}<br/>
+           <strong>Telefon:</strong> <a href="tel:${encodeURIComponent(data.customerPhone)}">${escapeHtml(data.customerPhone)}</a><br/>
+           <strong>Email:</strong> ${escapeHtml(data.customerEmail)}<br/>
+           <strong>Adresă:</strong> ${escapeHtml(data.address)}</p>
         <table style="width:100%;border-collapse:collapse;margin:16px 0;">
           <thead>
             <tr style="text-align:left;">
@@ -117,7 +132,7 @@ export async function sendOrderNotificationEmail(data: OrderEmailData) {
           <tbody>${itemsHtml}</tbody>
         </table>
         <p><strong>Total: ${data.totalPrice.toFixed(2)} RON</strong></p>
-        <p>Metodă de plată: ${data.paymentLabel}${data.notes ? `<br/>Observații: ${data.notes}` : ""}</p>
+        <p>Metodă de plată: ${escapeHtml(data.paymentLabel)}${data.notes ? `<br/>Observații: ${escapeHtml(data.notes)}` : ""}</p>
       </div>
     `,
   });
