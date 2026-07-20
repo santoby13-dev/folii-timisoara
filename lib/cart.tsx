@@ -69,8 +69,12 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
+    // localStorage nu există la SSR — coșul pornește gol la primul randare
+    // (identic pe server și client, fără mismatch de hidratare), apoi se
+    // populează aici, o singură dată, imediat după montare.
     try {
       const stored = localStorage.getItem(STORAGE_KEY);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       if (stored) setItems(JSON.parse(stored));
     } catch {
       // corrupt storage — start with an empty cart

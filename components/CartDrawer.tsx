@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { useCart, formatPrice } from "@/lib/cart";
-import { getProduct } from "@/lib/products";
 import { useCatalog } from "@/components/CatalogProvider";
 import { shippingZones } from "@/lib/shipping";
 
@@ -51,8 +50,9 @@ export default function CartDrawer() {
           ) : (
             <ul className="flex flex-col gap-4">
               {items.map((item) => {
-                const product = getProduct(products, item.categorySlug, item.productSlug);
-                const image = product?.images[0];
+                const image = products.find(
+                  (p) => p.categorySlug === item.categorySlug && p.slug === item.productSlug
+                )?.image;
                 return (
                   <li key={item.id} className="flex items-center gap-3">
                     {image && (

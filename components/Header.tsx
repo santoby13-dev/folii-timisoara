@@ -192,10 +192,10 @@ export default function Header() {
                         onClick={closeSearch}
                         className="flex items-center gap-3 rounded-lg px-2 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-800"
                       >
-                        {product.images[0] && (
+                        {product.image && (
                           <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-lg bg-white">
                             <Image
-                              src={product.images[0]}
+                              src={product.image}
                               alt={product.name}
                               fill
                               className="object-cover"

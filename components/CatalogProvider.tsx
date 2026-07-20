@@ -1,9 +1,10 @@
 "use client";
 
 import { createContext, useContext } from "react";
-import type { Category, Product } from "@/lib/products";
+import type { Category } from "@/lib/products";
+import type { ProductSummary } from "@/lib/catalog";
 
-type CatalogContextValue = { categories: Category[]; products: Product[] };
+type CatalogContextValue = { categories: Category[]; products: ProductSummary[] };
 
 const CatalogContext = createContext<CatalogContextValue | null>(null);
 

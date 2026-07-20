@@ -6,7 +6,7 @@ import SiteChrome from "@/components/SiteChrome";
 import CatalogProvider from "@/components/CatalogProvider";
 import { CartProvider } from "@/lib/cart";
 import { siteConfig } from "@/lib/site-config";
-import { getCatalog } from "@/lib/catalog";
+import { getCatalog, toProductSummaries } from "@/lib/catalog";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -102,7 +102,7 @@ export default async function RootLayout({
         />
       </head>
       <body className="min-h-full flex flex-col">
-        <CatalogProvider categories={categories} products={products}>
+        <CatalogProvider categories={categories} products={toProductSummaries(products)}>
           <CartProvider>
             <SiteChrome>{children}</SiteChrome>
           </CartProvider>

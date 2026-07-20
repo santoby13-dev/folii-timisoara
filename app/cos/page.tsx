@@ -3,7 +3,6 @@
 import Link from "next/link";
 import Image from "next/image";
 import { useCart, formatPrice, cartItemDetailLine } from "@/lib/cart";
-import { getProduct } from "@/lib/products";
 import { useCatalog } from "@/components/CatalogProvider";
 import { shippingZones, shippingNote, paymentMethods } from "@/lib/shipping";
 import CheckoutSteps from "@/components/CheckoutSteps";
@@ -42,8 +41,9 @@ export default function CartPage() {
 
       <div className="mt-10 flex flex-col gap-4">
         {items.map((item) => {
-          const product = getProduct(products, item.categorySlug, item.productSlug);
-          const image = product?.images[0];
+          const image = products.find(
+            (p) => p.categorySlug === item.categorySlug && p.slug === item.productSlug
+          )?.image;
           return (
             <div
               key={item.id}

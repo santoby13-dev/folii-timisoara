@@ -8,6 +8,27 @@ import {
 } from "@/lib/products";
 
 /**
+ * Doar câmpurile pe care le folosesc componentele client (Header, coș) —
+ * nu descrierea/specificațiile/variantele fiecărui produs. Trimis pe fiecare
+ * pagină prin CatalogProvider, deci contează la mărimea payload-ului.
+ */
+export type ProductSummary = {
+  slug: string;
+  categorySlug: string;
+  name: string;
+  image?: string;
+};
+
+export function toProductSummaries(products: Product[]): ProductSummary[] {
+  return products.map((p) => ({
+    slug: p.slug,
+    categorySlug: p.categorySlug,
+    name: p.name,
+    image: p.images[0],
+  }));
+}
+
+/**
  * Sursa de date a catalogului public — citește din Supabase (populat din
  * /admin) și cade pe catalogul static din lib/catalog-*.ts dacă Supabase nu
  * e configurat sau interogarea eșuează, ca site-ul să nu pice niciodată din
