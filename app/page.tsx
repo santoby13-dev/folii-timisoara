@@ -119,6 +119,10 @@ export default async function Home() {
               gratuită
             </a>
           </div>
+          <p className="max-w-xl text-sm font-semibold text-white">
+            Produse originale Cristal Flex® și CoverPlan® — lucrăm direct cu
+            producătorii, fără intermediari, la un preț mai bun.
+          </p>
         </div>
       </section>
 
@@ -232,6 +236,10 @@ export default async function Home() {
                   {siteConfig.email}
                 </a>
               </div>
+              <p className="mt-6 text-sm text-zinc-500 dark:text-zinc-400">
+                Comanzi fără risc: plătești abia la livrare, cu drept de
+                retur 14 zile.
+              </p>
             </div>
 
             <NewsletterSignup />
