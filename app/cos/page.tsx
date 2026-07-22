@@ -64,7 +64,7 @@ export default function CartPage() {
                 <div>
                   <Link
                     href={`/produse/${item.categorySlug}/${item.productSlug}`}
-                    className="font-semibold hover:text-blue-600"
+                    className="font-semibold hover:text-blue-600 dark:hover:text-blue-400"
                   >
                     {item.name}
                   </Link>
@@ -73,7 +73,7 @@ export default function CartPage() {
                       {cartItemDetailLine(item)}
                     </p>
                   )}
-                  <p className="mt-1 text-sm font-semibold text-blue-600">
+                  <p className="mt-1 text-sm font-semibold text-blue-600 dark:text-blue-400">
                     {formatPrice(item.unitPrice)} / {item.unitLabel ?? "rolă"}
                   </p>
                 </div>
@@ -83,7 +83,7 @@ export default function CartPage() {
                 <div className="flex items-center rounded-full border border-black/10 dark:border-white/10">
                   <button
                     onClick={() => setQuantity(item.id, item.quantity - 1)}
-                    className="flex h-9 w-9 items-center justify-center text-lg hover:text-blue-600"
+                    className="flex h-11 w-11 items-center justify-center text-lg hover:text-blue-600 dark:hover:text-blue-400"
                     aria-label="Scade cantitatea"
                   >
                     −
@@ -93,7 +93,7 @@ export default function CartPage() {
                   </span>
                   <button
                     onClick={() => setQuantity(item.id, item.quantity + 1)}
-                    className="flex h-9 w-9 items-center justify-center text-lg hover:text-blue-600"
+                    className="flex h-11 w-11 items-center justify-center text-lg hover:text-blue-600 dark:hover:text-blue-400"
                     aria-label="Crește cantitatea"
                   >
                     +
@@ -135,7 +135,7 @@ export default function CartPage() {
             <p className="mt-1 text-sm text-zinc-600 dark:text-zinc-400">
               {zone.zoneLabel}
             </p>
-            <p className="mt-2 font-semibold text-blue-600">
+            <p className="mt-2 font-semibold text-blue-600 dark:text-blue-400">
               de la {zone.priceFrom} RON
             </p>
           </div>
@@ -166,7 +166,7 @@ export default function CartPage() {
       <div className="mt-8 flex flex-col items-end gap-2">
         <p className="text-xl font-bold">
           Subtotal produse:{" "}
-          <span className="text-blue-600">{formatPrice(totalPrice)}</span>
+          <span className="text-blue-600 dark:text-blue-400">{formatPrice(totalPrice)}</span>
         </p>
         <p className="text-sm text-zinc-500 dark:text-zinc-400">
           + transport de la {shippingZones[0].priceFrom} RON (expres local) sau
@@ -186,7 +186,7 @@ export default function CartPage() {
 function TruckIcon() {
   return (
     <svg
-      className="h-5 w-5 text-blue-600"
+      className="h-5 w-5 text-blue-600 dark:text-blue-400"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -207,7 +207,7 @@ function PaymentIcon({ method }: { method: string }) {
   if (method === "cash") {
     return (
       <svg
-        className="h-5 w-5 shrink-0 text-blue-600"
+        className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -225,7 +225,7 @@ function PaymentIcon({ method }: { method: string }) {
   if (method === "pos") {
     return (
       <svg
-        className="h-5 w-5 shrink-0 text-blue-600"
+        className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400"
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
@@ -241,7 +241,7 @@ function PaymentIcon({ method }: { method: string }) {
   }
   return (
     <svg
-      className="h-5 w-5 shrink-0 text-blue-600"
+      className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

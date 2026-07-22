@@ -36,12 +36,12 @@ export default function GhidPage() {
           calculatorul de pe{" "}
           <Link
             href="/produse/folii-transparente-terase/folie-transparenta-cristal-flex"
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             pagina foliei configurabile
           </Link>{" "}
           îți recomandă automat rola potrivită, sau sună-ne direct la{" "}
-          <a href={siteConfig.phoneHref} className="text-blue-600 hover:underline">
+          <a href={siteConfig.phoneHref} className="text-blue-600 dark:text-blue-400 hover:underline">
             {siteConfig.phone}
           </a>
           .
@@ -76,28 +76,28 @@ export default function GhidPage() {
           foliei se întărește întâi cu{" "}
           <Link
             href="/produse/accesorii/banda-intarire-margine-folie-tiv-30m"
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             bandă de întărire (TIV)
           </Link>
           , apoi se fixează cu{" "}
           <Link
             href="/produse/accesorii/capse-ovale-42x22mm-set-10"
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             capse ovale
           </Link>{" "}
           sau{" "}
           <Link
             href="/produse/accesorii/capse-rotunde-d10mm-1000buc"
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             capse rotunde
           </Link>
           . Pentru demontarea foliei vara, fără s-o tai, folosește{" "}
           <Link
             href="/produse/accesorii/bride-butoni-rotativi-set-10"
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             bride rotative
           </Link>{" "}
@@ -107,7 +107,7 @@ export default function GhidPage() {
           <strong>Fermoar de lipit</strong> (demontare rapidă, fără capse) —{" "}
           <Link
             href="/produse/accesorii/fermoar-lipire-3m"
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             fermoarul de lipit
           </Link>{" "}
@@ -120,14 +120,14 @@ export default function GhidPage() {
           are aparat de sudură cu aer cald,{" "}
           <Link
             href="/produse/accesorii/adeziv-special-prelata-pvc"
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             adezivul special pentru PVC
           </Link>{" "}
           sau{" "}
           <Link
             href="/produse/accesorii/banda-dublu-adeziva-19mm-cristal-flex-tape"
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             banda dublu-adezivă
           </Link>{" "}
@@ -148,7 +148,7 @@ export default function GhidPage() {
           de căldură.{" "}
           <Link
             href="/produse/accesorii/curelusa-pvc-fixare"
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             Curelușele din PVC
           </Link>{" "}

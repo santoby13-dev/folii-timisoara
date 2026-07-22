@@ -144,11 +144,11 @@ export default async function ProductPage({
         category={category.name}
       />
       <nav className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
-        <Link href="/produse" className="hover:text-blue-600">
+        <Link href="/produse" className="hover:text-blue-600 dark:hover:text-blue-400">
           Produse
         </Link>
         <span>/</span>
-        <Link href={`/produse/${category.slug}`} className="hover:text-blue-600">
+        <Link href={`/produse/${category.slug}`} className="hover:text-blue-600 dark:hover:text-blue-400">
           {category.name}
         </Link>
         <span>/</span>
@@ -186,7 +186,7 @@ export default async function ProductPage({
           ) : (
             <p className="mt-3 text-lg text-zinc-600 dark:text-zinc-400">
               de la{" "}
-              <span className="font-bold text-blue-600">
+              <span className="font-bold text-blue-600 dark:text-blue-400">
                 {product.price.toFixed(2).replace(".", ",")} RON / rolă
               </span>{" "}
               (TVA inclus)
@@ -226,7 +226,7 @@ export default async function ProductPage({
         <ul className="mt-4 space-y-2 text-zinc-600 dark:text-zinc-400">
           {product.useCases.map((useCase) => (
             <li key={useCase} className="flex gap-2">
-              <span className="text-blue-600">•</span>
+              <span className="text-blue-600 dark:text-blue-400">•</span>
               <span>{useCase}</span>
             </li>
           ))}
@@ -257,7 +257,7 @@ export default async function ProductPage({
                 <h3 className="mt-3 text-sm font-medium text-zinc-900 dark:text-zinc-100">
                   {accessory.name}
                 </h3>
-                <p className="mt-2 text-sm font-semibold text-blue-600">
+                <p className="mt-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
                   de la {accessory.price.toFixed(2).replace(".", ",")} RON
                 </p>
               </Link>
@@ -305,7 +305,7 @@ export default async function ProductPage({
                 <h3 className="mt-3 text-sm font-medium text-zinc-900 dark:text-zinc-100">
                   {similar.name}
                 </h3>
-                <p className="mt-2 text-sm font-semibold text-blue-600">
+                <p className="mt-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
                   de la {similar.price.toFixed(2).replace(".", ",")} RON
                 </p>
               </Link>

@@ -118,7 +118,7 @@ export default async function CategoryPage({
         />
       )}
       <nav className="flex flex-wrap items-center gap-1.5 text-sm text-zinc-500 dark:text-zinc-400">
-        <Link href="/produse" className="hover:text-blue-600">
+        <Link href="/produse" className="hover:text-blue-600 dark:hover:text-blue-400">
           Produse
         </Link>
         <span>/</span>
@@ -149,7 +149,7 @@ export default async function CategoryPage({
                     : "border-black/10 dark:border-white/10"
                 }`}
               >
-                <p className="text-xl font-bold text-blue-600">{tier.range}</p>
+                <p className="text-xl font-bold text-blue-600 dark:text-blue-400">{tier.range}</p>
                 <h3 className="mt-1 flex flex-wrap items-center gap-2 text-sm font-semibold">
                   {tier.title}
                   {tier.highlighted && (

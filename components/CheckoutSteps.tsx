@@ -27,7 +27,7 @@ export default function CheckoutSteps({ current }: { current: 0 | 1 | 2 }) {
                 done
                   ? "bg-blue-600 text-white"
                   : active
-                    ? "border-2 border-blue-600 text-blue-600"
+                    ? "border-2 border-blue-600 text-blue-600 dark:text-blue-400"
                     : "border border-zinc-300 text-zinc-400 dark:border-zinc-700 dark:text-zinc-500"
               }`}
               aria-hidden="true"

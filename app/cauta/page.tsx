@@ -35,7 +35,7 @@ export default async function SearchPage({
       {query && results.length === 0 && (
         <p className="mt-10 text-zinc-600 dark:text-zinc-400">
           Niciun produs găsit pentru „{q}”. Sună-ne la{" "}
-          <a href={siteConfig.phoneHref} className="text-blue-600 hover:underline">
+          <a href={siteConfig.phoneHref} className="text-blue-600 dark:text-blue-400 hover:underline">
             {siteConfig.phone}
           </a>{" "}
           — te ajutăm să găsești ce cauți.
@@ -64,7 +64,7 @@ export default async function SearchPage({
               <h2 className="mt-3 text-sm font-medium text-zinc-900 dark:text-zinc-100">
                 {product.name}
               </h2>
-              <p className="mt-2 text-sm font-semibold text-blue-600">
+              <p className="mt-2 text-sm font-semibold text-blue-600 dark:text-blue-400">
                 de la {product.price.toFixed(2).replace(".", ",")} RON
               </p>
             </Link>

@@ -29,7 +29,7 @@ export default async function ProduseIndexPage() {
                 în curând
               </span>
             )}
-            <span className="mt-4 block text-sm font-semibold text-blue-600">
+            <span className="mt-4 block text-sm font-semibold text-blue-600 dark:text-blue-400">
               Vezi produse &rarr;
             </span>
           </Link>

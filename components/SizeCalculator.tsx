@@ -198,7 +198,7 @@ export default function SizeCalculator({
                     <button
                       type="button"
                       onClick={() => handleAdd(variant)}
-                      className="shrink-0 rounded-full border border-blue-600 px-5 py-2 text-sm font-semibold text-blue-600 transition-colors hover:bg-blue-600 hover:text-white"
+                      className="shrink-0 rounded-full border border-blue-600 px-5 py-2 text-sm font-semibold text-blue-600 dark:text-blue-400 transition-colors hover:bg-blue-600 hover:text-white"
                     >
                       Adaugă în coș
                     </button>
@@ -229,7 +229,7 @@ export default function SizeCalculator({
               Sună-ne la{" "}
               <a
                 href={siteConfig.phoneHref}
-                className="font-semibold text-blue-600 hover:underline"
+                className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
               >
                 {siteConfig.phone}
               </a>{" "}

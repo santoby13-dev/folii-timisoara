@@ -227,7 +227,7 @@ export default function CheckoutPage() {
             <div className="mt-4 border-t border-black/10 pt-4 dark:border-white/10">
               <p className="flex justify-between font-bold">
                 <span>Total produse</span>
-                <span className="text-blue-600">
+                <span className="text-blue-600 dark:text-blue-400">
                   {formatPrice(confirmedOrder.totalPrice)}
                 </span>
               </p>
@@ -253,7 +253,7 @@ export default function CheckoutPage() {
           </a>
           <Link
             href="/"
-            className="text-sm font-medium text-zinc-500 hover:text-blue-600 dark:text-zinc-400"
+            className="text-sm font-medium text-zinc-500 hover:text-blue-600 dark:hover:text-blue-400 dark:text-zinc-400"
           >
             Înapoi la pagina principală
           </Link>
@@ -317,7 +317,7 @@ export default function CheckoutPage() {
         </p>
         <p className="mt-4 flex justify-between border-t border-black/10 pt-4 font-bold dark:border-white/10">
           <span>Total estimat</span>
-          <span className="text-blue-600">
+          <span className="text-blue-600 dark:text-blue-400">
             de la {formatPrice(totalPrice + zone.priceFrom)}
           </span>
         </p>
@@ -342,7 +342,7 @@ export default function CheckoutPage() {
           <details className="rounded-2xl border border-black/10 p-5 dark:border-white/10">
             <summary className="cursor-pointer font-semibold">
               Rezumatul comenzii —{" "}
-              <span className="text-blue-600">{formatPrice(totalPrice)}</span>
+              <span className="text-blue-600 dark:text-blue-400">{formatPrice(totalPrice)}</span>
             </summary>
             {summaryBody}
           </details>

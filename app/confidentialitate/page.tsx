@@ -51,7 +51,7 @@ export default function ConfidentialitatePage() {
           dintre aceste drepturi, scrie-ne la{" "}
           <a
             href={`mailto:${siteConfig.email}`}
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             {siteConfig.email}
           </a>
@@ -63,13 +63,13 @@ export default function ConfidentialitatePage() {
         <p>
           Pentru orice întrebare legată de datele tale personale, ne poți
           contacta la{" "}
-          <a href={siteConfig.phoneHref} className="text-blue-600 hover:underline">
+          <a href={siteConfig.phoneHref} className="text-blue-600 dark:text-blue-400 hover:underline">
             {siteConfig.phone}
           </a>{" "}
           sau{" "}
           <a
             href={`mailto:${siteConfig.email}`}
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             {siteConfig.email}
           </a>

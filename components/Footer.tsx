@@ -25,20 +25,20 @@ export default function Footer() {
             localitățile limitrofe, livrare prin curier în toată țara.
           </p>
           <div className="mt-4 flex flex-col gap-1 text-zinc-600 dark:text-zinc-400">
-            <a href={siteConfig.phoneHref} className="hover:text-blue-600">
+            <a href={siteConfig.phoneHref} className="hover:text-blue-600 dark:hover:text-blue-400">
               {siteConfig.phone}
             </a>
             <a
               href={siteConfig.whatsappHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="hover:text-blue-600"
+              className="hover:text-blue-600 dark:hover:text-blue-400"
             >
               WhatsApp
             </a>
             <a
               href={`mailto:${siteConfig.email}`}
-              className="hover:text-blue-600"
+              className="hover:text-blue-600 dark:hover:text-blue-400"
             >
               {siteConfig.email}
             </a>
@@ -54,7 +54,7 @@ export default function Footer() {
           <ul className="mt-3 flex flex-col gap-2 text-zinc-600 dark:text-zinc-400">
             {legalLinks.map((link) => (
               <li key={link.href}>
-                <Link href={link.href} className="hover:text-blue-600">
+                <Link href={link.href} className="hover:text-blue-600 dark:hover:text-blue-400">
                   {link.label}
                 </Link>
               </li>
@@ -82,7 +82,7 @@ export default function Footer() {
               href="https://consumer-redress.ec.europa.eu/dispute-resolution-bodies"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-lg border border-black/10 px-3 py-2 hover:border-blue-600 hover:text-blue-600 dark:border-white/10"
+              className="rounded-lg border border-black/10 px-3 py-2 hover:border-blue-600 hover:text-blue-600 dark:hover:text-blue-400 dark:border-white/10"
             >
               SOL — Organisme de soluționare a litigiilor (UE)
             </a>
@@ -90,7 +90,7 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="border-t border-black/10 px-6 py-6 text-xs text-zinc-500 dark:border-white/10 dark:text-zinc-500">
+      <div className="border-t border-black/10 px-6 py-6 text-xs text-zinc-500 dark:border-white/10 dark:text-zinc-400">
         <div className="mx-auto max-w-6xl">
           &copy; {new Date().getFullYear()} {siteConfig.name}. Toate
           drepturile rezervate.

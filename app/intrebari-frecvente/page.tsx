@@ -37,7 +37,7 @@ export default function FaqPage() {
         plată și retur. Nu găsești răspunsul? Sună-ne la{" "}
         <a
           href={siteConfig.phoneHref}
-          className="font-semibold text-blue-600 hover:underline"
+          className="font-semibold text-blue-600 dark:text-blue-400 hover:underline"
         >
           {siteConfig.phone}
         </a>
@@ -91,14 +91,14 @@ export default function FaqPage() {
           Vezi și{" "}
           <Link
             href="/politica-de-retur"
-            className="underline hover:text-blue-600"
+            className="underline hover:text-blue-600 dark:hover:text-blue-400"
           >
             Politica de retur
           </Link>{" "}
           și{" "}
           <Link
             href="/termeni-si-conditii"
-            className="underline hover:text-blue-600"
+            className="underline hover:text-blue-600 dark:hover:text-blue-400"
           >
             Termenii și condițiile
           </Link>

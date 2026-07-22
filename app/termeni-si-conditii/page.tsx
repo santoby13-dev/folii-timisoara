@@ -60,13 +60,13 @@ export default function TermeniPage() {
       <Section title="6. Contact">
         <p>
           Pentru orice întrebare legată de acești termeni, ne poți contacta la{" "}
-          <a href={siteConfig.phoneHref} className="text-blue-600 hover:underline">
+          <a href={siteConfig.phoneHref} className="text-blue-600 dark:text-blue-400 hover:underline">
             {siteConfig.phone}
           </a>{" "}
           sau{" "}
           <a
             href={`mailto:${siteConfig.email}`}
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             {siteConfig.email}
           </a>

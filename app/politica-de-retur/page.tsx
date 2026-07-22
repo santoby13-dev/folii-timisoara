@@ -23,13 +23,13 @@ export default function PoliticaDeReturPage() {
       <Section title="2. Cum soliciți un retur">
         <p>
           Contactează-ne telefonic la{" "}
-          <a href={siteConfig.phoneHref} className="text-blue-600 hover:underline">
+          <a href={siteConfig.phoneHref} className="text-blue-600 dark:text-blue-400 hover:underline">
             {siteConfig.phone}
           </a>{" "}
           sau pe email la{" "}
           <a
             href={`mailto:${siteConfig.email}`}
-            className="text-blue-600 hover:underline"
+            className="text-blue-600 dark:text-blue-400 hover:underline"
           >
             {siteConfig.email}
           </a>{" "}

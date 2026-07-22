@@ -49,7 +49,7 @@ export default function ProductTrustBadges() {
 function TruckIcon() {
   return (
     <svg
-      className="mt-0.5 h-4 w-4 shrink-0 text-blue-600"
+      className="mt-0.5 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -69,7 +69,7 @@ function TruckIcon() {
 function ReturnIcon() {
   return (
     <svg
-      className="mt-0.5 h-4 w-4 shrink-0 text-blue-600"
+      className="mt-0.5 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -87,7 +87,7 @@ function ReturnIcon() {
 function WalletIcon() {
   return (
     <svg
-      className="mt-0.5 h-4 w-4 shrink-0 text-blue-600"
+      className="mt-0.5 h-4 w-4 shrink-0 text-blue-600 dark:text-blue-400"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"

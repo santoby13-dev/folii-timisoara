@@ -10,7 +10,7 @@ export default function CartLink() {
     <Link
       href="/cos"
       aria-label="Coș de cumpărături"
-      className="relative flex h-10 w-10 items-center justify-center rounded-full border border-black/10 transition-colors hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
+      className="relative flex h-11 w-11 items-center justify-center rounded-full border border-black/10 transition-colors hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
     >
       <svg
         className="h-5 w-5"

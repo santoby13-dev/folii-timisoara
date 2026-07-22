@@ -186,7 +186,7 @@ export default function CategoryGrid({
                   setWidth(null);
                   setLength(null);
                 }}
-                className="text-sm font-medium text-blue-600 hover:underline"
+                className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
               >
                 Resetează filtrele
               </button>
@@ -288,7 +288,7 @@ export default function CategoryGrid({
                 </p>
               )}
               <div className="group relative mt-2 h-7 overflow-hidden">
-                <p className="absolute inset-0 flex items-center gap-2 text-lg font-semibold text-blue-600 transition-transform duration-200 group-hover:-translate-y-full">
+                <p className="absolute inset-0 flex items-center gap-2 text-lg font-semibold text-blue-600 dark:text-blue-400 transition-transform duration-200 group-hover:-translate-y-full">
                   de la {product.price.toFixed(2).replace(".", ",")} RON
                   {product.priceBeforeDiscount > product.price && (
                     <span className="text-sm font-normal text-zinc-400 line-through">
@@ -296,7 +296,7 @@ export default function CategoryGrid({
                     </span>
                   )}
                 </p>
-                <p className="absolute inset-0 flex translate-y-full items-center text-sm font-semibold tracking-wide text-blue-600 uppercase transition-transform duration-200 group-hover:translate-y-0">
+                <p className="absolute inset-0 flex translate-y-full items-center text-sm font-semibold tracking-wide text-blue-600 dark:text-blue-400 uppercase transition-transform duration-200 group-hover:translate-y-0">
                   {product.hasVariants ? "Selectează opțiuni" : "Adaugă în coș"}
                 </p>
               </div>

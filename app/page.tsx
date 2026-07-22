@@ -221,13 +221,13 @@ export default async function Home() {
               <div className="mt-6 flex flex-col gap-2 text-lg">
                 <a
                   href={siteConfig.phoneHref}
-                  className="font-semibold text-blue-600"
+                  className="font-semibold text-blue-600 dark:text-blue-400"
                 >
                   {siteConfig.phone}
                 </a>
                 <a
                   href={`mailto:${siteConfig.email}`}
-                  className="font-semibold text-blue-600"
+                  className="font-semibold text-blue-600 dark:text-blue-400"
                 >
                   {siteConfig.email}
                 </a>

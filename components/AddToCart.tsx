@@ -278,7 +278,7 @@ export default function AddToCart({
     <div>
       {selectedVariant ? (
         <div className="flex flex-wrap items-baseline gap-3">
-          <span className="text-3xl font-bold text-blue-600">
+          <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">
             {formatPrice(selectedVariant.price)}
           </span>
           {selectedVariant.oldPrice && (
@@ -362,7 +362,7 @@ export default function AddToCart({
           <button
             type="button"
             onClick={() => setQuantityState((q) => Math.max(1, q - 1))}
-            className="flex h-11 w-11 items-center justify-center text-lg hover:text-blue-600"
+            className="flex h-11 w-11 items-center justify-center text-lg hover:text-blue-600 dark:hover:text-blue-400"
             aria-label="Scade cantitatea"
           >
             −
@@ -371,7 +371,7 @@ export default function AddToCart({
           <button
             type="button"
             onClick={() => setQuantityState((q) => Math.min(99, q + 1))}
-            className="flex h-11 w-11 items-center justify-center text-lg hover:text-blue-600"
+            className="flex h-11 w-11 items-center justify-center text-lg hover:text-blue-600 dark:hover:text-blue-400"
             aria-label="Crește cantitatea"
           >
             +

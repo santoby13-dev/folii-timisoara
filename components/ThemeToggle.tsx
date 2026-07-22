@@ -22,7 +22,7 @@ export default function ThemeToggle({
       type="button"
       onClick={toggleTheme}
       aria-label="Comută între tema luminoasă și cea întunecată"
-      className={`h-10 w-10 items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 ${className}`}
+      className={`h-11 w-11 items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800 ${className}`}
     >
       {/* Lună — vizibilă pe tema light (comută spre dark) */}
       <svg

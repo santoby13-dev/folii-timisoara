@@ -47,7 +47,7 @@ export default function Header() {
             onClick={() => setMenuOpen((open) => !open)}
             aria-label={menuOpen ? "Închide meniul" : "Deschide meniul"}
             aria-expanded={menuOpen}
-            className="flex h-10 w-10 items-center justify-center rounded-full border border-black/10 sm:hidden dark:border-white/10"
+            className="flex h-11 w-11 items-center justify-center rounded-full border border-black/10 sm:hidden dark:border-white/10"
           >
             <svg
               className={`h-4 w-4 transition-transform duration-200 ${
@@ -72,7 +72,7 @@ export default function Header() {
 
           <nav className="hidden gap-8 text-sm font-medium sm:flex">
             <div className="group relative">
-              <button className="flex items-center gap-1 hover:text-blue-600">
+              <button className="flex items-center gap-1 hover:text-blue-600 dark:hover:text-blue-400">
                 Produse
                 <svg
                   className="h-3 w-3 transition-transform group-hover:rotate-180"
@@ -103,10 +103,10 @@ export default function Header() {
                 ))}
               </div>
             </div>
-            <Link href="/#despre" className="hover:text-blue-600">
+            <Link href="/#despre" className="hover:text-blue-600 dark:hover:text-blue-400">
               Despre noi
             </Link>
-            <Link href="/#contact" className="hover:text-blue-600">
+            <Link href="/#contact" className="hover:text-blue-600 dark:hover:text-blue-400">
               Contact
             </Link>
           </nav>
@@ -129,7 +129,7 @@ export default function Header() {
             onClick={() => setSearchOpen((open) => !open)}
             aria-label={searchOpen ? "Închide căutarea" : "Caută produse"}
             aria-expanded={searchOpen}
-            className="flex h-10 w-10 items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            className="flex h-11 w-11 items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
           >
             <svg
               className="h-5 w-5"
@@ -171,7 +171,7 @@ export default function Header() {
               type="button"
               onClick={closeSearch}
               aria-label="Închide căutarea"
-              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
+              className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
             >
               ✕
             </button>
@@ -242,7 +242,7 @@ export default function Header() {
           <div className="mt-2 border-t border-black/10 pt-2 text-center dark:border-white/10">
             <a
               href={siteConfig.phoneHref}
-              className="inline-block rounded-lg px-3 py-2 text-sm font-semibold text-blue-600 hover:bg-zinc-100 dark:hover:bg-zinc-800"
+              className="inline-block rounded-lg px-3 py-2 text-sm font-semibold text-blue-600 dark:text-blue-400 hover:bg-zinc-100 dark:hover:bg-zinc-800"
             >
               Sună-ne: {siteConfig.phone}
             </a>

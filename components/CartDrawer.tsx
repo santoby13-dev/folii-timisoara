@@ -36,7 +36,7 @@ export default function CartDrawer() {
             type="button"
             onClick={closeDrawer}
             aria-label="Închide"
-            className="flex h-9 w-9 items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
+            className="flex h-11 w-11 items-center justify-center rounded-full hover:bg-zinc-100 dark:hover:bg-zinc-800"
           >
             ✕
           </button>
@@ -85,7 +85,7 @@ export default function CartDrawer() {
         <div className="border-t border-black/10 px-5 py-5 dark:border-white/10">
           <p className="flex justify-between text-base font-bold">
             <span>Subtotal</span>
-            <span className="text-blue-600">{formatPrice(totalPrice)}</span>
+            <span className="text-blue-600 dark:text-blue-400">{formatPrice(totalPrice)}</span>
           </p>
           <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
             + transport de la {shippingZones[0].priceFrom} RON (expres
@@ -110,7 +110,7 @@ export default function CartDrawer() {
             <button
               type="button"
               onClick={closeDrawer}
-              className="mt-1 text-center text-sm font-medium text-zinc-500 hover:text-blue-600 dark:text-zinc-400"
+              className="mt-1 text-center text-sm font-medium text-zinc-500 hover:text-blue-600 dark:hover:text-blue-400 dark:text-zinc-400"
             >
               Continuă cumpărăturile
             </button>

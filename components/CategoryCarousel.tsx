@@ -109,7 +109,7 @@ export default function CategoryCarousel({
           type="button"
           onClick={() => goTo(active - 1)}
           aria-label="Categoria anterioară"
-          className="absolute left-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white transition-colors hover:bg-black/60"
+          className="absolute left-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white transition-colors hover:bg-black/60"
         >
           <svg className="h-4 w-4" viewBox="0 0 12 12" fill="none">
             <path
@@ -125,7 +125,7 @@ export default function CategoryCarousel({
           type="button"
           onClick={() => goTo(active + 1)}
           aria-label="Categoria următoare"
-          className="absolute right-3 top-1/2 flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white transition-colors hover:bg-black/60"
+          className="absolute right-3 top-1/2 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-black/40 text-white transition-colors hover:bg-black/60"
         >
           <svg className="h-4 w-4" viewBox="0 0 12 12" fill="none">
             <path
