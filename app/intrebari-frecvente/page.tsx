@@ -47,8 +47,9 @@ export default function FaqPage() {
       <div className="mt-10 flex flex-col gap-3">
         {faqItems.map((item) => (
           <details
-            key={item.question}
-            className="group rounded-2xl border border-black/10 p-5 dark:border-white/10"
+            key={item.slug}
+            id={item.slug}
+            className="group scroll-mt-24 rounded-2xl border border-black/10 p-5 dark:border-white/10 target:border-blue-600 dark:target:border-blue-400"
           >
             <summary className="flex cursor-pointer items-center justify-between gap-4 font-semibold">
               {item.question}

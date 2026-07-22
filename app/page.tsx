@@ -14,7 +14,7 @@ const trustPoints = [
   {
     title: "Livrare expres",
     subtitle: "În aceeași zi în Timișoara și limitrofe",
-    href: null,
+    href: "/intrebari-frecvente#livrare",
     icon: (
       <>
         <path d="M14 17V6a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v11h2" />
@@ -39,7 +39,7 @@ const trustPoints = [
   {
     title: "Plată la livrare",
     subtitle: "Cash sau POS · factură pentru firme",
-    href: null,
+    href: "/intrebari-frecvente#plata",
     icon: (
       <>
         <rect x="2" y="6" width="20" height="13" rx="2" />
@@ -51,7 +51,7 @@ const trustPoints = [
   {
     title: "Montaj disponibil",
     subtitle: "În Timișoara și localitățile limitrofe",
-    href: null,
+    href: "/intrebari-frecvente#montaj",
     icon: (
       <>
         <path d="M14.7 6.3a4.5 4.5 0 0 0-6.4 6.4l-5 5a1.5 1.5 0 0 0 2 2.2l5.2-4.8a4.5 4.5 0 0 0 6.4-6.4l-2.6 2.6-2.4-.6-.6-2.4 2.6-2.6z" />
