@@ -195,6 +195,12 @@ export default async function CategoryPage({
                 thickness: v.thickness,
                 width: v.width,
                 length: v.length,
+                // Doar produsul configurabil (variants reale, cu preț propriu
+                // per combinație) le are — folosite ca să recalculăm prețul
+                // afișat pe card când un filtru de dimensiuni e activ, în loc
+                // să arătăm mereu cea mai ieftină variantă din toată gama.
+                price: "price" in v ? v.price : undefined,
+                oldPrice: "oldPrice" in v ? v.oldPrice : undefined,
               })),
               hasVariants:
                 product.thicknesses.length > 1 ||
@@ -208,6 +214,14 @@ export default async function CategoryPage({
                 : cheapestPricePerSqm(product),
             }))}
           />
+
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 rounded-2xl border border-black/10 px-6 py-4 text-center text-sm text-zinc-600 dark:border-white/10 dark:text-zinc-400">
+            <span>Livrare expres, în aceeași zi în {siteConfig.city}</span>
+            <span aria-hidden="true">·</span>
+            <span>Plată la livrare — cash sau POS</span>
+            <span aria-hidden="true">·</span>
+            <span>Drept de retur 14 zile</span>
+          </div>
         </div>
       )}
     </div>

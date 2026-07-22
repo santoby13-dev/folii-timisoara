@@ -8,6 +8,9 @@ export type CategoryGridVariant = {
   thickness: string;
   width: string;
   length: string;
+  /** Doar produsul configurabil le are — preț propriu per combinație. */
+  price?: number;
+  oldPrice?: number;
 };
 
 export type CategoryGridProduct = {
@@ -35,10 +38,91 @@ function sortNumeric(values: string[]) {
   return [...values].sort((a, b) => parseFloat(a) - parseFloat(b));
 }
 
+type EffectivePricing = {
+  price: number;
+  priceBeforeDiscount: number;
+  pricePerSqm?: number;
+};
+
+/**
+ * Prețul afișat pe card trebuie să reflecte filtrul activ, nu mereu cea mai
+ * ieftină variantă din toată gama — altfel un client care filtrează pe 0.8mm
+ * vede „de la 309,83 RON" (preț de 0.4mm), dă click așteptând acel preț și
+ * descoperă pe pagina de produs că e mai mare. Doar produsul configurabil
+ * are prețuri per variantă (`v.price`); restul cad pe prețul de bază, ca
+ * până acum.
+ */
+function effectivePricing(
+  product: CategoryGridProduct,
+  thickness: string | null,
+  width: string | null,
+  length: string | null
+): EffectivePricing {
+  const fallback: EffectivePricing = {
+    price: product.price,
+    priceBeforeDiscount: product.priceBeforeDiscount,
+    pricePerSqm: product.pricePerSqm,
+  };
+  if (!thickness && !width && !length) return fallback;
+
+  const matches = product.variants.filter(
+    (v): v is CategoryGridVariant & { price: number } =>
+      v.price !== undefined &&
+      (!thickness || v.thickness === thickness) &&
+      (!width || v.width === width) &&
+      (!length || v.length === length)
+  );
+  if (matches.length === 0) return fallback;
+
+  const cheapest = matches.reduce((min, v) => (v.price < min.price ? v : min));
+  const w = parseFloat(cheapest.width.replace(",", "."));
+  const l = parseFloat(cheapest.length.replace(",", "."));
+  const pricePerSqm =
+    Number.isFinite(w) && Number.isFinite(l) && w > 0 && l > 0
+      ? cheapest.price / (w * l)
+      : fallback.pricePerSqm;
+
+  return {
+    price: cheapest.price,
+    priceBeforeDiscount: cheapest.oldPrice ?? cheapest.price,
+    pricePerSqm,
+  };
+}
+
+/**
+ * Peste 4 opțiuni într-un singur filtru depășește pragul de ~4 itemi
+ * pe care un vizitator îi poate cântări deodată fără efort — le împarte în
+ * cele mai frecvente (cele mai probabile alegeri) și restul, ambele rămân
+ * vizibile și clickabile, doar grupate vizual sub o etichetă secundară.
+ */
+function splitByFrequency(
+  options: string[],
+  variants: { width: string }[] | { length: string }[] | { thickness: string }[],
+  key: "thickness" | "width" | "length",
+  commonCount = 2
+) {
+  if (options.length <= 4) return { common: options, rest: [] as string[] };
+  const counts = new Map<string, number>();
+  for (const v of variants) {
+    const val = (v as Record<string, string>)[key];
+    counts.set(val, (counts.get(val) ?? 0) + 1);
+  }
+  const byFrequency = [...options].sort(
+    (a, b) => (counts.get(b) ?? 0) - (counts.get(a) ?? 0)
+  );
+  const commonSet = new Set(byFrequency.slice(0, commonCount));
+  return {
+    common: options.filter((o) => commonSet.has(o)),
+    rest: options.filter((o) => !commonSet.has(o)),
+  };
+}
+
 function FilterGroup({
   label,
   hint,
   options,
+  secondaryOptions,
+  secondaryLabel,
   selected,
   onSelect,
   disabledOptions,
@@ -46,11 +130,36 @@ function FilterGroup({
   label: string;
   hint?: string;
   options: string[];
+  secondaryOptions?: string[];
+  secondaryLabel?: string;
   selected: string | null;
   onSelect: (value: string | null) => void;
   disabledOptions: Set<string>;
 }) {
-  if (options.length <= 1) return null;
+  if (options.length + (secondaryOptions?.length ?? 0) <= 1) return null;
+
+  function renderChip(option: string) {
+    const isSelected = option === selected;
+    const isDisabled = !isSelected && disabledOptions.has(option);
+    return (
+      <button
+        key={option}
+        type="button"
+        disabled={isDisabled}
+        onClick={() => onSelect(isSelected ? null : option)}
+        className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors ${
+          isSelected
+            ? "border-blue-600 bg-blue-600 text-white"
+            : isDisabled
+              ? "cursor-not-allowed border-black/10 text-zinc-300 dark:border-white/10 dark:text-zinc-700"
+              : "border-black/10 hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
+        }`}
+      >
+        {option}
+      </button>
+    );
+  }
+
   return (
     <div>
       <p className="text-sm font-semibold">{label}</p>
@@ -59,29 +168,17 @@ function FilterGroup({
           {hint}
         </p>
       )}
-      <div className="mt-2 flex flex-wrap gap-2">
-        {options.map((option) => {
-          const isSelected = option === selected;
-          const isDisabled = !isSelected && disabledOptions.has(option);
-          return (
-            <button
-              key={option}
-              type="button"
-              disabled={isDisabled}
-              onClick={() => onSelect(isSelected ? null : option)}
-              className={`rounded-lg border px-3 py-1.5 text-sm font-medium transition-colors ${
-                isSelected
-                  ? "border-blue-600 bg-blue-600 text-white"
-                  : isDisabled
-                    ? "cursor-not-allowed border-black/10 text-zinc-300 dark:border-white/10 dark:text-zinc-700"
-                    : "border-black/10 hover:border-blue-600 dark:border-white/10 dark:hover:border-blue-500"
-              }`}
-            >
-              {option}
-            </button>
-          );
-        })}
-      </div>
+      <div className="mt-2 flex flex-wrap gap-2">{options.map(renderChip)}</div>
+      {secondaryOptions && secondaryOptions.length > 0 && (
+        <div className="mt-3">
+          <p className="text-xs font-medium text-zinc-500 dark:text-zinc-400">
+            {secondaryLabel}
+          </p>
+          <div className="mt-1.5 flex flex-wrap gap-2">
+            {secondaryOptions.map(renderChip)}
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -110,6 +207,10 @@ export default function CategoryGrid({
   const allWidths = useMemo(
     () => sortNumeric([...new Set(allVariants.map((v) => v.width))]),
     [allVariants]
+  );
+  const { common: commonWidths, rest: otherWidths } = useMemo(
+    () => splitByFrequency(allWidths, allVariants, "width"),
+    [allWidths, allVariants]
   );
   const allLengths = useMemo(
     () => sortNumeric([...new Set(allVariants.map((v) => v.length))]),
@@ -153,19 +254,24 @@ export default function CategoryGrid({
   }
 
   const filtered = useMemo(() => {
-    const matching = products.filter((p) =>
-      p.variants.some(
-        (v) =>
-          (!thickness || v.thickness === thickness) &&
-          (!width || v.width === width) &&
-          (!length || v.length === length)
+    const matching = products
+      .filter((p) =>
+        p.variants.some(
+          (v) =>
+            (!thickness || v.thickness === thickness) &&
+            (!width || v.width === width) &&
+            (!length || v.length === length)
+        )
       )
-    );
+      .map((p) => ({
+        ...p,
+        display: effectivePricing(p, thickness, width, length),
+      }));
     if (sort === "price-asc") {
-      return [...matching].sort((a, b) => a.price - b.price);
+      return [...matching].sort((a, b) => a.display.price - b.display.price);
     }
     if (sort === "price-desc") {
-      return [...matching].sort((a, b) => b.price - a.price);
+      return [...matching].sort((a, b) => b.display.price - a.display.price);
     }
     return matching;
   }, [products, thickness, width, length, sort]);
@@ -204,7 +310,9 @@ export default function CategoryGrid({
             <FilterGroup
               label="Lățime"
               hint="Alege o lățime cel puțin egală cu înălțimea închiderii"
-              options={allWidths}
+              options={commonWidths}
+              secondaryOptions={otherWidths}
+              secondaryLabel="Alte lățimi"
               selected={width}
               onSelect={selectWidth}
               disabledOptions={new Set(allWidths.filter((w) => !validWidths.has(w)))}
@@ -241,9 +349,22 @@ export default function CategoryGrid({
       </div>
 
       {filtered.length === 0 ? (
-        <p className="mt-10 text-zinc-600 dark:text-zinc-400">
-          Niciun produs nu corespunde filtrelor selectate.
-        </p>
+        <div className="mt-10 text-center">
+          <p className="text-zinc-600 dark:text-zinc-400">
+            Niciun produs nu corespunde filtrelor selectate.
+          </p>
+          <button
+            type="button"
+            onClick={() => {
+              setThickness(null);
+              setWidth(null);
+              setLength(null);
+            }}
+            className="mt-3 text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline"
+          >
+            Resetează filtrele
+          </button>
+        </div>
       ) : (
         <div className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((product) => (
@@ -261,12 +382,12 @@ export default function CategoryGrid({
                     className="object-cover"
                     sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
                   />
-                  {product.priceBeforeDiscount > product.price && (
+                  {product.display.priceBeforeDiscount > product.display.price && (
                     <span className="absolute top-2 right-2 rounded-full bg-red-600 px-2 py-1 text-xs font-bold text-white">
                       -
                       {Math.round(
-                        ((product.priceBeforeDiscount - product.price) /
-                          product.priceBeforeDiscount) *
+                        ((product.display.priceBeforeDiscount - product.display.price) /
+                          product.display.priceBeforeDiscount) *
                           100
                       )}
                       %
@@ -277,10 +398,10 @@ export default function CategoryGrid({
               <h2 className="mt-4 text-sm font-medium text-zinc-900 dark:text-zinc-100">
                 {product.name}
               </h2>
-              {product.pricePerSqm !== undefined && (
+              {product.display.pricePerSqm !== undefined && (
                 <p className="mt-1 text-xs text-zinc-500 dark:text-zinc-400">
                   ≈{" "}
-                  {product.pricePerSqm.toLocaleString("ro-RO", {
+                  {product.display.pricePerSqm.toLocaleString("ro-RO", {
                     minimumFractionDigits: 2,
                     maximumFractionDigits: 2,
                   })}{" "}
@@ -289,10 +410,10 @@ export default function CategoryGrid({
               )}
               <div className="group relative mt-2 h-7 overflow-hidden">
                 <p className="absolute inset-0 flex items-center gap-2 text-lg font-semibold text-blue-600 dark:text-blue-400 transition-transform duration-200 group-hover:-translate-y-full">
-                  de la {product.price.toFixed(2).replace(".", ",")} RON
-                  {product.priceBeforeDiscount > product.price && (
+                  de la {product.display.price.toFixed(2).replace(".", ",")} RON
+                  {product.display.priceBeforeDiscount > product.display.price && (
                     <span className="text-sm font-normal text-zinc-400 line-through">
-                      {product.priceBeforeDiscount.toFixed(2).replace(".", ",")} RON
+                      {product.display.priceBeforeDiscount.toFixed(2).replace(".", ",")} RON
                     </span>
                   )}
                 </p>

@@ -10,7 +10,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-1-0mm-1-5mx10m",
     categorySlug: "folii-transparente-terase",
-    name: "1.0 mm | 1.5 m x 10 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 1000",
+    name: "1.0 mm | 1.5 m x 10 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 1000",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 1.0 mm | 1.50 m × 10 m.",
     price: 587.2,
     priceBeforeDiscount: 587.2,
@@ -43,7 +43,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-2mx10m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 2.0 m x 10 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 2.0 m x 10 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 2.00 m × 10 m.",
     price: 550.63,
     priceBeforeDiscount: 550.63,
@@ -76,7 +76,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-5mm-1-5mx10m",
     categorySlug: "folii-transparente-terase",
-    name: "0.5 mm | 1.5 m x 10 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 500",
+    name: "0.5 mm | 1.5 m x 10 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 500",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.5 mm | 1.50 m × 10 m.",
     price: 309.83,
     priceBeforeDiscount: 309.83,
@@ -109,7 +109,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-1-0mm-2mx10m",
     categorySlug: "folii-transparente-terase",
-    name: "1.0 mm | 2.0 m x 10 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 1000",
+    name: "1.0 mm | 2.0 m x 10 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 1000",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 1.0 mm | 2.00 m × 10 m.",
     price: 782.94,
     priceBeforeDiscount: 782.94,
@@ -142,7 +142,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-2-6mx15m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 2.60 m x 15 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 2.60 m x 15 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 2.60 m × 15 m.",
     price: 1391.16,
     priceBeforeDiscount: 1391.16,
@@ -175,7 +175,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-2mx15m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 2.0 m x 15 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 2.0 m x 15 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 2.00 m × 15 m.",
     price: 825.95,
     priceBeforeDiscount: 825.95,
@@ -208,7 +208,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-2-2mx15m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 2.20 m x 15 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 2.20 m x 15 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 2.20 m × 15 m.",
     price: 1177.14,
     priceBeforeDiscount: 1177.14,
@@ -241,7 +241,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-2-2mx30m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 2.20 m x 30 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 2.20 m x 30 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 2.20 m × 30 m.",
     price: 2130.93,
     priceBeforeDiscount: 2130.93,
@@ -274,7 +274,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-1-37mx30m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 1.37 m x 30 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 1.37 m x 30 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 1.37 m × 30 m.",
     price: 1070.12,
     priceBeforeDiscount: 1070.12,
@@ -307,7 +307,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-2-6mx30m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 2.60 m x 30 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 2.60 m x 30 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 2.60 m × 30 m.",
     price: 2622.85,
     priceBeforeDiscount: 2622.85,
@@ -340,7 +340,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-1-5mx10m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 1.5 m x 10 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 1.5 m x 10 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 1.50 m × 10 m.",
     price: 495.13,
     priceBeforeDiscount: 495.13,
@@ -373,7 +373,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-5mm-2mx15m",
     categorySlug: "folii-transparente-terase",
-    name: "0.5 mm | 2.0 m x 15 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 500",
+    name: "0.5 mm | 2.0 m x 15 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 500",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.5 mm | 2.00 m × 15 m.",
     price: 618.92,
     priceBeforeDiscount: 618.92,
@@ -406,7 +406,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-5mm-2mx10m",
     categorySlug: "folii-transparente-terase",
-    name: "0.5 mm | 2.0 m x 10 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 500",
+    name: "0.5 mm | 2.0 m x 10 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 500",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.5 mm | 2.00 m × 10 m.",
     price: 412.61,
     priceBeforeDiscount: 412.61,
@@ -439,7 +439,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-2mx30m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 2.0 m x 30 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 2.0 m x 30 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 2.00 m × 30 m.",
     price: 1617.17,
     priceBeforeDiscount: 1617.17,
@@ -472,7 +472,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-1-5mx30m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 1.5 m x 30 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 1.5 m x 30 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 1.50 m × 30 m.",
     price: 1170.4,
     priceBeforeDiscount: 1170.4,
@@ -505,7 +505,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-5mm-1-5mx50m",
     categorySlug: "folii-transparente-terase",
-    name: "0.5 mm | 1.5 m x 50 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 500",
+    name: "0.5 mm | 1.5 m x 50 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 500",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.5 mm | 1.50 m × 50 m.",
     price: 1361.25,
     priceBeforeDiscount: 1587.24,
@@ -538,7 +538,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-2-4mx30m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 2.40 m x 30 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 2.40 m x 30 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 2.40 m × 30 m.",
     price: 2568.3,
     priceBeforeDiscount: 2568.3,
@@ -571,7 +571,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-2-4mx15m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 2.40 m x 15 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 2.40 m x 15 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 2.40 m × 15 m.",
     price: 1284.15,
     priceBeforeDiscount: 1284.15,
@@ -604,7 +604,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-1-8mx30m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 1.80 m x 30 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 1.80 m x 30 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 1.80 m × 30 m.",
     price: 1455.45,
     priceBeforeDiscount: 1455.45,
@@ -637,7 +637,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-8mm-1-5mx15m",
     categorySlug: "folii-transparente-terase",
-    name: "0.8 mm | 1.5 m x 15 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 800",
+    name: "0.8 mm | 1.5 m x 15 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 800",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.8 mm | 1.50 m × 15 m.",
     price: 742.68,
     priceBeforeDiscount: 742.68,
@@ -670,7 +670,7 @@ export const cristalFlexCatalog: Product[] = [
   {
     slug: "folie-cristal-flex-0-5mm-1-5mx30m",
     categorySlug: "folii-transparente-terase",
-    name: "0.5 mm | 1.5 m x 30 m - Folie transparenta pentru inchidere terasa, foisor - Cristal Flex® 500",
+    name: "0.5 mm | 1.5 m x 30 m - Folie transparentă pentru închidere terasă, foișor - Cristal Flex® 500",
     shortDescription: "Folie PVC transparentă Cristal Flex®, 0.5 mm | 1.50 m × 30 m.",
     price: 928.35,
     priceBeforeDiscount: 928.35,
