@@ -19,8 +19,25 @@ const slideBackgrounds = [
  * asta, textul de deasupra (randat instant) apărea vizibil înaintea pozei,
  * care „pocnea" brusc odată încărcată. Titlul/textul rămân neschimbate,
  * randate instant, fără nicio tranziție.
+ *
+ * `productPhotos` marchează categoriile ale căror poze sunt fotografii de
+ * produs aproape pătrate (Unelte, Accesorii), nu poze de fundal late,
+ * compuse special (Folii, Prelate). La lățimi mari containerul slide-ului
+ * devine foarte lat (~3.6:1) — `object-cover` pe o poză aproape pătrată taie
+ * agresiv, „zoomând" în centrul produsului. De la breakpoint-ul `sm` în sus,
+ * afișăm poza întreagă cu `object-contain`, peste un fundal blurat din
+ * aceeași poză, ca să nu rămână bare goale pe lateral. Pe mobil (unde
+ * containerul e aproape pătrat) `object-cover` arată deja bine, neschimbat.
  */
-function SlideshowBackground({ images, priority }: { images: string[]; priority: boolean }) {
+function SlideshowBackground({
+  images,
+  priority,
+  productPhotos,
+}: {
+  images: string[];
+  priority: boolean;
+  productPhotos?: boolean;
+}) {
   const [active, setActive] = useState(0);
   const [firstLoaded, setFirstLoaded] = useState(false);
 
@@ -41,12 +58,22 @@ function SlideshowBackground({ images, priority }: { images: string[]; priority:
             i === active && (i !== 0 || firstLoaded) ? "opacity-100" : "opacity-0"
           }`}
         >
+          {productPhotos && (
+            <Image
+              src={src}
+              alt=""
+              aria-hidden="true"
+              fill
+              className="hidden object-cover scale-110 blur-2xl brightness-50 sm:block"
+              sizes="(min-width: 1024px) 1024px, 100vw"
+            />
+          )}
           <Image
             src={src}
             alt=""
             fill
             priority={priority && i === 0}
-            className="object-cover"
+            className={productPhotos ? "object-cover sm:object-contain" : "object-cover"}
             sizes="(min-width: 1024px) 1024px, 100vw"
             onLoad={i === 0 ? () => setFirstLoaded(true) : undefined}
           />
@@ -86,7 +113,11 @@ export default function CategoryCarousel({
             >
               {category.images && category.images.length > 0 && (
                 <>
-                  <SlideshowBackground images={category.images} priority={i === 0} />
+                  <SlideshowBackground
+                    images={category.images}
+                    priority={i === 0}
+                    productPhotos={["accesorii", "unelte"].includes(category.slug)}
+                  />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-black/20" />
                 </>
               )}
